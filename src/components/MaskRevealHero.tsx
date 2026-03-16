@@ -208,11 +208,11 @@ const MaskRevealHero = () => {
 
             {/* Layer 1 – Back marquee (sits behind everything) */}
             <div className="marquee-layer back">
-                <div className="marquee-row">
-                    <MarqueeTrack text={textLine1} reverse />
+                <div className="marquee-row line-1">
+                    <MarqueeTrack text={textLine1} reverse row={1} />
                 </div>
-                <div className="marquee-row" style={{ marginTop: "0.15em" }}>
-                    <MarqueeTrack text={textLine2} />
+                <div className="marquee-row line-2" style={{ marginTop: "0.15em" }}>
+                    <MarqueeTrack text={textLine2} row={2} />
                 </div>
             </div>
 
@@ -223,11 +223,11 @@ const MaskRevealHero = () => {
 
             {/* Layer 4 – Front marquee (clips above person's waist) */}
             <div className="marquee-layer front">
-                <div className="marquee-row">
-                    <MarqueeTrack text={textLine1} reverse />
+                <div className="marquee-row line-1">
+                    <MarqueeTrack text={textLine1} reverse row={1} />
                 </div>
-                <div className="marquee-row" style={{ marginTop: "0.15em" }}>
-                    <MarqueeTrack text={textLine2} />
+                <div className="marquee-row line-2" style={{ marginTop: "0.15em" }}>
+                    <MarqueeTrack text={textLine2} row={2} />
                 </div>
             </div>
 
@@ -287,16 +287,24 @@ const MaskRevealHero = () => {
                     display: flex;
                     width: max-content;
                     gap: 0;
-                    animation: scrollLeft 45s linear infinite;
-                    font-size: clamp(60px, 12vw, 160px);
+                    font-size: clamp(80px, 15vw, 220px);
                     font-weight: 900;
                     line-height: 1.1;
-                    letter-spacing: -0.01em;
-                    font-family: 'Bebas Neue', 'Impact', sans-serif;
+                    letter-spacing: -0.05em;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
                     will-change: transform;
                 }
-                :global(.marquee-track.reverse) {
-                    animation: scrollRight 45s linear infinite;
+                :global(.marquee-row.line-1 .marquee-track) {
+                    animation: scrollLeft 70s linear infinite;
+                }
+                :global(.marquee-row.line-2 .marquee-track) {
+                    animation: scrollLeft 70s linear infinite;
+                }
+                :global(.marquee-row.line-1 .marquee-track.reverse) {
+                    animation: scrollRight 70s linear infinite;
+                }
+                :global(.marquee-row.line-2 .marquee-track.reverse) {
+                    animation: scrollRight 70s linear infinite;
                 }
                 :global(.marquee-word) {
                     padding: 0 0.4em;
@@ -324,9 +332,9 @@ const MaskRevealHero = () => {
     );
 };
 
-const MarqueeTrack = ({ text, reverse = false }: { text: string, reverse?: boolean }) => {
-    // 8 tiles is usually enough to cover the screen width for most resolutions
-    const words = Array(8).fill(text);
+const MarqueeTrack = ({ text, reverse = false, row }: { text: string, reverse?: boolean, row: number }) => {
+    // 8 tiles for short line, maybe 4 for long line to keep performance
+    const words = Array(row === 1 ? 8 : 4).fill(text);
     return (
         <div className={`marquee-track ${reverse ? 'reverse' : ''}`}>
             {words.map((w, i) => (
