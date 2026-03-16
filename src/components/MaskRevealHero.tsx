@@ -295,16 +295,16 @@ const MaskRevealHero = () => {
                     will-change: transform;
                 }
                 :global(.marquee-row.line-1 .marquee-track) {
-                    animation: scrollLeft 70s linear infinite;
+                    animation: scrollLeft 120s linear infinite;
                 }
                 :global(.marquee-row.line-2 .marquee-track) {
-                    animation: scrollLeft 70s linear infinite;
+                    animation: scrollLeft 120s linear infinite;
                 }
                 :global(.marquee-row.line-1 .marquee-track.reverse) {
-                    animation: scrollRight 70s linear infinite;
+                    animation: scrollRight 120s linear infinite;
                 }
                 :global(.marquee-row.line-2 .marquee-track.reverse) {
-                    animation: scrollRight 70s linear infinite;
+                    animation: scrollRight 120s linear infinite;
                 }
                 :global(.marquee-word) {
                     padding: 0 0.4em;
