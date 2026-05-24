@@ -1,0 +1,113 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
+import { MagneticButton } from "@/components/ui/MagneticButton";
+import { SITE } from "@/lib/utils";
+
+const ROLES = ["Software Engineer", "UI / UX Designer", "Problem Solver", "OSS Contributor"];
+
+export function HeroOverlay() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <div className="pointer-events-none absolute inset-0 z-20 flex flex-col">
+      {/* For a11y / SEO — the marquee renders the name visually */}
+      <h1 className="sr-only">{SITE.name} — {SITE.role}</h1>
+
+      {/* ── TOP HALF: intentionally empty — let the artwork breathe ─── */}
+      <div className="flex-1" />
+
+      {/* Editorial vertical SCROLL label, anchored to the right edge */}
+      <motion.div
+        initial={{ opacity: 0, x: 8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute right-3 sm:right-5 bottom-32 sm:bottom-40 flex items-center gap-2 origin-center [writing-mode:vertical-rl] rotate-180 text-[10px] uppercase tracking-[0.32em] text-ink-700/70"
+      >
+        <motion.span
+          animate={prefersReducedMotion ? undefined : { y: [0, -5, 0] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          className="inline-block"
+        >
+          <ArrowDown size={11} className="rotate-180" />
+        </motion.span>
+        <span>Scroll to explore</span>
+      </motion.div>
+
+      {/* ── BOTTOM RAIL ─────────────────────────────────────────────── */}
+      <div className="container relative pb-6 sm:pb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="pointer-events-auto relative grid items-center gap-4 rounded-2xl border border-black/10 bg-white/65 px-4 py-3 backdrop-blur-2xl shadow-[0_18px_40px_-22px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_auto] sm:gap-6 sm:px-5 sm:py-3.5"
+        >
+          {/* Greeting + animated role */}
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-ink-500">
+              Hello — I&apos;m {SITE.shortName.toLowerCase()}, a
+            </div>
+            <div className="mt-1 flex items-baseline gap-2 truncate">
+              <RoleTypewriter />
+              <span aria-hidden className="hidden sm:inline-block text-ink-400">·</span>
+              <span className="hidden sm:inline-block truncate text-sm text-ink-500">
+                {SITE.university}
+              </span>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="flex items-center gap-2">
+            <Link href="/projects" className="flex-1 sm:flex-initial">
+              <MagneticButton variant="primary" size="sm" data-cursor="view" className="w-full sm:w-auto">
+                View work
+                <ArrowUpRight size={15} />
+              </MagneticButton>
+            </Link>
+            <a href="/cv.pdf" download className="flex-1 sm:flex-initial">
+              <MagneticButton variant="ghost" size="sm" className="w-full sm:w-auto">
+                <Download size={14} />
+                CV
+              </MagneticButton>
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function RoleTypewriter() {
+  return (
+    <span
+      className="relative inline-flex h-6 overflow-hidden align-baseline"
+      aria-label={ROLES.join(", ")}
+    >
+      <motion.span
+        aria-hidden
+        animate={{ y: ROLES.map((_, i) => `-${i * 100}%`).concat("0%") }}
+        transition={{
+          duration: ROLES.length * 2.4,
+          times: [...ROLES.map((_, i) => i / ROLES.length), 1],
+          ease: "easeInOut",
+          repeat: Infinity,
+        }}
+        className="flex flex-col"
+      >
+        {ROLES.map((role) => (
+          <span
+            key={role}
+            className="block h-6 leading-6 text-sm sm:text-base font-semibold text-gradient"
+          >
+            {role}
+          </span>
+        ))}
+        <span className="block h-6 leading-6 text-sm sm:text-base font-semibold text-gradient">
+          {ROLES[0]}
+        </span>
+      </motion.span>
+    </span>
+  );
+}

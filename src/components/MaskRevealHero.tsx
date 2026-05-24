@@ -174,7 +174,7 @@ const MaskRevealHero = () => {
             ref={containerRef}
             className="hero-container"
         >
-            {/* ── Wavy SVG background ── */}
+            {/* ── Layer 0: subtle line pattern, far back ── */}
             <svg
                 className="wave-bg"
                 xmlns="http://www.w3.org/2000/svg"
@@ -206,6 +206,9 @@ const MaskRevealHero = () => {
                 <rect width="100%" height="100%" fill="url(#waves)" />
             </svg>
 
+            {/* ── Layer 0.5: stage spotlight — soft warm glow centered on subject ── */}
+            <div className="stage-spotlight" aria-hidden />
+
             {/* Layer 1 – Back marquee (sits behind everything) */}
             <div className="marquee-layer back">
                 <div className="marquee-row line-1">
@@ -231,13 +234,26 @@ const MaskRevealHero = () => {
                 </div>
             </div>
 
+            {/* ── Layer 11: edge vignette + film grain — finishes the photograph ── */}
+            <div className="vignette" aria-hidden />
+            <div className="grain" aria-hidden />
+
+            {/* ── Layer 13: top-fade scrim — gives the navbar a clean band to float over ── */}
+            <div className="top-fade" aria-hidden />
+
             <style jsx>{`
                 .hero-container {
                     width: 100%;
                     height: 100vh;
                     position: relative;
                     overflow: hidden;
-                    background-color: #f5f4f0;
+                    /* Cinematic warm-cream stage — center bright, edges fall off into warmer beige */
+                    background:
+                        radial-gradient(ellipse 80% 65% at 50% 48%,
+                            #fcfbf6 0%,
+                            #f6f4ed 40%,
+                            #ebe6d6 75%,
+                            #e0d9c5 100%);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -255,9 +271,59 @@ const MaskRevealHero = () => {
                     inset: 0;
                     width: 100%;
                     height: 100%;
-                    color: #c8c4bb;
+                    color: #d8d2c2;
                     pointer-events: none;
                     z-index: 0;
+                    opacity: 0.5;
+                    /* Fade pattern at the centre so the subject doesn't sit on busy texture */
+                    -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 60%, black 100%);
+                    mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 60%, black 100%);
+                }
+                .stage-spotlight {
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                    z-index: 2;
+                    /* Soft warm halo that lifts the subject off the marquee */
+                    background:
+                        radial-gradient(ellipse 38% 55% at 50% 48%,
+                            rgba(255, 250, 240, 0.85) 0%,
+                            rgba(255, 250, 240, 0.45) 35%,
+                            rgba(255, 250, 240, 0) 70%);
+                    mix-blend-mode: screen;
+                }
+                .vignette {
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                    z-index: 11;
+                    background:
+                        radial-gradient(ellipse 90% 95% at 50% 50%,
+                            transparent 55%,
+                            rgba(60, 40, 20, 0.05) 80%,
+                            rgba(60, 40, 20, 0.14) 100%);
+                }
+                .top-fade {
+                    position: absolute;
+                    inset: 0 0 auto 0;
+                    height: 180px;
+                    pointer-events: none;
+                    z-index: 13;
+                    background: linear-gradient(to bottom,
+                        rgba(252, 251, 246, 0.95) 0%,
+                        rgba(252, 251, 246, 0.7)  35%,
+                        rgba(252, 251, 246, 0.3)  70%,
+                        transparent 100%);
+                }
+                .grain {
+                    position: absolute;
+                    inset: 0;
+                    pointer-events: none;
+                    z-index: 12;
+                    opacity: 0.06;
+                    mix-blend-mode: multiply;
+                    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+                    background-size: 200px 200px;
                 }
                 :global(.marquee-layer) {
                     position: absolute;
@@ -270,12 +336,19 @@ const MaskRevealHero = () => {
                 }
                 :global(.marquee-layer.back) {
                     z-index: 1;
-                    color: #c5c1b9;
+                    color: #cfc6ae;
+                    opacity: 0.55;
                 }
                 :global(.marquee-layer.front) {
                     z-index: 5;
-                    color: #111;
-                    clip-path: inset(54% 0 0 0);
+                    color: #1a1816;
+                    clip-path: inset(57% 0 0 0);
+                    /* Punch a soft hole through the subject silhouette so the dark
+                       marquee stops bleeding through the white shirt. */
+                    -webkit-mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
+                        transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
+                    mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
+                        transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
                 }
                 :global(.marquee-row) {
                     display: flex;
@@ -323,8 +396,20 @@ const MaskRevealHero = () => {
                     to { transform: translateX(0); }
                 }
                 @media (max-width: 768px) {
+                    .top-fade { height: 130px; }
                     :global(.marquee-layer.front) {
-                        clip-path: inset(60% 0 0 0);
+                        clip-path: inset(62% 0 0 0);
+                        -webkit-mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,
+                            transparent 0%, transparent 30%, rgba(0,0,0,0.55) 60%, black 85%);
+                        mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,
+                            transparent 0%, transparent 30%, rgba(0,0,0,0.55) 60%, black 85%);
+                    }
+                    .stage-spotlight {
+                        background:
+                            radial-gradient(ellipse 55% 60% at 50% 48%,
+                                rgba(255, 250, 240, 0.7) 0%,
+                                rgba(255, 250, 240, 0.35) 35%,
+                                rgba(255, 250, 240, 0) 70%);
                     }
                 }
             `}</style>
