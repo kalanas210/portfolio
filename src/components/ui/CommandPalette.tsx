@@ -14,7 +14,6 @@ import {
   Download,
   Sun,
   Moon,
-  Wrench,
   Command as CommandIcon,
   CornerDownLeft,
   ArrowUp,
@@ -61,7 +60,6 @@ export function CommandPalette() {
       { id: "about", label: "About", group: "Navigate", icon: User, perform: () => go("/about"), keywords: "bio story me" },
       { id: "projects", label: "Projects", group: "Navigate", icon: FolderGit2, perform: () => go("/projects"), keywords: "work portfolio" },
       { id: "skills", label: "Skills", group: "Navigate", icon: Sparkles, perform: () => go("/skills"), keywords: "tech stack" },
-      { id: "uses", label: "Uses", group: "Navigate", icon: Wrench, perform: () => go("/uses"), keywords: "gear setup tools" },
       { id: "contact", label: "Contact", group: "Navigate", icon: Mail, perform: () => go("/contact"), keywords: "email reach" },
 
       {
