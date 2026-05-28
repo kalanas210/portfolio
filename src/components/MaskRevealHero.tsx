@@ -46,6 +46,7 @@ const MaskRevealHero = () => {
                 uMaskTexture: { value: null },
                 uResolution: { value: new THREE.Vector2(width, height) },
                 uImageResolution: { value: new THREE.Vector2(1920, 1080) }, // Default, will update on load
+                uImageScale: { value: 0.82 }, // <1 shrinks the subject so the head clears the navbar
                 uTime: { value: 0 },
             },
             vertexShader: `
@@ -62,6 +63,7 @@ const MaskRevealHero = () => {
                 uniform sampler2D uMaskTexture;
                 uniform vec2 uResolution;
                 uniform vec2 uImageResolution;
+                uniform float uImageScale;
 
                 vec2 getUv(vec2 uv, vec2 res, vec2 imgRes) {
                     float screenAspect = res.x / res.y;
@@ -80,6 +82,7 @@ const MaskRevealHero = () => {
                 void main() {
                     float maskValue = texture2D(uMaskTexture, vUv).r;
                     vec2 uv = getUv(vUv, uResolution, uImageResolution);
+                    uv = (uv - 0.5) / uImageScale + 0.5;
                     vec4 back = texture2D(uBackTexture, uv);
                     vec4 front = texture2D(uFrontTexture, uv);
                     
