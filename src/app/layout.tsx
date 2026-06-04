@@ -8,6 +8,8 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { RouteProgress } from "@/components/ui/RouteProgress";
+import { SettingsProvider } from "@/components/providers/SettingsProvider";
+import { getSettings } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
 
 const geistSans = Geist({
@@ -73,23 +75,28 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const settings = await getSettings();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} font-sans selection:bg-accent/30`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <RouteProgress />
-          <CustomCursor />
-          <Navbar />
-          <CommandPalette />
-          <PageTransition>
-            <main className="relative">{children}</main>
-          </PageTransition>
-          <Footer />
+          <SettingsProvider value={settings}>
+            <RouteProgress />
+            <CustomCursor />
+            <Navbar />
+            <CommandPalette />
+            <PageTransition>
+              <main className="relative">{children}</main>
+            </PageTransition>
+            <Footer settings={settings} />
+          </SettingsProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { FluidSimulation } from '@/lib/FluidSimulation';
+import { useSettings } from '@/components/providers/SettingsProvider';
 
 const MaskRevealHero = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -15,7 +16,26 @@ const MaskRevealHero = () => {
         material: THREE.ShaderMaterial;
     } | null>(null);
 
+    const { heroBackUrl, heroFrontUrl } = useSettings();
+
+    // Only the ≥md layout renders this WebGL hero (mobile uses <MobileHero/>).
+    // The wrapper is hidden with CSS, but the component still mounts, so gate the
+    // expensive simulation behind a matching media query — otherwise phones run a
+    // full-resolution fluid sim + rAF loop + global listeners for an invisible canvas.
+    const [isDesktop, setIsDesktop] = useState(
+        () => typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches,
+    );
+
     useEffect(() => {
+        const mq = window.matchMedia('(min-width: 768px)');
+        const update = () => setIsDesktop(mq.matches);
+        update();
+        mq.addEventListener('change', update);
+        return () => mq.removeEventListener('change', update);
+    }, []);
+
+    useEffect(() => {
+        if (!isDesktop) return;
         if (!canvasRef.current || !containerRef.current) return;
 
         const container = containerRef.current;
@@ -36,8 +56,8 @@ const MaskRevealHero = () => {
         const fluid = new FluidSimulation(renderer);
 
         const textureLoader = new THREE.TextureLoader();
-        const backTexture = textureLoader.load('/images/back_image.png');
-        const frontTexture = textureLoader.load('/images/front_image.png');
+        const backTexture = textureLoader.load(heroBackUrl ?? '/images/back_image.png');
+        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/front_image.png');
 
         const material = new THREE.ShaderMaterial({
             uniforms: {
@@ -164,9 +184,14 @@ const MaskRevealHero = () => {
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('resize', onResize);
             cancelAnimationFrame(animationFrameId);
+            fluid.dispose();
+            mesh.geometry.dispose();
+            material.dispose();
+            backTexture.dispose();
+            frontTexture.dispose();
             renderer.dispose();
         };
-    }, []);
+    }, [isDesktop, heroBackUrl, heroFrontUrl]);
 
     const textLine1 = "KALANA  SANDAKELUM  UNIVERSITY  OF  MORATUWA ";
     const textLine2 = "FULL  STACK  DEVELOPER  JAVA  SPRINGBOOT  NEXTJS  POSTGRESQL  MICROSERVICES  DOCKER  AWS";

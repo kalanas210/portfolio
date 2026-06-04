@@ -1,0 +1,43 @@
+import type { GalleryItem, ProjectCategory } from "@/lib/types";
+
+export interface ProjectInput {
+  slug: string;
+  title: string;
+  description: string;
+  longDescription: string;
+  categories: ProjectCategory[];
+  tech: string[];
+  year: number;
+  featured: boolean;
+  published: boolean;
+  thumbnailUrl: string | null;
+  gallery: GalleryItem[];
+  liveUrl: string | null;
+  githubUrl: string | null;
+  linkedinUrl: string | null;
+  gradient: string;
+  sortOrder: number;
+}
+
+export interface TestimonialInput {
+  quote: string;
+  name: string;
+  role: string;
+  published: boolean;
+  sortOrder: number;
+}
+
+export interface SettingsInput {
+  name: string;
+  shortName: string;
+  role: string;
+  university: string;
+  location: string;
+  email: string;
+  description: string;
+  social: { github: string; linkedin: string; facebook: string; instagram: string };
+  heroBackUrl: string | null;
+  heroFrontUrl: string | null;
+  heroMobileUrl: string | null;
+  cvUrl: string | null;
+}

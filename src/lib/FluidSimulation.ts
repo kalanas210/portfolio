@@ -346,6 +346,18 @@ export class FluidSimulation {
     public getDensityTexture() {
         return this.density.read.texture;
     }
+
+    public dispose() {
+        this.velocity.dispose();
+        this.density.dispose();
+        this.pressure.dispose();
+        this.divergence.dispose();
+        this.curl.dispose();
+        for (const material of Object.values(this.materials) as THREE.ShaderMaterial[]) {
+            material.dispose();
+        }
+        this.mesh.geometry.dispose();
+    }
 }
 
 class DoubleBuffer {
@@ -361,5 +373,10 @@ class DoubleBuffer {
         const temp = this.read;
         this.read = this.write;
         this.write = temp;
+    }
+
+    public dispose() {
+        this.read.dispose();
+        this.write.dispose();
     }
 }

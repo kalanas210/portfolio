@@ -20,8 +20,8 @@ import {
   ArrowDown,
   type LucideIcon,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/icons/BrandIcons";
-import { SITE } from "@/lib/utils";
+import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/icons/BrandIcons";
+import { useSettings } from "@/components/providers/SettingsProvider";
 import { cn } from "@/lib/utils";
 
 interface Command {
@@ -42,6 +42,7 @@ export function CommandPalette() {
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { setTheme, resolvedTheme } = useTheme();
+  const settings = useSettings();
 
   const close = () => {
     setOpen(false);
@@ -79,18 +80,18 @@ export function CommandPalette() {
         group: "Actions",
         icon: Download,
         perform: () => {
-          window.open("/cv.pdf", "_blank");
+          window.open(settings.cvUrl ?? "/cv.pdf", "_blank");
           close();
         },
         keywords: "resume pdf download",
       },
       {
         id: "email",
-        label: `Email — ${SITE.email}`,
+        label: `Email — ${settings.email}`,
         group: "Actions",
         icon: Mail,
         perform: () => {
-          window.location.href = `mailto:${SITE.email}`;
+          window.location.href = `mailto:${settings.email}`;
           close();
         },
         keywords: "contact mail",
@@ -103,7 +104,7 @@ export function CommandPalette() {
         group: "Social",
         icon: GithubIcon,
         perform: () => {
-          window.open(SITE.social.github, "_blank");
+          window.open(settings.social.github, "_blank");
           close();
         },
         keywords: "git code repos",
@@ -114,22 +115,22 @@ export function CommandPalette() {
         group: "Social",
         icon: LinkedinIcon,
         perform: () => {
-          window.open(SITE.social.linkedin, "_blank");
+          window.open(settings.social.linkedin, "_blank");
           close();
         },
       },
       {
-        id: "twitter",
-        label: "Twitter / X",
+        id: "facebook",
+        label: "Facebook",
         group: "Social",
-        icon: TwitterIcon,
+        icon: FacebookIcon,
         perform: () => {
-          window.open(SITE.social.twitter, "_blank");
+          window.open(settings.social.facebook, "_blank");
           close();
         },
       },
     ],
-    [resolvedTheme, setTheme, router], // eslint-disable-line react-hooks/exhaustive-deps
+    [resolvedTheme, setTheme, router, settings], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const filtered = useMemo(() => {

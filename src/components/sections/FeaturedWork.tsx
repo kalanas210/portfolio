@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
-import { projects } from "@/lib/data";
+import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-export function FeaturedWork() {
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+export function FeaturedWork({ projects }: { projects: Project[] }) {
+  if (projects.length === 0) return null;
 
   return (
     <section className="container relative py-24 sm:py-32">
@@ -29,10 +29,10 @@ export function FeaturedWork() {
       </div>
 
       <RevealStagger className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {featured.map((p) => (
+        {projects.map((p) => (
           <RevealItem key={p.slug}>
             <Link
-              href={`/projects#${p.slug}`}
+              href={`/projects/${p.slug}`}
               data-cursor="view"
               className="group relative block h-full overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900"
             >
@@ -43,6 +43,14 @@ export function FeaturedWork() {
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute inset-0"
                 >
+                  {p.thumbnailUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.thumbnailUrl}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
                   <div className="absolute inset-0 opacity-60 mix-blend-overlay grid-bg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950/40 via-transparent to-transparent" />
                   <div className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur-md">

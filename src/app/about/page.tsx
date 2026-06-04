@@ -12,13 +12,18 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { hobbies } from "@/lib/data";
 import { SITE as SITE_INFO } from "@/lib/utils";
+import { getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "About",
   description: `About ${SITE_INFO.name} — undergraduate software engineer at the University of Moratuwa.`,
 };
 
-export default function AboutPage() {
+export const revalidate = 60;
+
+export default async function AboutPage() {
+  const settings = await getSettings();
+
   return (
     <>
       {/* Hero / intro */}
@@ -36,7 +41,7 @@ export default function AboutPage() {
                 <Badge>About me</Badge>
                 <Badge>
                   <MapPin size={11} />
-                  {SITE_INFO.location}
+                  {settings.location}
                 </Badge>
               </div>
             </Reveal>
@@ -74,7 +79,7 @@ export default function AboutPage() {
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <a href="/cv.pdf" download>
+                <a href={settings.cvUrl ?? "/cv.pdf"} download>
                   <MagneticButton variant="primary" size="md">
                     <Download size={16} />
                     Download CV

@@ -2,19 +2,21 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { SITE } from "@/lib/utils";
+import { useSettings } from "@/components/providers/SettingsProvider";
 
 const ROLES = ["Software Engineer", "UI / UX Designer", "Problem Solver", "OSS Contributor"];
 
 export function HeroOverlay() {
   const prefersReducedMotion = useReducedMotion();
+  const settings = useSettings();
 
   return (
     <div className="pointer-events-none absolute inset-0 z-20 flex flex-col">
       {/* For a11y / SEO — the marquee renders the name visually */}
-      <h1 className="sr-only">{SITE.name} — {SITE.role}</h1>
+      <h1 className="sr-only">{settings.name} — {settings.role}</h1>
 
       {/* ── TOP HALF: intentionally empty — let the artwork breathe ─── */}
       <div className="flex-1" />
@@ -47,13 +49,13 @@ export function HeroOverlay() {
           {/* Greeting + animated role */}
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.22em] text-ink-500">
-              Hello — I&apos;m {SITE.shortName.toLowerCase()}, a
+              Hello — I&apos;m {settings.shortName.toLowerCase()}, a
             </div>
             <div className="mt-1 flex items-baseline gap-2 truncate">
               <RoleTypewriter />
               <span aria-hidden className="hidden sm:inline-block text-ink-400">·</span>
               <span className="hidden sm:inline-block truncate text-sm text-ink-500">
-                {SITE.university}
+                {settings.university}
               </span>
             </div>
           </div>
@@ -66,8 +68,12 @@ export function HeroOverlay() {
                 <ArrowUpRight size={15} />
               </MagneticButton>
             </Link>
-            <a href="/cv.pdf" download className="flex-1 sm:flex-initial">
-              <MagneticButton variant="ghost" size="sm" className="w-full sm:w-auto">
+            <a href={settings.cvUrl ?? "/cv.pdf"} download className="flex-1 sm:flex-initial">
+              <MagneticButton
+                variant="ghost"
+                size="sm"
+                className="w-full sm:w-auto dark:text-ink-950 dark:border-black/10"
+              >
                 <Download size={14} />
                 CV
               </MagneticButton>
@@ -85,16 +91,12 @@ function RoleTypewriter() {
       className="relative inline-flex h-6 overflow-hidden align-baseline"
       aria-label={ROLES.join(", ")}
     >
-      <motion.span
+      {/* CSS-driven roll (see .role-roll in globals.css) — loops reliably on the
+          compositor. The trailing duplicate of ROLES[0] makes the wrap seamless. */}
+      <span
         aria-hidden
-        animate={{ y: ROLES.map((_, i) => `-${i * 100}%`).concat("0%") }}
-        transition={{
-          duration: ROLES.length * 2.4,
-          times: [...ROLES.map((_, i) => i / ROLES.length), 1],
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-        className="flex flex-col"
+        className="role-roll flex flex-col"
+        style={{ "--role-rh": "1.5rem", "--role-dur": "10s" } as CSSProperties}
       >
         {ROLES.map((role) => (
           <span
@@ -107,7 +109,7 @@ function RoleTypewriter() {
         <span className="block h-6 leading-6 text-sm sm:text-base font-semibold text-gradient">
           {ROLES[0]}
         </span>
-      </motion.span>
+      </span>
     </span>
   );
 }

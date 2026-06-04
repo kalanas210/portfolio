@@ -80,6 +80,39 @@
   .text-gradient-cool {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-cyan via-brand-violet to-brand-fuchsia;
   }
+  .text-gradient-strong {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #6d28d9, #a21caf 52%, #be185d);
+  }
+  /* Hero display name — deep, saturated ramp kept dark across every letter so
+     it reads clearly against the cream stage instead of washing out. A slow
+     position drift makes the gradient feel like living light. */
+  .text-gradient-hero {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(100deg, #4c1d95 0%, #6d28d9 22%, #a21caf 50%, #6d28d9 78%, #4c1d95 100%);
+    background-size: 220% 100%;
+    background-position: 0% center;
+    filter: drop-shadow(0 6px 16px rgba(76, 29, 149, 0.28));
+    animation: name-shimmer 7s ease-in-out infinite;
+  }
+  @keyframes name-shimmer {
+    0%,
+    100% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .text-gradient-hero {
+      animation: none;
+    }
+  }
   .ring-focus {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950;
   }
@@ -130,4 +163,24 @@
 @keyframes scroll-right {
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
+}
+
+/* Vertical role roller — CSS-driven so it loops reliably on the compositor.
+   --role-rh sets one row's height; the trailing duplicate of the first role
+   lets the loop wrap seamlessly. */
+@keyframes role-roll {
+  0%,  20% { transform: translateY(0); }
+  25%, 45% { transform: translateY(calc(var(--role-rh) * -1)); }
+  50%, 70% { transform: translateY(calc(var(--role-rh) * -2)); }
+  75%, 95% { transform: translateY(calc(var(--role-rh) * -3)); }
+  100%     { transform: translateY(calc(var(--role-rh) * -4)); }
+}
+.role-roll {
+  animation: role-roll var(--role-dur, 10s) ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .role-roll {
+    animation: none;
+  }
 }

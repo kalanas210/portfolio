@@ -13,25 +13,18 @@ import {
   Palette,
   type LucideIcon,
 } from "lucide-react";
+import type { Project, Testimonial } from "@/lib/types";
 
-export type ProjectCategory = "Web" | "Mobile" | "AI" | "Open Source";
+// Re-export the shared types so existing imports (`@/lib/data`) keep working.
+export type { Project, ProjectCategory, Testimonial, GalleryItem } from "@/lib/types";
 
-export interface Project {
-  slug: string;
-  title: string;
-  description: string;
-  longDescription: string;
-  categories: ProjectCategory[];
-  tech: string[];
-  featured?: boolean;
-  year: number;
-  liveUrl?: string;
-  githubUrl?: string;
-  gradient: string;
-}
-
-export const projects: Project[] = [
+// ─────────────────────────────────────────────────────────────
+//  SEED DATA — used as a fallback when Supabase isn't configured,
+//  and mirrored by supabase/seed.sql for the live database.
+// ─────────────────────────────────────────────────────────────
+export const seedProjects: Project[] = [
   {
+    id: "seed-smart-campus",
     slug: "smart-campus",
     title: "Smart Campus App",
     description:
@@ -41,11 +34,22 @@ export const projects: Project[] = [
     categories: ["Mobile"],
     tech: ["React Native", "Expo", "Firebase", "TypeScript"],
     featured: true,
+    published: true,
     year: 2025,
+    thumbnailUrl: "https://picsum.photos/seed/smart-campus/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/smart-campus-a/1600/1000", caption: "Home dashboard" },
+      { type: "image", url: "https://picsum.photos/seed/smart-campus-b/1600/1000", caption: "Timetable" },
+      { type: "video", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", caption: "Walkthrough" },
+    ],
+    liveUrl: null,
     githubUrl: "https://github.com/kalanas210/smart-campus",
+    linkedinUrl: "https://www.linkedin.com/in/kalanasandakelum",
     gradient: "from-brand-violet via-brand-fuchsia to-brand-rose",
+    sortOrder: 1,
   },
   {
+    id: "seed-algo-viz",
     slug: "algo-viz",
     title: "Algorithm Visualizer",
     description:
@@ -55,12 +59,21 @@ export const projects: Project[] = [
     categories: ["Web", "Open Source"],
     tech: ["Next.js", "D3.js", "Framer Motion", "TypeScript"],
     featured: true,
+    published: true,
     year: 2025,
+    thumbnailUrl: "https://picsum.photos/seed/algo-viz/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/algo-viz-a/1600/1000", caption: "Sorting view" },
+      { type: "image", url: "https://picsum.photos/seed/algo-viz-b/1600/1000", caption: "Pathfinding grid" },
+    ],
     liveUrl: "https://algoviz.kalana.dev",
     githubUrl: "https://github.com/kalanas210/algo-viz",
+    linkedinUrl: null,
     gradient: "from-brand-cyan via-brand-violet to-brand-fuchsia",
+    sortOrder: 2,
   },
   {
+    id: "seed-ecomm",
     slug: "ecomm",
     title: "E-Commerce Platform",
     description:
@@ -69,12 +82,22 @@ export const projects: Project[] = [
       "Full-fledged e-commerce engine — products, variants, inventory, multi-vendor admin, Stripe Connect, and a server-rendered storefront optimized for Core Web Vitals.",
     categories: ["Web"],
     tech: ["Next.js", "PostgreSQL", "Prisma", "Stripe", "Tailwind"],
+    featured: false,
+    published: true,
     year: 2024,
+    thumbnailUrl: "https://picsum.photos/seed/ecomm/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/ecomm-a/1600/1000", caption: "Storefront" },
+      { type: "image", url: "https://picsum.photos/seed/ecomm-b/1600/1000", caption: "Vendor admin" },
+    ],
     liveUrl: "https://shop.kalana.dev",
     githubUrl: "https://github.com/kalanas210/ecomm",
+    linkedinUrl: null,
     gradient: "from-brand-emerald via-brand-cyan to-brand-violet",
+    sortOrder: 3,
   },
   {
+    id: "seed-ai-chatbot",
     slug: "ai-chatbot",
     title: "AI Documentation Chatbot",
     description:
@@ -84,11 +107,20 @@ export const projects: Project[] = [
     categories: ["AI"],
     tech: ["Python", "FastAPI", "OpenAI", "pgvector", "Docker"],
     featured: true,
+    published: true,
     year: 2025,
+    thumbnailUrl: "https://picsum.photos/seed/ai-chatbot/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/ai-chatbot-a/1600/1000", caption: "Chat UI" },
+    ],
+    liveUrl: null,
     githubUrl: "https://github.com/kalanas210/docs-bot",
+    linkedinUrl: null,
     gradient: "from-brand-amber via-brand-rose to-brand-fuchsia",
+    sortOrder: 4,
   },
   {
+    id: "seed-portfolio",
     slug: "portfolio",
     title: "Portfolio Website",
     description:
@@ -97,12 +129,21 @@ export const projects: Project[] = [
       "A handcrafted portfolio that doubles as a playground for shader work, motion design, and accessibility-first interaction. Built in the open.",
     categories: ["Web", "Open Source"],
     tech: ["Next.js", "Framer Motion", "Three.js", "Tailwind"],
+    featured: false,
+    published: true,
     year: 2026,
+    thumbnailUrl: "https://picsum.photos/seed/portfolio/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/portfolio-a/1600/1000", caption: "Hero" },
+    ],
     liveUrl: "https://kalana.dev",
     githubUrl: "https://github.com/kalanas210/portfolio",
+    linkedinUrl: null,
     gradient: "from-brand-fuchsia via-brand-violet to-brand-cyan",
+    sortOrder: 5,
   },
   {
+    id: "seed-ems",
     slug: "ems",
     title: "University Event Management",
     description:
@@ -111,12 +152,57 @@ export const projects: Project[] = [
       "End-to-end event platform with role-based dashboards for organizers, an attendee app, QR check-in, and Grafana-style analytics.",
     categories: ["Web"],
     tech: ["React", "Spring Boot", "PostgreSQL", "Docker"],
+    featured: false,
+    published: true,
     year: 2024,
+    thumbnailUrl: "https://picsum.photos/seed/ems/1200/800",
+    gallery: [
+      { type: "image", url: "https://picsum.photos/seed/ems-a/1600/1000", caption: "Organizer dashboard" },
+    ],
+    liveUrl: null,
     githubUrl: "https://github.com/kalanas210/uom-events",
+    linkedinUrl: null,
     gradient: "from-brand-rose via-brand-amber to-brand-emerald",
+    sortOrder: 6,
   },
 ];
 
+export const seedTestimonials: Testimonial[] = [
+  {
+    id: "seed-t1",
+    quote:
+      "Kalana's work has this rare quality — every detail looks intentional. The product feels handmade, but ships like a machine.",
+    name: "Dilshan Perera",
+    role: "Lead Engineer, Bloomroom",
+    avatarUrl: null,
+    published: true,
+    sortOrder: 1,
+  },
+  {
+    id: "seed-t2",
+    quote:
+      "One of the most thoughtful junior engineers I've collaborated with. He treats the user, the codebase, and his teammates with the same care.",
+    name: "Anjali Fernando",
+    role: "Senior Designer, Surge",
+    avatarUrl: null,
+    published: true,
+    sortOrder: 2,
+  },
+  {
+    id: "seed-t3",
+    quote:
+      "Picked up Spring Boot in a weekend and shipped a clean microservice the following week. Curious, kind, and quick.",
+    name: "Prof. R. Wickramasinghe",
+    role: "University of Moratuwa",
+    avatarUrl: null,
+    published: true,
+    sortOrder: 3,
+  },
+];
+
+// ─────────────────────────────────────────────────────────────
+//  STATIC CONTENT (not managed via the admin panel for now)
+// ─────────────────────────────────────────────────────────────
 export interface SkillGroup {
   category: string;
   icon: LucideIcon;
@@ -248,33 +334,6 @@ export const hobbies: Hobby[] = [
   { name: "Mobile dev", icon: Smartphone },
   { name: "Reading", icon: Package },
   { name: "Web platform", icon: Globe },
-];
-
-export interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      "Kalana's work has this rare quality — every detail looks intentional. The product feels handmade, but ships like a machine.",
-    name: "Dilshan Perera",
-    role: "Lead Engineer, Bloomroom",
-  },
-  {
-    quote:
-      "One of the most thoughtful junior engineers I've collaborated with. He treats the user, the codebase, and his teammates with the same care.",
-    name: "Anjali Fernando",
-    role: "Senior Designer, Surge",
-  },
-  {
-    quote:
-      "Picked up Spring Boot in a weekend and shipped a clean microservice the following week. Curious, kind, and quick.",
-    name: "Prof. R. Wickramasinghe",
-    role: "University of Moratuwa",
-  },
 ];
 
 export const techMarquee = [

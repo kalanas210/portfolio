@@ -3,9 +3,11 @@
 import { Quote } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
-import { testimonials } from "@/lib/data";
+import type { Testimonial } from "@/lib/types";
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+  if (testimonials.length === 0) return null;
+
   return (
     <section className="container relative py-24 sm:py-32">
       <SectionHeading

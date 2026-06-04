@@ -1,15 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useMemo } from "react";
 import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/icons/BrandIcons";
-import { projects, type ProjectCategory } from "@/lib/data";
+import { type Project, type ProjectCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const FILTERS: ("All" | ProjectCategory)[] = ["All", "Web", "Mobile", "AI", "Open Source"];
 
-export function ProjectsGrid() {
+export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<(typeof FILTERS)[number]>("All");
 
   const filtered = useMemo(() => {
@@ -66,12 +67,25 @@ export function ProjectsGrid() {
               className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900"
               data-cursor="view"
             >
-              <div className={cn("relative h-52 overflow-hidden bg-gradient-to-br", p.gradient)}>
+              <Link
+                href={`/projects/${p.slug}`}
+                data-cursor="view"
+                className="relative block h-52 overflow-hidden"
+              >
+                <div className={cn("absolute inset-0 bg-gradient-to-br", p.gradient)} />
                 <motion.div
                   whileHover={{ scale: 1.08 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute inset-0"
                 >
+                  {p.thumbnailUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.thumbnailUrl}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
                   <div className="absolute inset-0 opacity-50 mix-blend-overlay grid-bg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950/50 via-transparent to-transparent" />
                   <div className="absolute inset-x-4 top-4 flex items-center justify-between">
@@ -90,10 +104,17 @@ export function ProjectsGrid() {
                     </div>
                   </div>
                 </motion.div>
-              </div>
+              </Link>
 
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="font-display text-xl font-semibold tracking-tight">{p.title}</h3>
+                <h3 className="font-display text-xl font-semibold tracking-tight">
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="transition-colors hover:text-accent"
+                  >
+                    {p.title}
+                  </Link>
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-500 dark:text-ink-300">
                   {p.description}
                 </p>

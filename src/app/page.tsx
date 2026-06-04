@@ -5,16 +5,24 @@ import { AboutTeaser } from "@/components/sections/AboutTeaser";
 import { ActivitySection } from "@/components/sections/ActivitySection";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { ContactCTA } from "@/components/sections/ContactCTA";
+import { getFeaturedProjects, getTestimonials } from "@/lib/queries";
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [featured, testimonials] = await Promise.all([
+    getFeaturedProjects(3),
+    getTestimonials(),
+  ]);
+
   return (
     <>
       <HeroSection />
       <TechMarquee />
-      <FeaturedWork />
+      <FeaturedWork projects={featured} />
       <AboutTeaser />
       <ActivitySection />
-      <Testimonials />
+      <Testimonials testimonials={testimonials} />
       <ContactCTA />
     </>
   );

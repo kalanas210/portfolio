@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Mail, ArrowUpRight } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon, InstagramIcon } from "@/components/icons/BrandIcons";
-import { SITE } from "@/lib/utils";
+import { GithubIcon, LinkedinIcon, FacebookIcon, InstagramIcon } from "@/components/icons/BrandIcons";
+import type { SiteSettings } from "@/lib/types";
 
-export function Footer() {
+export function Footer({ settings }: { settings: SiteSettings }) {
   const year = new Date().getFullYear();
 
   return (
@@ -16,10 +16,10 @@ export function Footer() {
                 <span className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-violet via-brand-fuchsia to-brand-rose" />
                 <span className="relative text-sm font-bold text-white">K</span>
               </span>
-              <span className="font-display text-xl font-semibold">{SITE.name}</span>
+              <span className="font-display text-xl font-semibold">{settings.name}</span>
             </Link>
             <p className="mt-4 max-w-md text-sm text-ink-400">
-              {SITE.description}
+              {settings.description}
             </p>
           </div>
 
@@ -49,11 +49,11 @@ export function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-400">Elsewhere</h4>
             <ul className="mt-4 space-y-2 text-sm">
               {[
-                { href: SITE.social.github, label: "GitHub", Icon: GithubIcon },
-                { href: SITE.social.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
-                { href: SITE.social.twitter, label: "Twitter / X", Icon: TwitterIcon },
-                { href: SITE.social.instagram, label: "Instagram", Icon: InstagramIcon },
-                { href: `mailto:${SITE.email}`, label: "Email", Icon: Mail },
+                { href: settings.social.github, label: "GitHub", Icon: GithubIcon },
+                { href: settings.social.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+                { href: settings.social.facebook, label: "Facebook", Icon: FacebookIcon },
+                { href: settings.social.instagram, label: "Instagram", Icon: InstagramIcon },
+                { href: `mailto:${settings.email}`, label: "Email", Icon: Mail },
               ].map(({ href, label, Icon }) => (
                 <li key={label}>
                   <a
@@ -77,13 +77,12 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/10 dark:border-white/10 pt-6 sm:flex-row sm:items-center">
           <p className="text-xs text-ink-400">
-            © {year} {SITE.name}. Crafted in {SITE.location}.
+            © {year} {settings.name}. All rights reserved.
           </p>
           <p className="text-xs text-ink-400">
-            Built with{" "}
-            <span className="text-ink-700 dark:text-ink-200">Next.js</span>,{" "}
-            <span className="text-ink-700 dark:text-ink-200">Framer Motion</span>, and{" "}
-            <span className="text-ink-700 dark:text-ink-200">Tailwind CSS</span>.
+            Designed &amp; built by{" "}
+            <span className="text-ink-700 dark:text-ink-200">{settings.shortName}</span>{" "}
+            with care &amp; coffee.
           </p>
         </div>
       </div>

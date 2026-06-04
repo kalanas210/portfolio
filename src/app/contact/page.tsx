@@ -3,7 +3,7 @@ import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 import {
   GithubIcon,
   LinkedinIcon,
-  TwitterIcon,
+  FacebookIcon,
   InstagramIcon,
 } from "@/components/icons/BrandIcons";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -11,21 +11,25 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Badge } from "@/components/ui/Badge";
 import { GradientMesh } from "@/components/ui/GradientMesh";
-import { SITE } from "@/lib/utils";
+import { getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Kalana Sandakelum.",
 };
 
-const SOCIAL = [
-  { Icon: GithubIcon, label: "GitHub", value: "@kalanas210", href: SITE.social.github },
-  { Icon: LinkedinIcon, label: "LinkedIn", value: "kalana-sandakelum", href: SITE.social.linkedin },
-  { Icon: TwitterIcon, label: "Twitter / X", value: "@kalanasandakelum", href: SITE.social.twitter },
-  { Icon: InstagramIcon, label: "Instagram", value: "@kalanasandakelum", href: SITE.social.instagram },
-];
+export const revalidate = 60;
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSettings();
+
+  const SOCIAL = [
+    { Icon: GithubIcon, label: "GitHub", value: "@kalanas210", href: settings.social.github },
+    { Icon: LinkedinIcon, label: "LinkedIn", value: "kalanasandakelum", href: settings.social.linkedin },
+    { Icon: FacebookIcon, label: "Facebook", value: "Kalana Sandakelum", href: settings.social.facebook },
+    { Icon: InstagramIcon, label: "Instagram", value: "@kalana_s5", href: settings.social.instagram },
+  ];
+
   return (
     <>
       <section className="relative isolate overflow-hidden pt-36 pb-12 sm:pt-44 sm:pb-16">
@@ -45,7 +49,7 @@ export default function ContactPage() {
           <Reveal>
             <div className="space-y-5">
               <a
-                href={`mailto:${SITE.email}`}
+                href={`mailto:${settings.email}`}
                 className="group flex items-center justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-5 transition-colors hover:bg-ink-50 dark:hover:bg-ink-800"
               >
                 <div className="flex items-center gap-4">
@@ -54,7 +58,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-[0.14em] text-ink-400">Email</div>
-                    <div className="mt-0.5 font-medium">{SITE.email}</div>
+                    <div className="mt-0.5 font-medium">{settings.email}</div>
                   </div>
                 </div>
                 <ArrowUpRight
@@ -74,7 +78,7 @@ export default function ContactPage() {
                     <div>
                       <div className="text-xs uppercase tracking-[0.14em] text-ink-400">Based in</div>
                       <div className="mt-0.5 font-medium">
-                        {SITE.location} <span>🇱🇰</span>
+                        {settings.location} <span>🇱🇰</span>
                       </div>
                     </div>
                   </div>

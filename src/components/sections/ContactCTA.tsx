@@ -6,9 +6,11 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { Reveal } from "@/components/ui/Reveal";
 import { GradientText } from "@/components/ui/GradientText";
-import { SITE } from "@/lib/utils";
+import { useSettings } from "@/components/providers/SettingsProvider";
 
 export function ContactCTA() {
+  const settings = useSettings();
+
   return (
     <section className="container relative py-24 sm:py-32">
       <div className="relative isolate overflow-hidden rounded-[2.5rem] border border-black/10 dark:border-white/10 bg-ink-900 dark:bg-ink-900 text-white">
@@ -40,10 +42,14 @@ export function ContactCTA() {
                   <ArrowUpRight size={18} />
                 </MagneticButton>
               </Link>
-              <a href={`mailto:${SITE.email}`}>
-                <MagneticButton variant="ghost" size="lg">
+              <a href={`mailto:${settings.email}`} aria-label={`Email ${settings.name}`}>
+                <MagneticButton
+                  variant="ghost"
+                  size="lg"
+                  className="text-white border-white/25 hover:bg-white/10"
+                >
                   <Mail size={16} />
-                  {SITE.email}
+                  Email me
                 </MagneticButton>
               </a>
             </div>
