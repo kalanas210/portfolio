@@ -155,7 +155,7 @@ export function MobileHero({ className }: { className?: string }) {
         >
           Kalana
           <br />
-          <span className="text-gradient-hero">Sandakelum</span>
+          <span>Sandakelum</span>
         </motion.h1>
 
         <motion.div
