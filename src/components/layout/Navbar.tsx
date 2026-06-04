@@ -131,13 +131,13 @@ export function Navbar() {
               href="/contact"
               className={cn(
                 "inline-flex group items-center gap-1.5 h-9 rounded-full pl-3.5 pr-2 text-xs font-semibold",
-                "bg-black text-white",
+                "bg-black text-white dark:bg-white dark:text-ink-950",
                 "shadow-[0_8px_20px_-10px_rgba(0,0,0,0.55)]",
                 "transition-transform duration-200 hover:-translate-y-0.5",
               )}
             >
               Let&apos;s talk
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:rotate-45">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20 dark:bg-black/15 transition-transform duration-200 group-hover:rotate-45">
                 <ArrowUpRight size={12} />
               </span>
             </Link>
