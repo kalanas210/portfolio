@@ -128,7 +128,6 @@ export function MobileHero({ className }: { className?: string }) {
           />
           <span className="text-ink-700">Available for work</span>
         </span>
-        <span className="text-ink-400">Moratuwa, LK</span>
       </motion.div>
 
       {/* ── NAME + GLASS RAIL · bottom cluster ─────────────────────────── */}
