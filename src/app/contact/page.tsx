@@ -36,6 +36,7 @@ export default async function ContactPage() {
         <GradientMesh variant="cool" className="opacity-40" />
         <div className="container relative">
           <SectionHeading
+            index="01"
             eyebrow="Contact"
             title="Let's make something good together."
             description="Internships, freelance work, or just a hello — I read every message and reply within a day."
@@ -53,7 +54,7 @@ export default async function ContactPage() {
                 className="group flex items-center justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-5 transition-colors hover:bg-ink-50 dark:hover:bg-ink-800"
               >
                 <div className="flex items-center gap-4">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-violet/20 to-brand-fuchsia/20 text-brand-violet">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-ink-900/10 text-ink-700 dark:border-white/10 dark:text-ink-200">
                     <Mail size={18} />
                   </div>
                   <div>
@@ -69,10 +70,9 @@ export default async function ContactPage() {
 
               {/* Location card */}
               <div className="relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-5">
-                <div className="pointer-events-none absolute -bottom-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-brand-emerald/20 to-brand-cyan/20 blur-3xl" />
                 <div className="relative flex items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-emerald/20 to-brand-cyan/20 text-brand-cyan">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-ink-900/10 text-ink-700 dark:border-white/10 dark:text-ink-200">
                       <MapPin size={18} />
                     </div>
                     <div>

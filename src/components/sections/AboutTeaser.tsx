@@ -17,13 +17,15 @@ const STATS = [
 
 export function AboutTeaser() {
   return (
-    <section className="container relative py-24 sm:py-32">
+    <section className="container relative py-16 sm:py-20">
       <div className="relative overflow-hidden rounded-[2rem] border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900">
         <GradientMesh variant="default" className="opacity-60" />
         <div className="relative grid gap-12 p-8 sm:p-12 lg:grid-cols-2">
           <div>
             <Reveal>
-              <div className="text-xs font-medium uppercase tracking-[0.18em] text-ink-400">
+              <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-400">
+                <span className="tabular-nums text-ink-900 dark:text-white">02</span>
+                <span className="h-px w-7 bg-ink-300 dark:bg-ink-700" />
                 About
               </div>
             </Reveal>

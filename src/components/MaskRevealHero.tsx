@@ -49,7 +49,7 @@ const MaskRevealHero = () => {
             alpha: true,
         });
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
         const scene = new THREE.Scene();
         const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -127,8 +127,10 @@ const MaskRevealHero = () => {
         let lastMouse = new THREE.Vector2(0, 0);
         let currentMouse = new THREE.Vector2(0, 0);
         let isFirstMove = true;
+        let visible = true; // hero in viewport? (kept in sync by the observer below)
 
         const onMouseMove = (e: MouseEvent) => {
+            if (!visible) return;
             const rect = container.getBoundingClientRect();
             currentMouse.set(
                 (e.clientX - rect.left) / rect.width,
@@ -152,10 +154,29 @@ const MaskRevealHero = () => {
 
         window.addEventListener('mousemove', onMouseMove);
 
+        // Pause the (expensive) fluid simulation whenever the hero is scrolled
+        // out of view — this is the main fix for laggy scrolling.
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                visible = entry.isIntersecting;
+            },
+            { threshold: 0 },
+        );
+        io.observe(container);
+
         let animationFrameId: number;
         let lastTime = performance.now();
 
         const render = (time: number) => {
+            animationFrameId = requestAnimationFrame(render);
+
+            // Skip all GPU work while off-screen or the tab is hidden; keep the
+            // loop alive so it resumes instantly when the hero returns.
+            if (!visible || document.hidden) {
+                lastTime = time;
+                return;
+            }
+
             const dt = Math.min((time - lastTime) / 1000, 0.032);
             lastTime = time;
 
@@ -165,8 +186,6 @@ const MaskRevealHero = () => {
 
             renderer.setRenderTarget(null);
             renderer.render(scene, camera);
-
-            animationFrameId = requestAnimationFrame(render);
         };
 
         animationFrameId = requestAnimationFrame(render);
@@ -183,6 +202,7 @@ const MaskRevealHero = () => {
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('resize', onResize);
+            io.disconnect();
             cancelAnimationFrame(animationFrameId);
             fluid.dispose();
             mesh.geometry.dispose();

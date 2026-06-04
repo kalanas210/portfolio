@@ -4,6 +4,7 @@ import { type PropsWithChildren } from "react";
 
 interface SectionHeadingProps {
   eyebrow?: string;
+  index?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
@@ -12,6 +13,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   description,
   align = "left",
@@ -27,8 +29,16 @@ export function SectionHeading({
     >
       {eyebrow && (
         <Reveal>
-          <div className="mb-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-ink-400">
-            <span className="h-px w-6 bg-ink-400/60" />
+          <div
+            className={cn(
+              "mb-4 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-400",
+              align === "center" && "justify-center",
+            )}
+          >
+            <span className="tabular-nums text-ink-900 dark:text-white">
+              {index ?? "—"}
+            </span>
+            <span className="h-px w-7 bg-ink-300 dark:bg-ink-700" />
             {eyebrow}
           </div>
         </Reveal>

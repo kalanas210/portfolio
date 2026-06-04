@@ -7,14 +7,14 @@ export function Footer({ settings }: { settings: SiteSettings }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-black/10 dark:border-white/10 mt-32">
+    <footer className="relative border-t border-black/10 dark:border-white/10 mt-24">
       <div className="container py-14">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <Link href="/" className="inline-flex items-center gap-3">
               <span className="relative flex h-8 w-8 items-center justify-center">
-                <span className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-violet via-brand-fuchsia to-brand-rose" />
-                <span className="relative text-sm font-bold text-white">K</span>
+                <span className="absolute inset-0 rounded-lg bg-ink-900 dark:bg-white" />
+                <span className="relative text-sm font-bold text-white dark:text-ink-950">K</span>
               </span>
               <span className="font-display text-xl font-semibold">{settings.name}</span>
             </Link>

@@ -48,11 +48,11 @@ function generateGrid(): number[][] {
 }
 
 const LEVEL_CLASSES: Record<number, string> = {
-  0: "bg-black/[0.06] dark:bg-white/[0.05]",
-  1: "bg-brand-violet/25",
-  2: "bg-brand-violet/50",
-  3: "bg-brand-fuchsia/70",
-  4: "bg-gradient-to-br from-brand-fuchsia to-brand-rose",
+  0: "bg-ink-900/[0.06] dark:bg-white/[0.06]",
+  1: "bg-emerald-500/25",
+  2: "bg-emerald-500/45",
+  3: "bg-emerald-500/70",
+  4: "bg-emerald-500 dark:bg-emerald-400",
 };
 
 export function ActivitySection() {
@@ -70,9 +70,10 @@ export function ActivitySection() {
   })();
 
   return (
-    <section className="container relative py-24 sm:py-32">
+    <section className="container relative py-16 sm:py-20">
       <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeading
+          index="03"
           eyebrow="Pulse"
           title="A year of commits — and what I'm shipping now."
           description="A snapshot of the public side: contributions, current builds, and what's queued up next."
@@ -187,8 +188,7 @@ export function ActivitySection() {
         <Reveal delay={0.1}>
           <div className="flex h-full flex-col gap-5">
             <div className="relative flex-1 overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-6">
-              <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-gradient-to-br from-brand-violet/30 to-brand-fuchsia/30 blur-3xl" />
-              <div className="relative flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-ink-400">
+              <div className="relative flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-400">
                 <Hammer size={12} />
                 Currently building
               </div>

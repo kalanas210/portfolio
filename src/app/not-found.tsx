@@ -21,9 +21,9 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-ink-500 backdrop-blur-md"
+          className="inline-flex items-center gap-2 rounded-full border border-ink-900/10 dark:border-white/15 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-500"
         >
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-rose-400" />
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-ink-400" />
           Page not found
         </motion.div>
 
@@ -34,9 +34,7 @@ export default function NotFound() {
           className="mt-8 font-display font-extrabold leading-none tracking-[-0.04em] text-balance"
           style={{ fontSize: "clamp(6rem, 22vw, 18rem)" }}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-br from-brand-violet via-brand-fuchsia to-brand-rose">
-            404
-          </span>
+          <span className="text-ink-900 dark:text-white">404</span>
         </motion.h1>
 
         <motion.p
