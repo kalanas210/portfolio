@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, ChevronDown, Download, MapPin } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Download } from "lucide-react";
 import type { CSSProperties } from "react";
 import {
   GithubIcon,
@@ -119,20 +119,16 @@ export function MobileHero({ className }: { className?: string }) {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.25, ease }}
-        className="absolute left-4 top-[5.25rem] z-30 flex items-center gap-2.5 rounded-full border border-black/[0.08] bg-white/75 py-1.5 pl-2.5 pr-3 shadow-[0_14px_36px_-18px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+        className="absolute left-5 top-[5.25rem] z-30 flex items-center gap-2.5 text-[11px] font-medium"
       >
-        <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-ink-800">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20" />
-          </span>
-          Available for work
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/65 px-2.5 py-1 backdrop-blur-md">
+          <span
+            aria-hidden
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.13)]"
+          />
+          <span className="text-ink-700">Available for work</span>
         </span>
-        <span aria-hidden className="h-3.5 w-px bg-black/10" />
-        <span className="inline-flex items-center gap-1 text-[12px] font-medium text-ink-500">
-          <MapPin size={12} className="text-ink-400" />
-          Moratuwa, LK
-        </span>
+        <span className="text-ink-400">Moratuwa, LK</span>
       </motion.div>
 
       {/* ── NAME + GLASS RAIL · bottom cluster ─────────────────────────── */}

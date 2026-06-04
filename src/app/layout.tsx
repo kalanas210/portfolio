@@ -2,12 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
-import { PageTransition } from "@/components/ui/PageTransition";
-import { CommandPalette } from "@/components/ui/CommandPalette";
-import { RouteProgress } from "@/components/ui/RouteProgress";
+import { SiteFrame } from "@/components/layout/SiteFrame";
 import { SettingsProvider } from "@/components/providers/SettingsProvider";
 import { getSettings } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
@@ -88,14 +83,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <SettingsProvider value={settings}>
-            <RouteProgress />
-            <CustomCursor />
-            <Navbar />
-            <CommandPalette />
-            <PageTransition>
-              <main className="relative">{children}</main>
-            </PageTransition>
-            <Footer settings={settings} />
+            <SiteFrame settings={settings}>{children}</SiteFrame>
           </SettingsProvider>
         </ThemeProvider>
       </body>

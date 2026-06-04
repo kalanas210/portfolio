@@ -6,11 +6,12 @@ import { useRef } from "react";
 interface CircularSkillProps {
   name: string;
   level: number;
-  gradientId: string;
-  gradient: { from: string; to: string };
+  // kept for call-site compatibility; the editorial design uses a mono ink ring.
+  gradientId?: string;
+  gradient?: { from: string; to: string };
 }
 
-export function CircularSkill({ name, level, gradientId, gradient }: CircularSkillProps) {
+export function CircularSkill({ name, level }: CircularSkillProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
 
@@ -22,27 +23,22 @@ export function CircularSkill({ name, level, gradientId, gradient }: CircularSki
     <div ref={ref} className="flex flex-col items-center">
       <div className="relative h-24 w-24">
         <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
-          <defs>
-            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={gradient.from} />
-              <stop offset="100%" stopColor={gradient.to} />
-            </linearGradient>
-          </defs>
           <circle
             cx="50"
             cy="50"
             r={r}
             stroke="currentColor"
-            className="text-black/10 dark:text-white/10"
-            strokeWidth="6"
+            className="text-ink-900/10 dark:text-white/10"
+            strokeWidth="3"
             fill="none"
           />
           <motion.circle
             cx="50"
             cy="50"
             r={r}
-            stroke={`url(#${gradientId})`}
-            strokeWidth="6"
+            className="text-ink-900 dark:text-white"
+            stroke="currentColor"
+            strokeWidth="3"
             fill="none"
             strokeLinecap="round"
             initial={{ strokeDashoffset: c }}
@@ -52,11 +48,11 @@ export function CircularSkill({ name, level, gradientId, gradient }: CircularSki
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-xl font-bold tracking-tight">{level}</span>
-          <span className="text-[10px] text-ink-400">/ 100</span>
+          <span className="font-display text-xl font-bold tracking-tight tabular-nums">{level}</span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-ink-400">/ 100</span>
         </div>
       </div>
-      <div className="mt-3 text-center text-sm font-medium">{name}</div>
+      <div className="mt-3 text-center text-sm font-medium tracking-tight">{name}</div>
     </div>
   );
 }

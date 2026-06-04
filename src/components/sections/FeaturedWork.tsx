@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
+import { Parallax } from "@/components/ui/Parallax";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -12,9 +13,10 @@ export function FeaturedWork({ projects }: { projects: Project[] }) {
   if (projects.length === 0) return null;
 
   return (
-    <section className="container relative py-24 sm:py-32">
+    <section className="container relative py-16 sm:py-20">
       <div className="flex flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading
+          index="01"
           eyebrow="Selected work"
           title="Recent things I've built"
           description="A small slice of what I've been making at the University of Moratuwa and on the side."
@@ -44,12 +46,14 @@ export function FeaturedWork({ projects }: { projects: Project[] }) {
                   className="absolute inset-0"
                 >
                   {p.thumbnailUrl && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={p.thumbnailUrl}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
+                    <Parallax offset={18} className="absolute -inset-y-[14%] inset-x-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={p.thumbnailUrl}
+                        alt=""
+                        className="h-full w-full object-cover"
+                      />
+                    </Parallax>
                   )}
                   <div className="absolute inset-0 opacity-60 mix-blend-overlay grid-bg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950/40 via-transparent to-transparent" />

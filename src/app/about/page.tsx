@@ -6,10 +6,9 @@ import { Timeline } from "@/components/about/Timeline";
 import { SkillsBento } from "@/components/about/SkillsBento";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealStagger, RevealItem } from "@/components/ui/Reveal";
-import { Badge } from "@/components/ui/Badge";
 import { GradientText } from "@/components/ui/GradientText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { GradientMesh } from "@/components/ui/GradientMesh";
+import { Parallax } from "@/components/ui/Parallax";
 import { hobbies } from "@/lib/data";
 import { SITE as SITE_INFO } from "@/lib/utils";
 import { getSettings } from "@/lib/queries";
@@ -27,22 +26,26 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero / intro */}
-      <section className="relative isolate overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
-        <GradientMesh className="opacity-50" />
+      <section className="relative isolate pt-36 pb-20 sm:pt-44 sm:pb-28">
+        <div className="noise pointer-events-none absolute inset-0" aria-hidden />
         <div className="container relative grid items-center gap-14 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
             <div className="flex justify-center lg:justify-start">
-              <Portrait />
+              <Parallax offset={28}>
+                <Portrait />
+              </Parallax>
             </div>
           </Reveal>
           <div>
             <Reveal>
-              <div className="flex items-center gap-3">
-                <Badge>About me</Badge>
-                <Badge>
+              <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-400">
+                <span className="tabular-nums text-ink-900 dark:text-white">(01)</span>
+                <span>About</span>
+                <span className="h-px w-8 bg-ink-300 dark:bg-ink-700" />
+                <span className="inline-flex items-center gap-1.5">
                   <MapPin size={11} />
                   {settings.location}
-                </Badge>
+                </span>
               </div>
             </Reveal>
             <Reveal delay={0.05}>
@@ -99,6 +102,7 @@ export default async function AboutPage() {
       {/* Timeline */}
       <section className="container py-20 sm:py-28">
         <SectionHeading
+          index="02"
           eyebrow="Path so far"
           title="Education & experience"
           description="A condensed version. The longer story over a coffee."
@@ -111,6 +115,7 @@ export default async function AboutPage() {
       {/* Skills */}
       <section className="container py-20 sm:py-28">
         <SectionHeading
+          index="03"
           eyebrow="Toolkit"
           title="What I'm fluent in"
           description="Tools I reach for, grouped by where they live in the stack."
@@ -123,6 +128,7 @@ export default async function AboutPage() {
       {/* Hobbies */}
       <section className="container py-20 sm:py-28">
         <SectionHeading
+          index="04"
           eyebrow="Outside the editor"
           title="Things I make time for"
         />
@@ -132,8 +138,8 @@ export default async function AboutPage() {
             return (
               <RevealItem key={h.name}>
                 <div className="group flex h-full flex-col items-start gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-5 transition-colors hover:bg-ink-50 dark:hover:bg-ink-800">
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-violet/20 to-brand-fuchsia/20 text-brand-violet dark:text-brand-fuchsia">
-                    <Icon size={18} />
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-900/10 text-ink-700 transition-colors group-hover:border-ink-900/25 dark:border-white/10 dark:text-ink-200 dark:group-hover:border-white/25">
+                    <Icon size={18} strokeWidth={1.75} />
                   </div>
                   <div className="text-sm font-medium">{h.name}</div>
                 </div>

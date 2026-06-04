@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
 const SIMULATION_RESOLUTION = 256;
-const DYE_RESOLUTION = 1024;
-const ITERATIONS = 20;
+const DYE_RESOLUTION = 512;
+const ITERATIONS = 12;
 const VISCOSITY = 0.5;
 const DISSIPATION = 0.98;
 const VELOCITY_DISSIPATION = 0.99;

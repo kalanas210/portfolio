@@ -28,6 +28,7 @@ export default function SkillsPage() {
         <GradientMesh variant="warm" className="opacity-50" />
         <div className="container relative">
           <SectionHeading
+            index="01"
             eyebrow="Skills"
             title="A toolkit shaped by every project I've built."
             description="From low-level systems work to motion-rich frontends — what I use and how confidently I use it."
@@ -54,6 +55,7 @@ export default function SkillsPage() {
       {/* Detailed bento */}
       <section className="container py-16 sm:py-24">
         <SectionHeading
+          index="02"
           eyebrow="By category"
           title="The whole stack, organised."
         />
