@@ -26,10 +26,11 @@ export function HeroOverlay() {
         initial={{ opacity: 0, x: 8 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute right-3 sm:right-5 bottom-32 sm:bottom-40 flex items-center gap-2 origin-center [writing-mode:vertical-rl] rotate-180 text-[10px] uppercase tracking-[0.32em] text-ink-700/70"
+        className="absolute right-3 sm:right-5 bottom-32 sm:bottom-40 flex items-center gap-2 origin-center [writing-mode:vertical-rl] rotate-180 text-[10px] uppercase tracking-[0.32em] text-ink-700/70 pointer-events-auto cursor-pointer"
+        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <motion.span
-          animate={prefersReducedMotion ? undefined : { y: [0, -5, 0] }}
+          animate={{ y: [0, -5, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           className="inline-block"
         >
@@ -43,11 +44,12 @@ export function HeroOverlay() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-28 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 pointer-events-none"
+        className="absolute bottom-28 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 pointer-events-auto cursor-pointer"
+        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <div className="w-[22px] h-[34px] rounded-full border-[1.5px] border-ink-900/30 dark:border-white/30 flex justify-center p-[3px]">
           <motion.div
-            animate={prefersReducedMotion ? undefined : { y: [0, 12, 0], opacity: [1, 0, 1] }}
+            animate={{ y: [0, 12, 0], opacity: [1, 0, 1] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             className="w-1 h-2 rounded-full bg-ink-900/50 dark:bg-white/50"
           />
