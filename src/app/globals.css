@@ -184,3 +184,166 @@
     animation: none;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────
+   Desktop mask-reveal hero — MaskRevealHero.tsx
+   These rules live in the global sheet (loaded in <head>) instead of
+   styled-jsx inside the client component, so the giant marquee artwork
+   is fully styled on the first server-rendered paint. Otherwise the
+   raw, unstyled marquee text flashes on screen until the component's
+   JavaScript hydrates and injects its styles.
+   ─────────────────────────────────────────────────────────────── */
+.hero-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  /* Cinematic warm-cream stage — center bright, edges fall into warmer beige */
+  background:
+    radial-gradient(ellipse 80% 65% at 50% 48%,
+      #fcfbf6 0%,
+      #f6f4ed 40%,
+      #ebe6d6 75%,
+      #e0d9c5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mask-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+.wave-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #d8d2c2;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  /* Fade pattern at the centre so the subject doesn't sit on busy texture */
+  -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 60%, black 100%);
+  mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 60%, black 100%);
+}
+.stage-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  /* Soft warm halo that lifts the subject off the marquee */
+  background:
+    radial-gradient(ellipse 38% 55% at 50% 48%,
+      rgba(255, 250, 240, 0.85) 0%,
+      rgba(255, 250, 240, 0.45) 35%,
+      rgba(255, 250, 240, 0) 70%);
+  mix-blend-mode: screen;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+  background:
+    radial-gradient(ellipse 90% 95% at 50% 50%,
+      transparent 55%,
+      rgba(60, 40, 20, 0.05) 80%,
+      rgba(60, 40, 20, 0.14) 100%);
+}
+.top-fade {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 13;
+  background: linear-gradient(to bottom,
+    rgba(252, 251, 246, 0.95) 0%,
+    rgba(252, 251, 246, 0.7) 35%,
+    rgba(252, 251, 246, 0.3) 70%,
+    transparent 100%);
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+.marquee-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+.marquee-layer.back {
+  z-index: 1;
+  color: #cfc6ae;
+  opacity: 0.55;
+}
+.marquee-layer.front {
+  z-index: 5;
+  color: #1a1816;
+  clip-path: inset(57% 0 0 0);
+  /* Punch a soft hole through the subject silhouette so the dark
+     marquee stops bleeding through the white shirt. */
+  -webkit-mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
+    transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
+  mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
+    transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
+}
+.marquee-row {
+  display: flex;
+  white-space: pre;
+  overflow: hidden;
+  width: 100%;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  font-size: clamp(80px, 15vw, 220px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  will-change: transform;
+}
+.marquee-row.line-1 .marquee-track,
+.marquee-row.line-2 .marquee-track {
+  animation: scroll-left 120s linear infinite;
+}
+.marquee-row.line-1 .marquee-track.reverse,
+.marquee-row.line-2 .marquee-track.reverse {
+  animation: scroll-right 120s linear infinite;
+}
+.marquee-word {
+  padding: 0 0.4em;
+  display: inline-block;
+}
+@media (max-width: 768px) {
+  .top-fade { height: 130px; }
+  .marquee-layer.front {
+    clip-path: inset(62% 0 0 0);
+    -webkit-mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,
+      transparent 0%, transparent 30%, rgba(0,0,0,0.55) 60%, black 85%);
+    mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,
+      transparent 0%, transparent 30%, rgba(0,0,0,0.55) 60%, black 85%);
+  }
+  .stage-spotlight {
+    background:
+      radial-gradient(ellipse 55% 60% at 50% 48%,
+        rgba(255, 250, 240, 0.7) 0%,
+        rgba(255, 250, 240, 0.35) 35%,
+        rgba(255, 250, 240, 0) 70%);
+  }
+}

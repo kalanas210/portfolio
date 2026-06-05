@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Send, Check, AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Turnstile } from "./Turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -36,6 +37,11 @@ export function ContactForm() {
   const [subject, setSubject] = useState<FieldState>(empty);
   const [message, setMessage] = useState<FieldState>(empty);
   const [status, setStatus] = useState<Status>("idle");
+  const [company, setCompany] = useState(""); // honeypot — must stay empty
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   function bind(
     field: FieldState,
@@ -74,14 +80,56 @@ export function ContactForm() {
     }
     if (hasError) return;
 
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setErrorMsg("Please complete the captcha below.");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4500);
+      return;
+    }
+
     setStatus("submitting");
-    await new Promise((r) => setTimeout(r, 1100));
-    setStatus("success");
-    setName(empty);
-    setEmail(empty);
-    setSubject(empty);
-    setMessage(empty);
-    setTimeout(() => setStatus("idle"), 4500);
+    setErrorMsg(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.value,
+          email: email.value,
+          subject: subject.value,
+          message: message.value,
+          company,
+          turnstileToken,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        setErrorMsg(data.error ?? "Something went wrong. Please try again.");
+        setStatus("error");
+        window.turnstile?.reset();
+        setTurnstileToken(null);
+        setTimeout(() => setStatus("idle"), 5000);
+        return;
+      }
+
+      setStatus("success");
+      setName(empty);
+      setEmail(empty);
+      setSubject(empty);
+      setMessage(empty);
+      setCompany("");
+      window.turnstile?.reset();
+      setTurnstileToken(null);
+      setTimeout(() => setStatus("idle"), 4500);
+    } catch {
+      setErrorMsg("Network error — please try again.");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   }
 
   return (
@@ -133,6 +181,24 @@ export function ContactForm() {
           />
         </Field>
 
+        {/* Honeypot — off-screen; real users never see or fill it. */}
+        <div aria-hidden className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
+          <label htmlFor="company">Company</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </div>
+
+        {TURNSTILE_SITE_KEY && (
+          <Turnstile siteKey={TURNSTILE_SITE_KEY} onToken={setTurnstileToken} />
+        )}
+
         <div className="flex items-center justify-between gap-4">
           <p className="text-xs text-ink-400">
             Submitting sends a friendly email — no marketing, no spam.
@@ -178,7 +244,7 @@ export function ContactForm() {
             {status === "success" ? <Check size={16} /> : <AlertCircle size={16} />}
             {status === "success"
               ? "Message sent. I'll reply within a day."
-              : "Something went wrong. Please try again."}
+              : (errorMsg ?? "Something went wrong. Please try again.")}
           </motion.div>
         )}
       </AnimatePresence>
