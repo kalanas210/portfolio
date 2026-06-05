@@ -101,7 +101,7 @@ export function MobileHero({ className }: { className?: string }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.9, delay: 0.1, ease }}
         className="pointer-events-none absolute inset-x-0 z-10"
-        style={{ top: "6rem", bottom: "20%" }}
+        style={{ top: "6.5rem", bottom: "33%" }}
       >
         <Image
           src={settings.heroMobileUrl ?? "/images/back_image.png"}
@@ -110,12 +110,42 @@ export function MobileHero({ className }: { className?: string }) {
           priority
           sizes="100vw"
           className="object-cover [filter:contrast(1.05)_saturate(1.04)] drop-shadow-[0_30px_44px_rgba(18,10,38,0.42)]"
-          style={{ 
-            objectPosition: "40% 6%",
-            maskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 65%, transparent 100%)"
-          }}
+          style={{ objectPosition: "40% 6%" }}
         />
+      </motion.div>
+
+      {/* ── SCROLL INDICATOR ───────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.5 }}
+        className="absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1"
+        style={{ top: "57%" }}
+      >
+        <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink-900/40 dark:text-white/40">
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 4, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-ink-900/40 dark:text-white/40"
+          >
+            <path
+              d="M1 1L5 5L9 1"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </motion.div>
       </motion.div>
 
       {/* edge vignette — frames the figure */}

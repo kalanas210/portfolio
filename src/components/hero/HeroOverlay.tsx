@@ -38,6 +38,25 @@ export function HeroOverlay() {
         <span>Scroll to explore</span>
       </motion.div>
 
+      {/* ── CENTER MOUSE SCROLL INDICATOR (Desktop Only) ────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute bottom-28 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 pointer-events-none"
+      >
+        <div className="w-[22px] h-[34px] rounded-full border-[1.5px] border-ink-900/30 dark:border-white/30 flex justify-center p-[3px]">
+          <motion.div
+            animate={prefersReducedMotion ? undefined : { y: [0, 12, 0], opacity: [1, 0, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-2 rounded-full bg-ink-900/50 dark:bg-white/50"
+          />
+        </div>
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-ink-900/40 dark:text-white/40">
+          Scroll down
+        </span>
+      </motion.div>
+
       {/* ── BOTTOM RAIL ─────────────────────────────────────────────── */}
       <div className="container relative pb-6 sm:pb-8">
         <motion.div
