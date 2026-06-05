@@ -44,7 +44,7 @@ export function HeroOverlay() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="pointer-events-auto relative grid items-center gap-4 rounded-2xl border border-black/10 bg-white/65 px-4 py-3 backdrop-blur-2xl shadow-[0_18px_40px_-22px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_auto] sm:gap-6 sm:px-5 sm:py-3.5"
+          className="pointer-events-auto relative grid items-center gap-4 rounded-2xl border border-black/10 bg-white/65 px-4 py-3 backdrop-blur-2xl shadow-[0_18px_40px_-22px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_auto] sm:gap-6 sm:px-5 sm:py-3.5 dark:bg-white"
         >
           {/* Greeting + animated role */}
           <div className="min-w-0">
@@ -63,7 +63,7 @@ export function HeroOverlay() {
           {/* CTAs */}
           <div className="flex items-center gap-2">
             <Link href="/projects" className="flex-1 sm:flex-initial">
-              <MagneticButton variant="primary" size="sm" data-cursor="view" className="w-full sm:w-auto">
+              <MagneticButton variant="primary" size="sm" data-cursor="view" className="w-full sm:w-auto dark:border dark:border-black/10 dark:hover:bg-black/5">
                 View work
                 <ArrowUpRight size={15} />
               </MagneticButton>
@@ -72,7 +72,7 @@ export function HeroOverlay() {
               <MagneticButton
                 variant="ghost"
                 size="sm"
-                className="w-full sm:w-auto dark:text-ink-950 dark:border-black/10"
+                className="w-full sm:w-auto dark:text-ink-950 dark:border-black/10 dark:hover:bg-black/5"
               >
                 <Download size={14} />
                 CV

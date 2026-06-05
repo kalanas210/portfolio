@@ -53,12 +53,12 @@ export function Navbar() {
           className={cn(
             "relative flex items-center gap-1 rounded-full border border-black/10",
             "bg-white/65 backdrop-blur-2xl text-ink-900",
-            "dark:bg-white/92 dark:border-white/20 dark:shadow-[0_10px_40px_-18px_rgba(0,0,0,0.5)]",
+            "dark:bg-white dark:border-white/20 dark:shadow-[0_10px_40px_-18px_rgba(0,0,0,0.5)]",
             "shadow-[0_10px_40px_-18px_rgba(0,0,0,0.35)]",
             "h-13 px-1.5 sm:pl-2 sm:pr-1.5",
             "transition-all duration-300",
             scrolled &&
-              "shadow-[0_14px_50px_-22px_rgba(0,0,0,0.55)] bg-white/80 dark:bg-white/95",
+              "shadow-[0_14px_50px_-22px_rgba(0,0,0,0.55)] bg-white/80 dark:bg-white",
           )}
           style={{ height: 52 }}
         >
