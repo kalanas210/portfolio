@@ -29,38 +29,58 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — ${SITE.role}`,
+    default: "Kalana Sandakelum — Full-Stack & Java Developer | Sri Lanka",
     template: `%s — ${SITE.name}`,
   },
   description: SITE.description,
   keywords: [
     "Kalana Sandakelum",
+    "Kalana",
+    "Kalana Sandakelum portfolio",
+    "Java developer Sri Lanka",
+    "Java Spring Boot developer Sri Lanka",
+    "Spring Boot developer Sri Lanka",
+    "full stack developer Sri Lanka",
+    "software engineer Sri Lanka",
     "University of Moratuwa",
-    "Software Engineer",
-    "Full Stack Developer",
-    "Sri Lanka",
-    "Portfolio",
-    "Next.js",
+    "University of Moratuwa software engineer",
+    "Next.js developer Sri Lanka",
+    "React developer Sri Lanka",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
   creator: SITE.name,
+  publisher: SITE.name,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE.url,
-    title: `${SITE.name} — ${SITE.role}`,
+    title: "Kalana Sandakelum — Full-Stack & Java Developer",
     description: SITE.description,
     siteName: SITE.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} — ${SITE.role}`,
+    title: "Kalana Sandakelum — Full-Stack & Java Developer",
     description: SITE.description,
-    creator: "@kalanasandakelum",
   },
   icons: {
     icon: "/favicon.ico",
   },
+  // Optional: set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to verify in Search Console.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
@@ -75,12 +95,66 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const settings = await getSettings();
 
+  // ── JSON-LD structured data — lets Google understand exactly who this site is
+  //    about. Strong signal for ranking the name and a shot at a knowledge panel.
+  const personLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: settings.name,
+    url: SITE.url,
+    image: `${SITE.url}/opengraph-image`,
+    jobTitle: "Full-Stack & Java (Spring Boot) Developer",
+    description: SITE.description,
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: settings.university,
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Moratuwa",
+      addressCountry: "LK",
+    },
+    knowsAbout: [
+      "Java",
+      "Spring Boot",
+      "Full-Stack Web Development",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "PostgreSQL",
+      "Microservices",
+      "Docker",
+      "AWS",
+    ],
+    sameAs: [
+      settings.social.github,
+      settings.social.linkedin,
+      settings.social.facebook,
+      settings.social.instagram,
+    ].filter(Boolean),
+  };
+
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: settings.name,
+    url: SITE.url,
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} font-sans selection:bg-accent/30`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+        />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <SettingsProvider value={settings}>
             <SiteFrame settings={settings}>{children}</SiteFrame>

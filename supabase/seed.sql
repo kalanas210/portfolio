@@ -42,7 +42,7 @@ values
     'https://picsum.photos/seed/algo-viz/1200/800',
     '[{"type":"image","url":"https://picsum.photos/seed/algo-viz-a/1600/1000","caption":"Sorting view"},
       {"type":"image","url":"https://picsum.photos/seed/algo-viz-b/1600/1000","caption":"Pathfinding grid"}]'::jsonb,
-    'https://algoviz.kalana.dev', 'https://github.com/kalanas210/algo-viz', null,
+    'https://algoviz.kalanalk.com', 'https://github.com/kalanas210/algo-viz', null,
     'from-brand-cyan via-brand-violet to-brand-fuchsia', 2
   ),
   (
@@ -56,7 +56,7 @@ values
     'https://picsum.photos/seed/ecomm/1200/800',
     '[{"type":"image","url":"https://picsum.photos/seed/ecomm-a/1600/1000","caption":"Storefront"},
       {"type":"image","url":"https://picsum.photos/seed/ecomm-b/1600/1000","caption":"Vendor admin"}]'::jsonb,
-    'https://shop.kalana.dev', 'https://github.com/kalanas210/ecomm', null,
+    'https://shop.kalanalk.com', 'https://github.com/kalanas210/ecomm', null,
     'from-brand-emerald via-brand-cyan to-brand-violet', 3
   ),
   (
@@ -82,7 +82,7 @@ values
     2026, false, true,
     'https://picsum.photos/seed/portfolio/1200/800',
     '[{"type":"image","url":"https://picsum.photos/seed/portfolio-a/1600/1000","caption":"Hero"}]'::jsonb,
-    'https://kalana.dev', 'https://github.com/kalanas210/portfolio', null,
+    'https://kalanalk.com', 'https://github.com/kalanas210/portfolio', null,
     'from-brand-fuchsia via-brand-violet to-brand-cyan', 5
   ),
   (

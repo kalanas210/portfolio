@@ -12,9 +12,9 @@ export const SITE = {
   university: "University of Moratuwa",
   location: "Moratuwa, Sri Lanka",
   email: "kalanasandakelum210@gmail.com",
-  url: "https://kalana.dev",
+  url: "https://kalanalk.com",
   description:
-    "Undergraduate software engineer at the University of Moratuwa crafting fast, beautiful, and accessible web experiences.",
+    "Kalana Sandakelum — full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka, building fast, modern web applications.",
   social: {
     github: "https://github.com/kalanas210",
     linkedin: "https://www.linkedin.com/in/kalanasandakelum",
