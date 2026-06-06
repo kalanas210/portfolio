@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/utils";
 import { getProjects, getPosts, getTools } from "@/lib/queries";
 
+// Regenerate hourly so tools/posts added via the admin appear in the sitemap
+// without needing a redeploy.
+export const revalidate = 3600;
+
 // Generated at /sitemap.xml — lists every public URL so Google can discover
 // and index them. Submit this URL in Google Search Console.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
