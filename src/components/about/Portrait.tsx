@@ -4,9 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useSettings } from "@/components/providers/SettingsProvider";
 
 export function Portrait() {
-  const { name, heroMobileUrl } = useSettings();
+  const { name, aboutImageUrl, heroMobileUrl } = useSettings();
   const reduce = useReducedMotion();
-  const src = heroMobileUrl ?? "/images/back_image.png";
+  const src = aboutImageUrl ?? heroMobileUrl ?? "/images/back_image.png";
 
   return (
     <div className="relative w-full max-w-sm">

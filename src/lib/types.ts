@@ -59,5 +59,42 @@ export interface SiteSettings {
   heroBackUrl: string | null;
   heroFrontUrl: string | null;
   heroMobileUrl: string | null;
+  aboutImageUrl: string | null;
   cvUrl: string | null;
+  homeShowTools: boolean;
+  homeShowBlog: boolean;
+}
+
+export interface Post {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string; // Markdown
+  coverUrl: string | null;
+  tags: string[];
+  featured: boolean;
+  published: boolean;
+  publishedAt: string | null;
+  sortOrder: number;
+}
+
+export type ToolKind = "embedded" | "external";
+
+export interface Tool {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string; // Markdown
+  category: string;
+  icon: string | null; // lucide icon name
+  coverUrl: string | null;
+  gradient: string;
+  kind: ToolKind;
+  componentKey: string | null; // registry key when kind === "embedded"
+  externalUrl: string | null; // link target when kind === "external"
+  featured: boolean;
+  published: boolean;
+  sortOrder: number;
 }

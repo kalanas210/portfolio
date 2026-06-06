@@ -155,6 +155,66 @@
   }
 }
 
+/* ───────────────────────────────────────────────────────────────
+   Markdown prose — blog posts & tool descriptions (<Markdown>)
+   Code blocks render as a dark "terminal" card in both themes for
+   consistency. Token colours come from rehype-highlight's hljs classes;
+   the palette below is self-contained (no highlight.js theme file).
+   ─────────────────────────────────────────────────────────────── */
+.prose pre {
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.85rem;
+}
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  font-weight: 400;
+  color: inherit;
+}
+/* Inline code — subtle chip; strip the typography plugin's backtick quotes */
+.prose :not(pre) > code {
+  background: rgb(var(--fg) / 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 0.4rem;
+  font-weight: 500;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: "";
+}
+
+.hljs-comment,
+.hljs-quote { color: #8b949e; font-style: italic; }
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type { color: #ff7b72; }
+.hljs-string,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-addition { color: #a5d6ff; }
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet { color: #79c0ff; }
+.hljs-title,
+.hljs-name,
+.hljs-section,
+.hljs-attr,
+.hljs-attribute,
+.hljs-title.function_ { color: #d2a8ff; }
+.hljs-variable,
+.hljs-template-variable,
+.hljs-built_in,
+.hljs-builtin-name { color: #ffa657; }
+.hljs-tag,
+.hljs-selector-id,
+.hljs-selector-class { color: #7ee787; }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
+.hljs-deletion { color: #ffa198; }
+
 /* Preserve marquee animations used by the existing hero shader-mask */
 @keyframes scroll-left {
   0% { transform: translateX(0); }

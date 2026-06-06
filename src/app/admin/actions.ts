@@ -3,7 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { ProjectInput, TestimonialInput, SettingsInput } from "@/lib/admin/types";
+import type {
+  ProjectInput,
+  TestimonialInput,
+  SettingsInput,
+  PostInput,
+  ToolInput,
+} from "@/lib/admin/types";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -137,12 +143,121 @@ export async function updateSettings(input: SettingsInput): Promise<ActionResult
       hero_back_url: input.heroBackUrl,
       hero_front_url: input.heroFrontUrl,
       hero_mobile_url: input.heroMobileUrl,
+      about_image_url: input.aboutImageUrl,
       cv_url: input.cvUrl,
+      home_show_tools: input.homeShowTools,
+      home_show_blog: input.homeShowBlog,
     });
   if (error) return { ok: false, error: error.message };
   // Settings affect the whole site (layout, heroes, footer).
   revalidatePath("/", "layout");
   return { ok: true };
+}
+
+// ── Blog posts ────────────────────────────────────────────────────────────────
+function revalidatePosts() {
+  revalidatePath("/");
+  revalidatePath("/blog");
+  revalidatePath("/admin/blog");
+}
+
+function postToRow(input: PostInput) {
+  return {
+    slug: input.slug.trim(),
+    title: input.title.trim(),
+    excerpt: input.excerpt,
+    content: input.content,
+    cover_url: input.coverUrl,
+    tags: input.tags,
+    featured: input.featured,
+    published: input.published,
+    published_at: input.publishedAt,
+    sort_order: input.sortOrder,
+  };
+}
+
+export async function createPost(input: PostInput): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("posts").insert(postToRow(input));
+  if (error) return { ok: false, error: error.message };
+  revalidatePosts();
+  return { ok: true };
+}
+
+export async function updatePost(id: string, input: PostInput): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("posts").update(postToRow(input)).eq("id", id);
+  if (error) return { ok: false, error: error.message };
+  revalidatePosts();
+  revalidatePath(`/blog/${input.slug}`);
+  return { ok: true };
+}
+
+export async function deletePost(id: string): Promise<void> {
+  const supabase = await createClient();
+  await supabase.from("posts").delete().eq("id", id);
+  revalidatePosts();
+}
+
+export async function setPostPublished(id: string, published: boolean): Promise<void> {
+  const supabase = await createClient();
+  await supabase.from("posts").update({ published }).eq("id", id);
+  revalidatePosts();
+}
+
+// ── Tools ───────────────────────────────────────────────────────────────────────
+function revalidateTools() {
+  revalidatePath("/");
+  revalidatePath("/tools");
+  revalidatePath("/admin/tools");
+}
+
+function toolToRow(input: ToolInput) {
+  return {
+    slug: input.slug.trim(),
+    name: input.name.trim(),
+    tagline: input.tagline,
+    description: input.description,
+    category: input.category.trim() || "Utility",
+    icon: input.icon,
+    cover_url: input.coverUrl,
+    gradient: input.gradient,
+    kind: input.kind,
+    component_key: input.kind === "embedded" ? input.componentKey : null,
+    external_url: input.kind === "external" ? input.externalUrl : null,
+    featured: input.featured,
+    published: input.published,
+    sort_order: input.sortOrder,
+  };
+}
+
+export async function createTool(input: ToolInput): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("tools").insert(toolToRow(input));
+  if (error) return { ok: false, error: error.message };
+  revalidateTools();
+  return { ok: true };
+}
+
+export async function updateTool(id: string, input: ToolInput): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("tools").update(toolToRow(input)).eq("id", id);
+  if (error) return { ok: false, error: error.message };
+  revalidateTools();
+  revalidatePath(`/tools/${input.slug}`);
+  return { ok: true };
+}
+
+export async function deleteTool(id: string): Promise<void> {
+  const supabase = await createClient();
+  await supabase.from("tools").delete().eq("id", id);
+  revalidateTools();
+}
+
+export async function setToolPublished(id: string, published: boolean): Promise<void> {
+  const supabase = await createClient();
+  await supabase.from("tools").update({ published }).eq("id", id);
+  revalidateTools();
 }
 
 // ── Auth ──────────────────────────────────────────────────────────────────────

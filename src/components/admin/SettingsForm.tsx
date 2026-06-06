@@ -33,7 +33,11 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
   const [heroBackUrl, setHeroBackUrl] = useState<string | null>(initial.heroBackUrl);
   const [heroFrontUrl, setHeroFrontUrl] = useState<string | null>(initial.heroFrontUrl);
   const [heroMobileUrl, setHeroMobileUrl] = useState<string | null>(initial.heroMobileUrl);
+  const [aboutImageUrl, setAboutImageUrl] = useState<string | null>(initial.aboutImageUrl);
   const [cvUrl, setCvUrl] = useState<string | null>(initial.cvUrl);
+
+  const [homeShowTools, setHomeShowTools] = useState(initial.homeShowTools);
+  const [homeShowBlog, setHomeShowBlog] = useState(initial.homeShowBlog);
 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -57,7 +61,10 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
       heroBackUrl,
       heroFrontUrl,
       heroMobileUrl,
+      aboutImageUrl,
       cvUrl,
+      homeShowTools,
+      homeShowBlog,
     };
 
     const res = await updateSettings(payload);
@@ -141,6 +148,13 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
         <h2 className="font-display text-lg font-semibold">Images</h2>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
           <MediaUpload
+            label="About page portrait"
+            value={aboutImageUrl}
+            onChange={setAboutImageUrl}
+            folder="about"
+            hint="Shown on the About page. Tall 4:5 portrait works best. Falls back to the mobile hero image if empty."
+          />
+          <MediaUpload
             label="Mobile hero portrait"
             value={heroMobileUrl}
             onChange={setHeroMobileUrl}
@@ -177,6 +191,36 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
             preview="file"
             hint="Used by every “Download CV” button across the site."
           />
+        </div>
+      </div>
+
+      {/* Home page sections */}
+      <div className={card}>
+        <h2 className="font-display text-lg font-semibold">Home page sections</h2>
+        <p className="mt-1 text-sm text-ink-400">
+          Show Tools and Blog sections on the homepage. Each section displays the items you mark
+          as <span className="font-medium text-ink-600 dark:text-ink-300">Featured</span> (in
+          Tools / Blog). Untick to hide a whole section.
+        </p>
+        <div className="mt-4 space-y-3">
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={homeShowTools}
+              onChange={(e) => setHomeShowTools(e.target.checked)}
+              className="h-4 w-4 rounded"
+            />
+            <span className="text-sm">Show the Tools section on the homepage</span>
+          </label>
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={homeShowBlog}
+              onChange={(e) => setHomeShowBlog(e.target.checked)}
+              className="h-4 w-4 rounded"
+            />
+            <span className="text-sm">Show the Blog section on the homepage</span>
+          </label>
         </div>
       </div>
 

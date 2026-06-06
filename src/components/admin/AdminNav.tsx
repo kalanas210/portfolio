@@ -2,12 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderGit2, MessageSquareQuote, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  FolderGit2,
+  MessageSquareQuote,
+  Settings,
+  Newspaper,
+  Wrench,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
   { href: "/admin", label: "Dashboard", Icon: LayoutDashboard, exact: true },
   { href: "/admin/projects", label: "Projects", Icon: FolderGit2, exact: false },
+  { href: "/admin/blog", label: "Blog", Icon: Newspaper, exact: false },
+  { href: "/admin/tools", label: "Tools", Icon: Wrench, exact: false },
   { href: "/admin/testimonials", label: "Testimonials", Icon: MessageSquareQuote, exact: false },
   { href: "/admin/settings", label: "Settings", Icon: Settings, exact: false },
 ];

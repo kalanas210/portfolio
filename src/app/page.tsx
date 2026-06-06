@@ -4,15 +4,26 @@ import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { AboutTeaser } from "@/components/sections/AboutTeaser";
 import { ActivitySection } from "@/components/sections/ActivitySection";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { FeaturedTools } from "@/components/sections/FeaturedTools";
+import { FeaturedPosts } from "@/components/sections/FeaturedPosts";
 import { ContactCTA } from "@/components/sections/ContactCTA";
-import { getFeaturedProjects, getTestimonials } from "@/lib/queries";
+import {
+  getFeaturedProjects,
+  getTestimonials,
+  getSettings,
+  getFeaturedTools,
+  getFeaturedPosts,
+} from "@/lib/queries";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [featured, testimonials] = await Promise.all([
+  const [featured, testimonials, settings, tools, posts] = await Promise.all([
     getFeaturedProjects(3),
     getTestimonials(),
+    getSettings(),
+    getFeaturedTools(6),
+    getFeaturedPosts(3),
   ]);
 
   return (
@@ -23,6 +34,8 @@ export default async function Home() {
       <AboutTeaser />
       <ActivitySection />
       <Testimonials testimonials={testimonials} />
+      {settings.homeShowTools && <FeaturedTools tools={tools} />}
+      {settings.homeShowBlog && <FeaturedPosts posts={posts} />}
       <ContactCTA />
     </>
   );

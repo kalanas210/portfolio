@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowUpRight, ExternalLink, Calendar } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/BrandIcons";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { getProjectBySlug, getProjects } from "@/lib/queries";
+import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
 
 export const revalidate = 60;
 
@@ -50,9 +51,19 @@ export default async function ProjectPage({
     project.linkedinUrl && { href: project.linkedinUrl, label: "LinkedIn", Icon: LinkedinIcon },
   ].filter(Boolean) as { href: string; label: string; Icon: typeof ExternalLink }[];
 
+  const crumbLd = breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: project.title, path: `/projects/${project.slug}` },
+  ]);
+
   return (
     <article className="relative isolate overflow-hidden pb-32 pt-32 sm:pt-40">
       <GradientMesh variant="cool" className="opacity-30" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }}
+      />
 
       <div className="container relative">
         <Link

@@ -1,17 +1,34 @@
 import Link from "next/link";
-import { FolderGit2, MessageSquareQuote, Settings, Plus, ArrowUpRight } from "lucide-react";
-import { getAllProjects, getAllTestimonials } from "@/lib/admin/queries";
+import {
+  FolderGit2,
+  MessageSquareQuote,
+  Settings,
+  Plus,
+  ArrowUpRight,
+  Newspaper,
+  Wrench,
+} from "lucide-react";
+import {
+  getAllProjects,
+  getAllTestimonials,
+  getAllPosts,
+  getAllTools,
+} from "@/lib/admin/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [projects, testimonials] = await Promise.all([
+  const [projects, testimonials, posts, tools] = await Promise.all([
     getAllProjects(),
     getAllTestimonials(),
+    getAllPosts(),
+    getAllTools(),
   ]);
 
   const publishedProjects = projects.filter((p) => p.published).length;
   const publishedTestimonials = testimonials.filter((t) => t.published).length;
+  const publishedPosts = posts.filter((p) => p.published).length;
+  const publishedTools = tools.filter((t) => t.published).length;
 
   const stats = [
     {
@@ -20,6 +37,20 @@ export default async function AdminDashboard() {
       sub: `${publishedProjects} published`,
       href: "/admin/projects",
       Icon: FolderGit2,
+    },
+    {
+      label: "Blog posts",
+      value: posts.length,
+      sub: `${publishedPosts} published`,
+      href: "/admin/blog",
+      Icon: Newspaper,
+    },
+    {
+      label: "Tools",
+      value: tools.length,
+      sub: `${publishedTools} published`,
+      href: "/admin/tools",
+      Icon: Wrench,
     },
     {
       label: "Testimonials",

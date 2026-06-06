@@ -1,4 +1,4 @@
-import type { GalleryItem, ProjectCategory } from "@/lib/types";
+import type { GalleryItem, ProjectCategory, ToolKind } from "@/lib/types";
 
 export interface ProjectInput {
   slug: string;
@@ -39,5 +39,38 @@ export interface SettingsInput {
   heroBackUrl: string | null;
   heroFrontUrl: string | null;
   heroMobileUrl: string | null;
+  aboutImageUrl: string | null;
   cvUrl: string | null;
+  homeShowTools: boolean;
+  homeShowBlog: boolean;
+}
+
+export interface PostInput {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  coverUrl: string | null;
+  tags: string[];
+  featured: boolean;
+  published: boolean;
+  publishedAt: string | null;
+  sortOrder: number;
+}
+
+export interface ToolInput {
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  category: string;
+  icon: string | null;
+  coverUrl: string | null;
+  gradient: string;
+  kind: ToolKind;
+  componentKey: string | null;
+  externalUrl: string | null;
+  featured: boolean;
+  published: boolean;
+  sortOrder: number;
 }

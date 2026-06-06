@@ -8,6 +8,9 @@ import type {
   SiteSettings,
   GalleryItem,
   ProjectCategory,
+  Post,
+  Tool,
+  ToolKind,
 } from "@/lib/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -31,7 +34,10 @@ export const defaultSettings: SiteSettings = {
   heroBackUrl: null,
   heroFrontUrl: null,
   heroMobileUrl: null,
+  aboutImageUrl: null,
   cvUrl: null,
+  homeShowTools: true,
+  homeShowBlog: true,
 };
 
 // ── Row → app-type mappers (shared with the admin) ──────────────────────────
@@ -88,7 +94,46 @@ export function mapSettingsRow(r: any): SiteSettings {
     heroBackUrl: r.hero_back_url ?? null,
     heroFrontUrl: r.hero_front_url ?? null,
     heroMobileUrl: r.hero_mobile_url ?? null,
+    aboutImageUrl: r.about_image_url ?? null,
     cvUrl: r.cv_url ?? null,
+    homeShowTools: r.home_show_tools ?? true,
+    homeShowBlog: r.home_show_blog ?? true,
+  };
+}
+
+export function mapPostRow(r: any): Post {
+  return {
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    excerpt: r.excerpt ?? "",
+    content: r.content ?? "",
+    coverUrl: r.cover_url ?? null,
+    tags: r.tags ?? [],
+    featured: Boolean(r.featured),
+    published: Boolean(r.published),
+    publishedAt: r.published_at ?? null,
+    sortOrder: r.sort_order ?? 0,
+  };
+}
+
+export function mapToolRow(r: any): Tool {
+  return {
+    id: r.id,
+    slug: r.slug,
+    name: r.name,
+    tagline: r.tagline ?? "",
+    description: r.description ?? "",
+    category: r.category ?? "Utility",
+    icon: r.icon ?? null,
+    coverUrl: r.cover_url ?? null,
+    gradient: r.gradient ?? "from-brand-violet via-brand-fuchsia to-brand-rose",
+    kind: (r.kind === "external" ? "external" : "embedded") as ToolKind,
+    componentKey: r.component_key ?? null,
+    externalUrl: r.external_url ?? null,
+    featured: Boolean(r.featured),
+    published: Boolean(r.published),
+    sortOrder: r.sort_order ?? 0,
   };
 }
 
@@ -168,4 +213,81 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   } catch {
     return fallback;
   }
+}
+
+// ── Blog posts ───────────────────────────────────────────────────────────────
+export async function getPosts(): Promise<Post[]> {
+  if (!isSupabaseConfigured) return [];
+  try {
+    const { data, error } = await anon()
+      .from("posts")
+      .select("*")
+      .eq("published", true)
+      .order("published_at", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return data.map(mapPostRow);
+  } catch {
+    return [];
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  if (!isSupabaseConfigured) return null;
+  try {
+    const { data, error } = await anon()
+      .from("posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (error || !data) return null;
+    return mapPostRow(data);
+  } catch {
+    return null;
+  }
+}
+
+// ── Tools ────────────────────────────────────────────────────────────────────
+export async function getTools(): Promise<Tool[]> {
+  if (!isSupabaseConfigured) return [];
+  try {
+    const { data, error } = await anon()
+      .from("tools")
+      .select("*")
+      .eq("published", true)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return data.map(mapToolRow);
+  } catch {
+    return [];
+  }
+}
+
+export async function getToolBySlug(slug: string): Promise<Tool | null> {
+  if (!isSupabaseConfigured) return null;
+  try {
+    const { data, error } = await anon()
+      .from("tools")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (error || !data) return null;
+    return mapToolRow(data);
+  } catch {
+    return null;
+  }
+}
+
+// ── Featured (home page) ─────────────────────────────────────────────────────
+export async function getFeaturedTools(limit = 6): Promise<Tool[]> {
+  const all = await getTools();
+  return all.filter((t) => t.featured).slice(0, limit);
+}
+
+export async function getFeaturedPosts(limit = 3): Promise<Post[]> {
+  const all = await getPosts();
+  return all.filter((p) => p.featured).slice(0, limit);
 }

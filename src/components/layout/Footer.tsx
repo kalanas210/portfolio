@@ -30,6 +30,8 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About" },
                 { href: "/projects", label: "Projects" },
+                { href: "/blog", label: "Blog" },
+                { href: "/tools", label: "Tools" },
                 { href: "/skills", label: "Skills" },
                 { href: "/contact", label: "Contact" },
               ].map((l) => (

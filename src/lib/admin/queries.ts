@@ -3,9 +3,11 @@ import {
   mapProjectRow,
   mapTestimonialRow,
   mapSettingsRow,
+  mapPostRow,
+  mapToolRow,
   defaultSettings,
 } from "@/lib/queries";
-import type { Project, Testimonial, SiteSettings } from "@/lib/types";
+import type { Project, Testimonial, SiteSettings, Post, Tool } from "@/lib/types";
 
 // Authenticated admin reads — RLS returns ALL rows (incl. unpublished).
 
@@ -38,4 +40,38 @@ export async function getSettingsForAdmin(): Promise<SiteSettings> {
   const supabase = await createClient();
   const { data } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
   return data ? mapSettingsRow(data) : defaultSettings;
+}
+
+// ── Blog posts ───────────────────────────────────────────────────────────────
+export async function getAllPosts(): Promise<Post[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("posts")
+    .select("*")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false });
+  return (data ?? []).map(mapPostRow);
+}
+
+export async function getPostById(id: string): Promise<Post | null> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("posts").select("*").eq("id", id).maybeSingle();
+  return data ? mapPostRow(data) : null;
+}
+
+// ── Tools ────────────────────────────────────────────────────────────────────
+export async function getAllTools(): Promise<Tool[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("tools")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  return (data ?? []).map(mapToolRow);
+}
+
+export async function getToolById(id: string): Promise<Tool | null> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("tools").select("*").eq("id", id).maybeSingle();
+  return data ? mapToolRow(data) : null;
 }
