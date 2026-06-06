@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
 import { PostCard } from "@/components/blog/PostCard";
 import type { Post } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export function FeaturedPosts({ posts }: { posts: Post[] }) {
   if (posts.length === 0) return null;
@@ -26,9 +27,10 @@ export function FeaturedPosts({ posts }: { posts: Post[] }) {
         </Link>
       </div>
 
-      <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((p) => (
-          <RevealItem key={p.id} className="h-full">
+      {/* One row: 3 on desktop, 1 on mobile (2nd & 3rd hidden below lg). */}
+      <RevealStagger className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {posts.slice(0, 3).map((p, i) => (
+          <RevealItem key={p.id} className={cn("h-full", i >= 1 && "hidden lg:block")}>
             <PostCard post={p} />
           </RevealItem>
         ))}

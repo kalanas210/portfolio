@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
 import { ToolCard } from "@/components/tools/ToolCard";
 import type { Tool } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export function FeaturedTools({ tools }: { tools: Tool[] }) {
   if (tools.length === 0) return null;
@@ -26,9 +27,10 @@ export function FeaturedTools({ tools }: { tools: Tool[] }) {
         </Link>
       </div>
 
-      <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {tools.map((t) => (
-          <RevealItem key={t.id} className="h-full">
+      {/* One row: 3 on desktop, 2 on mobile (the 3rd is hidden below lg). */}
+      <RevealStagger className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-3">
+        {tools.slice(0, 3).map((t, i) => (
+          <RevealItem key={t.id} className={cn("h-full", i >= 2 && "hidden lg:block")}>
             <ToolCard tool={t} />
           </RevealItem>
         ))}

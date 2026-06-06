@@ -20,7 +20,6 @@ const NAV = [
   { href: "/blog", label: "Blog" },
   { href: "/tools", label: "Tools" },
   { href: "/skills", label: "Skills" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {

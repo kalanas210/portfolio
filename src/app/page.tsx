@@ -22,7 +22,7 @@ export default async function Home() {
     getFeaturedProjects(3),
     getTestimonials(),
     getSettings(),
-    getFeaturedTools(6),
+    getFeaturedTools(3),
     getFeaturedPosts(3),
   ]);
 
