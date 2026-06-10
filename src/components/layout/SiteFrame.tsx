@@ -8,6 +8,7 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { RouteProgress } from "@/components/ui/RouteProgress";
+import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import type { SiteSettings } from "@/lib/types";
 
 /**
@@ -30,6 +31,7 @@ export function SiteFrame({
 
   return (
     <>
+      <SmoothScroll />
       <RouteProgress />
       <CustomCursor />
       <Navbar />

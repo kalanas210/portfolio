@@ -15,7 +15,7 @@ interface MagneticButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-white text-ink-950 hover:bg-ink-100 dark:bg-white dark:text-ink-950 dark:hover:bg-ink-100 shadow-[0_10px_30px_-10px_rgba(255,255,255,0.4)]",
+    "btn-sheen bg-white text-ink-950 hover:bg-ink-100 dark:bg-white dark:text-ink-950 dark:hover:bg-ink-100 shadow-[0_10px_30px_-10px_rgba(255,255,255,0.4)]",
   ghost:
     "bg-white/5 text-ink-950 dark:text-white hover:bg-white/10 border border-black/10 dark:border-white/15 backdrop-blur-md",
   outline:

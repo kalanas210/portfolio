@@ -210,6 +210,7 @@ export function CommandPalette() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
+          data-lenis-prevent
           className="fixed inset-0 z-[100] flex items-start justify-center bg-ink-950/40 px-4 pt-24 sm:pt-32 backdrop-blur-sm"
           onClick={close}
         >
@@ -243,7 +244,7 @@ export function CommandPalette() {
               </kbd>
             </div>
 
-            <div ref={listRef} className="max-h-[60vh] overflow-y-auto p-1.5">
+            <div ref={listRef} data-lenis-prevent className="max-h-[60vh] overflow-y-auto p-1.5">
               {grouped.length === 0 && (
                 <div className="px-3 py-10 text-center text-sm text-ink-400">
                   Nothing matches “{query}”.

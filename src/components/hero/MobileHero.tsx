@@ -12,6 +12,7 @@ import {
   InstagramIcon,
 } from "@/components/icons/BrandIcons";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { scrollWindowTo } from "@/components/ui/SmoothScroll";
 import { useSettings } from "@/components/providers/SettingsProvider";
 import { cn } from "@/lib/utils";
 
@@ -86,7 +87,7 @@ export function MobileHero({ className }: { className?: string }) {
         <span
           className="hidden font-display font-black uppercase leading-[0.74] tracking-[-0.07em] text-transparent dark:block"
           style={{
-            fontSize: "clamp(20rem, 100vw, 36rem)",
+            fontSize: "clamp(22rem, 112vw, 40rem)",
             WebkitTextStroke: "4px rgba(255,255,255,0.9)",
             filter: "drop-shadow(0 0 25px rgba(255,255,255,0.55)) drop-shadow(0 0 65px rgba(255,255,255,0.35))",
           }}
@@ -121,7 +122,7 @@ export function MobileHero({ className }: { className?: string }) {
         transition={{ duration: 1, delay: 1.5 }}
         className="absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 cursor-pointer"
         style={{ top: "54%" }}
-        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        onClick={() => scrollWindowTo(window.innerHeight)}
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink-900/40 dark:text-white/40">
           Scroll
@@ -181,22 +182,6 @@ export function MobileHero({ className }: { className?: string }) {
 
       {/* film grain over everything */}
       <div className="noise pointer-events-none absolute inset-0 z-[14]" aria-hidden />
-
-      {/* ── STATUS CHIP · top-left ─────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.25, ease }}
-        className="absolute left-5 top-[5.25rem] z-30 flex items-center text-[11px] font-medium"
-      >
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/65 px-2.5 py-1 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.06]">
-          <span
-            aria-hidden
-            className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.13)]"
-          />
-          <span className="text-ink-700 dark:text-ink-200">Available for work</span>
-        </span>
-      </motion.div>
 
       {/* ── NAME CLUSTER (overlaps figure) + RAIL ──────────────────────── */}
       <div className="relative z-20 mt-auto px-5 pb-5">

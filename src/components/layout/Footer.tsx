@@ -8,17 +8,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
   return (
     <footer className="relative border-t border-black/10 dark:border-white/10 mt-24">
-      <div className="container py-14">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
-            <Link href="/" className="inline-flex items-center gap-3">
-              <span className="relative flex h-8 w-8 items-center justify-center">
-                <span className="absolute inset-0 rounded-lg bg-ink-900 dark:bg-white" />
-                <span className="relative text-sm font-bold text-white dark:text-ink-950">K</span>
-              </span>
+      <div className="container py-10 md:py-14">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12">
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="inline-flex">
               <span className="font-display text-xl font-semibold">{settings.name}</span>
             </Link>
-            <p className="mt-4 max-w-md text-sm text-ink-400">
+            <p className="mt-3 max-w-md text-sm text-ink-400">
               {settings.description}
             </p>
           </div>
@@ -77,7 +73,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/10 dark:border-white/10 pt-6 sm:flex-row sm:items-center">
+        <div className="mt-10 flex flex-col items-center gap-2 border-t border-black/10 dark:border-white/10 pt-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left md:mt-12">
           <p className="text-xs text-ink-400">
             © {year} {settings.name}. All rights reserved.
           </p>

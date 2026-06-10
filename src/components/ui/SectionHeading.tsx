@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { TextReveal } from "./TextReveal";
 import { type PropsWithChildren } from "react";
 
 interface SectionHeadingProps {
@@ -43,11 +44,12 @@ export function SectionHeading({
           </div>
         </Reveal>
       )}
-      <Reveal delay={0.05}>
-        <h2 className="font-display text-fluid-h2 font-semibold tracking-tight text-balance">
-          {title}
-        </h2>
-      </Reveal>
+      <TextReveal
+        as="h2"
+        text={title}
+        delay={0.05}
+        className="font-display text-fluid-h2 font-semibold tracking-tight text-balance"
+      />
       {description && (
         <Reveal delay={0.1}>
           <p className="mt-4 max-w-2xl text-base sm:text-lg text-ink-400 text-balance">

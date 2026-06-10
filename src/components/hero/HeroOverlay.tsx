@@ -4,7 +4,14 @@ import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  FacebookIcon,
+  InstagramIcon,
+} from "@/components/icons/BrandIcons";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { scrollWindowTo } from "@/components/ui/SmoothScroll";
 import { useSettings } from "@/components/providers/SettingsProvider";
 
 const ROLES = ["Software Engineer", "UI / UX Designer", "Problem Solver", "OSS Contributor"];
@@ -13,11 +20,20 @@ export function HeroOverlay() {
   const prefersReducedMotion = useReducedMotion();
   const settings = useSettings();
 
+  const SOCIALS = [
+    { href: settings.social.github, label: "GitHub", Icon: GithubIcon },
+    { href: settings.social.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+    { href: settings.social.facebook, label: "Facebook", Icon: FacebookIcon },
+    { href: settings.social.instagram, label: "Instagram", Icon: InstagramIcon },
+  ];
+
+  // Split the name so the surname can carry the violet underline (same motif as MobileHero)
+  const nameWords = settings.name.trim().split(/\s+/);
+  const lastName = nameWords.length > 1 ? nameWords[nameWords.length - 1] : null;
+  const firstName = lastName ? nameWords.slice(0, -1).join(" ") : settings.name;
+
   return (
     <div className="pointer-events-none absolute inset-0 z-20 flex flex-col">
-      {/* For a11y / SEO — the marquee renders the name visually */}
-      <h1 className="sr-only">{settings.name} — {settings.role}</h1>
-
       {/* ── TOP HALF: intentionally empty — let the artwork breathe ─── */}
       <div className="flex-1" />
 
@@ -26,8 +42,8 @@ export function HeroOverlay() {
         initial={{ opacity: 0, x: 8 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute right-3 sm:right-5 bottom-32 sm:bottom-40 flex items-center gap-2 origin-center [writing-mode:vertical-rl] rotate-180 text-[10px] uppercase tracking-[0.32em] text-ink-700/70 pointer-events-auto cursor-pointer"
-        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        className="absolute right-3 sm:right-5 bottom-32 sm:bottom-40 flex items-center gap-2 origin-center [writing-mode:vertical-rl] rotate-180 text-[10px] uppercase tracking-[0.32em] text-ink-700/70 dark:text-white/50 pointer-events-auto cursor-pointer"
+        onClick={() => scrollWindowTo(window.innerHeight)}
       >
         <motion.span
           animate={{ y: [0, -5, 0] }}
@@ -45,7 +61,7 @@ export function HeroOverlay() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="absolute bottom-28 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 pointer-events-auto cursor-pointer"
-        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        onClick={() => scrollWindowTo(window.innerHeight)}
       >
         <div className="w-[22px] h-[34px] rounded-full border-[1.5px] border-ink-900/30 dark:border-white/30 flex justify-center p-[3px]">
           <motion.div
@@ -65,13 +81,60 @@ export function HeroOverlay() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="pointer-events-auto relative grid items-center gap-4 rounded-2xl border border-black/10 bg-white/65 px-4 py-3 backdrop-blur-2xl shadow-[0_18px_40px_-22px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_auto] sm:gap-6 sm:px-5 sm:py-3.5 dark:bg-white"
+          className="pointer-events-auto relative grid items-center gap-4 rounded-2xl border border-black/10 bg-white/65 px-4 py-2.5 backdrop-blur-2xl shadow-[0_18px_40px_-22px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_auto] sm:gap-6 sm:px-5 sm:py-3 dark:bg-white"
         >
-          {/* Greeting + animated role */}
+          {/* Eyebrow + name lockup + animated role — eyebrow sits inline with
+              the name to keep the rail short */}
           <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-[0.22em] text-ink-500">
-              Hello — I&apos;m {settings.shortName.toLowerCase()}, a
-            </div>
+            <h1 className="flex items-baseline gap-2.5">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-ink-500">
+                Hello — I&apos;m
+              </span>
+              <span className="font-display text-[1.35rem] font-black leading-none tracking-[-0.02em] text-ink-950 lg:text-[1.5rem]">
+                {firstName}
+                {lastName && (
+                  <>
+                    {" "}
+                    <span className="relative inline-block pb-0.5">
+                      {lastName}
+                      <motion.svg
+                        initial={{ pathLength: prefersReducedMotion ? 1 : 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 1.2, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
+                        aria-hidden="true"
+                        viewBox="0 0 418 22"
+                        className="absolute -bottom-0.5 left-0 h-[0.24em] w-[102%] -rotate-1 drop-shadow-sm"
+                        preserveAspectRatio="none"
+                        fill="none"
+                      >
+                        <defs>
+                          <linearGradient id="heroRailUnderline" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#8b5cf6" />
+                            <stop offset="70%" stopColor="#8b5cf6" />
+                            <stop offset="100%" stopColor="transparent" />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          d="M4 16C120 6 280 4 414 12"
+                          stroke="url(#heroRailUnderline)"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          className="opacity-90"
+                        />
+                        <path
+                          d="M10 18C130 8 270 6 405 14"
+                          stroke="url(#heroRailUnderline)"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          className="opacity-40"
+                        />
+                      </motion.svg>
+                    </span>
+                  </>
+                )}
+              </span>
+              <span className="sr-only"> — {settings.role}</span>
+            </h1>
             <div className="mt-1 flex items-baseline gap-2 truncate">
               <RoleTypewriter />
               <span aria-hidden className="hidden sm:inline-block text-ink-400">·</span>
@@ -81,8 +144,23 @@ export function HeroOverlay() {
             </div>
           </div>
 
-          {/* CTAs */}
+          {/* Socials + CTAs */}
           <div className="flex items-center gap-2">
+            <div className="mr-1 flex items-center gap-3 text-ink-400">
+              {SOCIALS.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="transition-colors hover:text-ink-900"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+            <span aria-hidden className="mr-1 hidden h-5 w-px bg-black/10 sm:block" />
             <Link href="/projects" className="flex-1 sm:flex-initial">
               <MagneticButton variant="primary" size="sm" data-cursor="view" className="w-full sm:w-auto dark:border dark:border-black/10 dark:hover:bg-black/5">
                 View work

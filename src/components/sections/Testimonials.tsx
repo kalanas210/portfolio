@@ -2,6 +2,7 @@
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import type { Testimonial } from "@/lib/types";
 
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
@@ -20,9 +21,10 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
         {/* hairline-divided grid: the px gaps reveal the container colour */}
         <div className="grid gap-px overflow-hidden rounded-3xl border border-ink-900/10 bg-ink-900/10 dark:border-white/10 dark:bg-white/10 md:grid-cols-3">
           {testimonials.map((t, i) => (
-            <figure
+            <SpotlightCard
+              as="figure"
               key={t.name}
-              className="group relative flex h-full flex-col bg-white p-7 transition-colors duration-300 hover:bg-ink-50 sm:p-8 dark:bg-ink-900 dark:hover:bg-ink-800"
+              className="group flex h-full flex-col bg-white p-7 transition-colors duration-300 hover:bg-ink-50 sm:p-8 dark:bg-ink-900 dark:hover:bg-ink-800"
             >
               <div className="flex items-start justify-between">
                 <span className="font-mono text-[11px] tabular-nums text-ink-300 dark:text-ink-600">
@@ -46,7 +48,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                   {t.role}
                 </div>
               </figcaption>
-            </figure>
+            </SpotlightCard>
           ))}
         </div>
       </Reveal>

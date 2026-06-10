@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
 import { Parallax } from "@/components/ui/Parallax";
+import { TiltCard } from "@/components/ui/TiltCard";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +33,8 @@ export function FeaturedWork({ projects }: { projects: Project[] }) {
 
       <RevealStagger className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
-          <RevealItem key={p.slug}>
+          <RevealItem key={p.slug} className="h-full">
+            <TiltCard>
             <Link
               href={`/projects/${p.slug}`}
               data-cursor="view"
@@ -87,6 +89,7 @@ export function FeaturedWork({ projects }: { projects: Project[] }) {
               </div>
               <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-transparent transition-all group-hover:ring-black/20 dark:group-hover:ring-white/20" />
             </Link>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealStagger>
