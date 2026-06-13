@@ -184,7 +184,7 @@ export function MobileHero({ className }: { className?: string }) {
       <div className="noise pointer-events-none absolute inset-0 z-[14]" aria-hidden />
 
       {/* ── NAME CLUSTER (overlaps figure) + RAIL ──────────────────────── */}
-      <div className="relative z-20 mt-auto px-5 pb-16">
+      <div className="relative z-20 mt-auto px-5 pb-12">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
