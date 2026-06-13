@@ -3,17 +3,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SkillsBento } from "@/components/about/SkillsBento";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { CircularSkill } from "@/components/skills/CircularSkill";
+import { PracticeList } from "@/components/skills/PracticeList";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
+import { professionalSkills } from "@/lib/data";
 
 const CORE = [
-  { name: "TypeScript", level: 92, from: "#8b5cf6", to: "#d946ef" },
+  { name: "Java", level: 95, from: "#fbbf24", to: "#fb7185" },
+  { name: "Spring Boot", level: 96, from: "#34d399", to: "#22d3ee" },
   { name: "React / Next.js", level: 94, from: "#22d3ee", to: "#8b5cf6" },
-  { name: "Node.js", level: 90, from: "#34d399", to: "#22d3ee" },
-  { name: "Python", level: 88, from: "#fbbf24", to: "#fb7185" },
-  { name: "Spring Boot", level: 82, from: "#34d399", to: "#22d3ee" },
-  { name: "PostgreSQL", level: 88, from: "#fbbf24", to: "#fb7185" },
-  { name: "Docker", level: 82, from: "#22d3ee", to: "#8b5cf6" },
-  { name: "Framer Motion", level: 86, from: "#d946ef", to: "#fb7185" },
+  { name: "TypeScript", level: 90, from: "#8b5cf6", to: "#d946ef" },
+  { name: "PostgreSQL", level: 90, from: "#34d399", to: "#22d3ee" },
+  { name: "Docker", level: 88, from: "#22d3ee", to: "#8b5cf6" },
+  { name: "Node.js / NestJS", level: 85, from: "#34d399", to: "#22d3ee" },
+  { name: "AWS", level: 78, from: "#fbbf24", to: "#fb7185" },
 ];
 
 export const metadata: Metadata = {
@@ -31,7 +33,7 @@ export default function SkillsPage() {
             index="01"
             eyebrow="Skills"
             title="A toolkit shaped by every project I've built."
-            description="From low-level systems work to motion-rich frontends — what I use and how confidently I use it."
+            description="From low-level systems work to motion-rich frontends - what I use and how confidently I use it."
           />
         </div>
       </section>
@@ -61,6 +63,19 @@ export default function SkillsPage() {
         />
         <div className="mt-12">
           <SkillsBento />
+        </div>
+      </section>
+
+      {/* How I work - engineering practice beyond any single tool */}
+      <section className="container py-16 sm:py-24">
+        <SectionHeading
+          index="03"
+          eyebrow="How I work"
+          title="Skills that aren't a logo."
+          description="The engineering practice I bring to a team. Tap any item for a little more."
+        />
+        <div className="mt-10">
+          <PracticeList items={professionalSkills} />
         </div>
       </section>
     </>

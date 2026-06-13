@@ -11,10 +11,11 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       <div className="container py-10 md:py-14">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.5fr_1fr_1fr] md:gap-12">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="inline-flex">
-              <span className="font-display text-xl font-semibold">{settings.name}</span>
+            <Link href="/" className="inline-flex items-center font-display text-2xl font-bold tracking-tighter">
+              <span className="text-ink-900 dark:text-white">kalana</span>
+              <span className="text-brand-violet">&lt;lk/&gt;</span>
             </Link>
-            <p className="mt-3 max-w-md text-sm text-ink-400">
+            <p className="mt-4 max-w-md text-sm text-ink-400">
               {settings.description}
             </p>
           </div>

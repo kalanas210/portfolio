@@ -36,7 +36,7 @@ export function JwtDecoder() {
       payload = JSON.stringify(p, null, 2);
       if (typeof p.exp === "number") {
         const d = new Date(p.exp * 1000);
-        expiry = `Expires ${d.toLocaleString()} — ${d.getTime() < Date.now() ? "expired" : "still valid"}`;
+        expiry = `Expires ${d.toLocaleString()} - ${d.getTime() < Date.now() ? "expired" : "still valid"}`;
       }
     } catch (e) {
       error = e instanceof Error ? e.message : "Could not decode this token.";
@@ -99,7 +99,7 @@ export function JwtDecoder() {
       )}
 
       <p className="mt-4 text-xs text-ink-400">
-        Decoding only — the signature is not verified. Tokens stay in your browser.
+        Decoding only - the signature is not verified. Tokens stay in your browser.
       </p>
     </div>
   );

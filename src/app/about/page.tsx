@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Download, MapPin } from "lucide-react";
+import { Download, MapPin, ArrowUpRight, Trophy, Award } from "lucide-react";
 import { Portrait } from "@/components/about/Portrait";
 import { Timeline } from "@/components/about/Timeline";
-import { SkillsBento } from "@/components/about/SkillsBento";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealStagger, RevealItem } from "@/components/ui/Reveal";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { TiltCard } from "@/components/ui/TiltCard";
 import { GradientText } from "@/components/ui/GradientText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Parallax } from "@/components/ui/Parallax";
-import { hobbies } from "@/lib/data";
+import { hobbies, topSkills } from "@/lib/data";
 import { SITE as SITE_INFO } from "@/lib/utils";
 import { getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `About ${SITE_INFO.name} — undergraduate software engineer at the University of Moratuwa.`,
+  description: `About ${SITE_INFO.name} - undergraduate software engineer at the University of Moratuwa.`,
 };
 
 export const revalidate = 60;
@@ -56,7 +57,7 @@ export default async function AboutPage() {
             <Reveal delay={0.1}>
               <div className="mt-7 space-y-4 text-base sm:text-lg leading-relaxed text-ink-500 dark:text-ink-300">
                 <p>
-                  I&apos;m Kalana — a third-year IT undergraduate at the{" "}
+                  I&apos;m Kalana - an Information Technology &amp; Management undergraduate at the{" "}
                   <span className="font-medium text-ink-700 dark:text-ink-100">
                     University of Moratuwa
                   </span>
@@ -112,41 +113,114 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Skills */}
+      {/* Skills summary — full, levelled breakdown lives on /skills */}
       <section className="container py-20 sm:py-28">
         <SectionHeading
           index="03"
           eyebrow="Toolkit"
           title="What I'm fluent in"
-          description="Tools I reach for, grouped by where they live in the stack."
+          description="My day-to-day stack at a glance. The full, levelled breakdown lives on the skills page."
         />
-        <div className="mt-12">
-          <SkillsBento />
-        </div>
+        <Reveal>
+          <div className="mt-10 flex flex-wrap gap-2.5">
+            {topSkills.map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-ink-700 dark:border-white/10 dark:bg-ink-900 dark:text-ink-100"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mt-8">
+            <Link href="/skills">
+              <MagneticButton variant="ghost" size="md">
+                Explore the full toolkit
+                <ArrowUpRight size={16} />
+              </MagneticButton>
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
-      {/* Hobbies */}
+      {/* Beyond code — leadership, achievements, and life off-screen */}
       <section className="container py-20 sm:py-28">
         <SectionHeading
           index="04"
-          eyebrow="Outside the editor"
-          title="Things I make time for"
+          eyebrow="Beyond code"
+          title="The person behind the commits"
+          description="Leadership, a little competition, and the things that keep me curious off-screen."
         />
-        <RevealStagger className="mt-10 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
-          {hobbies.map((h) => {
-            const Icon = h.icon;
-            return (
-              <RevealItem key={h.name}>
-                <div className="group flex h-full flex-col items-start gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900 p-5 transition-colors hover:bg-ink-50 dark:hover:bg-ink-800">
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-900/10 text-ink-700 transition-colors group-hover:border-ink-900/25 dark:border-white/10 dark:text-ink-200 dark:group-hover:border-white/25">
-                    <Icon size={18} strokeWidth={1.75} />
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          {/* Achievements */}
+          <RevealStagger className="sm:col-span-2 lg:col-span-6 grid gap-4 lg:grid-cols-2" amount={0.2}>
+            {/* Achievement 1 */}
+            <RevealItem>
+              <TiltCard tilt={2} radiusClassName="rounded-[2rem]">
+                <SpotlightCard className="relative h-full overflow-hidden rounded-[2rem] border border-black/10 bg-white p-8 dark:border-white/10 dark:bg-ink-900">
+                  <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-cyan/10 blur-3xl" />
+                  <div className="relative flex flex-col gap-6">
+                    <div className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-brand-cyan/30 bg-brand-cyan/5 text-brand-cyan shadow-inner">
+                      <Award size={24} strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-ink-900 dark:text-white">
+                        Idealize 2025 - Web Development{" "}
+                        <span className="text-ink-400 font-medium block sm:inline mt-1 sm:mt-0">· 2025</span>
+                      </h3>
+                      <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-ink-500 dark:text-ink-300">
+                        Selected to idealize the 2025 web development competition organized by the AIESEC club at the University of Moratuwa.
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-sm font-medium">{h.name}</div>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealStagger>
+                </SpotlightCard>
+              </TiltCard>
+            </RevealItem>
+
+            {/* Achievement 2 */}
+            <RevealItem>
+              <TiltCard tilt={2} radiusClassName="rounded-[2rem]">
+                <SpotlightCard className="relative h-full overflow-hidden rounded-[2rem] border border-black/10 bg-white p-8 dark:border-white/10 dark:bg-ink-900">
+                  <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-amber/10 blur-3xl" />
+                  <div className="relative flex flex-col gap-6">
+                    <div className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-brand-amber/30 bg-brand-amber/5 text-brand-amber shadow-inner">
+                      <Trophy size={24} strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-ink-900 dark:text-white">
+                        1st place - Business Studies{" "}
+                        <span className="text-ink-400 font-medium block sm:inline mt-1 sm:mt-0">· 2018</span>
+                      </h3>
+                      <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-ink-500 dark:text-ink-300">
+                        Took first place in the Southern Province business module — an early lesson in pitching
+                        ideas, leading a team, and seeing a project through from concept to execution.
+                      </p>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </TiltCard>
+            </RevealItem>
+          </RevealStagger>
+
+          {/* Interests grid */}
+          <RevealStagger className="sm:col-span-2 lg:col-span-6 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6" amount={0.2}>
+            {hobbies.map((h) => {
+              return (
+                <RevealItem key={h.name}>
+                  <SpotlightCard className="group relative flex h-full min-h-[120px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-black/10 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 dark:border-white/10 dark:bg-ink-900 dark:hover:shadow-white/5">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/[0.02] dark:to-white/[0.02]" />
+                    <span className="relative font-serif text-xl font-medium italic tracking-tight text-ink-600 transition-colors duration-300 group-hover:text-brand-violet dark:text-ink-300">
+                      {h.name}
+                    </span>
+                  </SpotlightCard>
+                </RevealItem>
+              );
+            })}
+          </RevealStagger>
+        </div>
       </section>
     </>
   );

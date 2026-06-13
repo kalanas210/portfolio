@@ -30,7 +30,7 @@ export async function generateMetadata({
   const tool = await getToolBySlug(slug);
   if (!tool) return { title: "Tool not found" };
   const seo = getToolSeo(tool.slug, tool.name, tool.tagline);
-  const title = seo.seoTitle ?? `${tool.name} — Free Online Tool`;
+  const title = seo.seoTitle ?? `${tool.name} - Free Online Tool`;
   const description = seo.seoDescription ?? tool.tagline;
   return {
     title,

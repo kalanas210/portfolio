@@ -107,7 +107,7 @@ export function ImageResizer() {
   if (!srcUrl) {
     return (
       <div className={card}>
-        <ImageDropzone onFile={onFile} hint="Set new dimensions — resized locally in your browser." />
+        <ImageDropzone onFile={onFile} hint="Set new dimensions - resized locally in your browser." />
       </div>
     );
   }

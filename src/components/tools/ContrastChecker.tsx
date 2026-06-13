@@ -80,7 +80,7 @@ export function ContrastChecker() {
         style={{ background: bgRgb ? bg : undefined, color: fgRgb ? fg : undefined }}
       >
         <span className="text-2xl font-semibold">Almost before we knew it,</span>
-        <span className="text-sm">we had left the ground. — sample text</span>
+        <span className="text-sm">we had left the ground. - sample text</span>
       </div>
 
       {fgRgb && bgRgb ? (

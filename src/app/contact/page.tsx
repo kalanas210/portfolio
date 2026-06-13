@@ -39,7 +39,7 @@ export default async function ContactPage() {
             index="01"
             eyebrow="Contact"
             title="Let's make something good together."
-            description="Internships, freelance work, or just a hello — I read every message and reply within a day."
+            description="Internships, freelance work, or just a hello - I read every message and reply within a day."
           />
         </div>
       </section>

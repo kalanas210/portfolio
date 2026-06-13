@@ -25,7 +25,7 @@ export default async function EditPostPage({
         Blog
       </Link>
       <h1 className="mb-6 mt-3 font-display text-2xl font-semibold tracking-tight">
-        Edit — {post.title}
+        Edit - {post.title}
       </h1>
       <PostForm initial={post} />
     </div>

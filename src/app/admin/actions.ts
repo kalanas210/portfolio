@@ -147,6 +147,7 @@ export async function updateSettings(input: SettingsInput): Promise<ActionResult
       cv_url: input.cvUrl,
       home_show_tools: input.homeShowTools,
       home_show_blog: input.homeShowBlog,
+      stats: input.stats,
     });
   if (error) return { ok: false, error: error.message };
   // Settings affect the whole site (layout, heroes, footer).

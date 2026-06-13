@@ -19,7 +19,7 @@ export function UrlTool() {
     try {
       output = mode === "encode" ? encodeURIComponent(input) : decodeURIComponent(input);
     } catch {
-      error = "Couldn't decode — check for stray % signs.";
+      error = "Couldn't decode - check for stray % signs.";
     }
   }
 

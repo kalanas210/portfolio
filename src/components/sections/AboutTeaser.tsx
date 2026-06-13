@@ -7,15 +7,11 @@ import { Counter } from "@/components/ui/Counter";
 import { GradientText } from "@/components/ui/GradientText";
 import { Reveal } from "@/components/ui/Reveal";
 import { GradientMesh } from "@/components/ui/GradientMesh";
+import { defaultStats } from "@/lib/data";
+import type { Stat } from "@/lib/types";
 
-const STATS = [
-  { value: 3.8, suffix: " / 4.0", label: "Current GPA" },
-  { value: 25, suffix: "+", label: "Projects shipped" },
-  { value: 12, suffix: "k", label: "Lines of OSS code" },
-  { value: 4, suffix: "+", label: "Years writing code" },
-];
-
-export function AboutTeaser() {
+export function AboutTeaser({ stats = defaultStats }: { stats?: Stat[] }) {
+  const STATS = stats.length > 0 ? stats : defaultStats;
   return (
     <section className="container relative py-16 sm:py-20">
       <div className="relative overflow-hidden rounded-[2rem] border border-black/10 dark:border-white/10 bg-white dark:bg-ink-900">

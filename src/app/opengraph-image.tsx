@@ -3,7 +3,7 @@ import { SITE } from "@/lib/utils";
 
 // Branded 1200×630 social-preview card (LinkedIn, X, WhatsApp, etc.).
 // Next automatically wires this into the page's og:image and twitter:image.
-export const alt = "Kalana Sandakelum — Full-Stack & Java Developer";
+export const alt = "Kalana Sandakelum - Full-Stack & Java Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

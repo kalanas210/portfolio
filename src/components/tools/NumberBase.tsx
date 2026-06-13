@@ -68,7 +68,7 @@ export function NumberBase() {
                 {b.label}
               </span>
               <span className="flex-1 break-all font-mono text-sm">
-                {out || <span className="text-ink-400">—</span>}
+                {out || <span className="text-ink-400">-</span>}
               </span>
               <CopyButton value={out} label="" />
             </div>

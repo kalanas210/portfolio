@@ -9,6 +9,37 @@ import Lenis from "lenis";
 // drive or pause the same instance instead of fighting it with native calls.
 let lenisInstance: Lenis | null = null;
 
+type ScrollProgressListener = (progress: number) => void;
+const scrollProgressListeners = new Set<ScrollProgressListener>();
+
+function readNativeScrollProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  return max > 0 ? window.scrollY / max : 0;
+}
+
+function notifyScrollProgress(progress: number) {
+  scrollProgressListeners.forEach((listener) => listener(progress));
+}
+
+/** Subscribe to normalized scroll progress (0–1). Works with or without Lenis. */
+export function subscribeScrollProgress(listener: ScrollProgressListener) {
+  scrollProgressListeners.add(listener);
+  listener(readNativeScrollProgress());
+
+  if (!lenisInstance) {
+    const onScroll = () => listener(readNativeScrollProgress());
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      scrollProgressListeners.delete(listener);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }
+
+  return () => scrollProgressListeners.delete(listener);
+}
+
 /** Smooth-scroll the window via Lenis when active, native otherwise. */
 export function scrollWindowTo(top: number) {
   if (lenisInstance) {
@@ -40,6 +71,11 @@ export function SmoothScroll() {
     });
     lenisInstance = lenis;
 
+    const onLenisScroll = ({ progress }: { progress: number }) => {
+      notifyScrollProgress(progress);
+    };
+    lenis.on("scroll", onLenisScroll);
+
     let rafId = requestAnimationFrame(function raf(time: number) {
       lenis.raf(time);
       rafId = requestAnimationFrame(raf);
@@ -47,6 +83,7 @@ export function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      lenis.off("scroll", onLenisScroll);
       lenis.destroy();
       lenisInstance = null;
     };

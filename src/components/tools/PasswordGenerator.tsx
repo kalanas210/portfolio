@@ -68,7 +68,7 @@ export function PasswordGenerator() {
   return (
     <div className={toolCard}>
       <div className="flex items-center gap-2 rounded-2xl border border-black/10 bg-white px-4 py-3 dark:border-white/10 dark:bg-ink-800">
-        <span className="flex-1 break-all font-mono text-base">{password || "—"}</span>
+        <span className="flex-1 break-all font-mono text-base">{password || "-"}</span>
         <button
           type="button"
           onClick={generate}
@@ -85,7 +85,7 @@ export function PasswordGenerator() {
       </p>
 
       <div className="mt-5">
-        <label className={toolLabel}>Length — {length}</label>
+        <label className={toolLabel}>Length - {length}</label>
         <input
           type="range"
           min={6}

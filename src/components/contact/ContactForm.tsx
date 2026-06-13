@@ -26,7 +26,7 @@ function validateField(name: string, value: string): string | null {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return "Enter a valid email address.";
   }
   if (name === "message" && trimmed.length < 10) {
-    return "Tell me a little more — at least 10 characters.";
+    return "Tell me a little more - at least 10 characters.";
   }
   return null;
 }
@@ -126,7 +126,7 @@ export function ContactForm() {
       setTurnstileToken(null);
       setTimeout(() => setStatus("idle"), 4500);
     } catch {
-      setErrorMsg("Network error — please try again.");
+      setErrorMsg("Network error - please try again.");
       setStatus("error");
       setTimeout(() => setStatus("idle"), 5000);
     }
@@ -201,7 +201,7 @@ export function ContactForm() {
 
         <div className="flex items-center justify-between gap-4">
           <p className="text-xs text-ink-400">
-            Submitting sends a friendly email — no marketing, no spam.
+            Submitting sends a friendly email - no marketing, no spam.
           </p>
           <button
             type="submit"

@@ -2,8 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Check } from "lucide-react";
-import type { SiteSettings } from "@/lib/types";
+import { Loader2, Check, Plus, Trash2 } from "lucide-react";
+import type { SiteSettings, Stat } from "@/lib/types";
 import type { SettingsInput } from "@/lib/admin/types";
 import { updateSettings } from "@/app/admin/actions";
 import { MediaUpload } from "./MediaUpload";
@@ -39,6 +39,18 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
   const [homeShowTools, setHomeShowTools] = useState(initial.homeShowTools);
   const [homeShowBlog, setHomeShowBlog] = useState(initial.homeShowBlog);
 
+  const [stats, setStats] = useState<Stat[]>(initial.stats);
+
+  function updateStat(i: number, patch: Partial<Stat>) {
+    setStats((prev) => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
+  }
+  function addStat() {
+    setStats((prev) => [...prev, { value: 0, suffix: "", label: "New stat" }]);
+  }
+  function removeStat(i: number) {
+    setStats((prev) => prev.filter((_, idx) => idx !== i));
+  }
+
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,6 +77,11 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
       cvUrl,
       homeShowTools,
       homeShowBlog,
+      stats: stats.map((s) => ({
+        value: Number.isFinite(Number(s.value)) ? Number(s.value) : 0,
+        suffix: s.suffix,
+        label: s.label,
+      })),
     };
 
     const res = await updateSettings(payload);
@@ -162,14 +179,14 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
             hint="Shown on phones. Tall portrait works best."
           />
           <MediaUpload
-            label="Desktop hero — back layer"
+            label="Desktop hero - back layer"
             value={heroBackUrl}
             onChange={setHeroBackUrl}
             folder="hero"
             hint="Background image of the WebGL mask-reveal hero."
           />
           <MediaUpload
-            label="Desktop hero — front layer"
+            label="Desktop hero - front layer"
             value={heroFrontUrl}
             onChange={setHeroFrontUrl}
             folder="hero"
@@ -222,6 +239,67 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
             <span className="text-sm">Show the Blog section on the homepage</span>
           </label>
         </div>
+      </div>
+
+      {/* About — headline stats */}
+      <div className={card}>
+        <h2 className="font-display text-lg font-semibold">About - headline stats</h2>
+        <p className="mt-1 text-sm text-ink-400">
+          The animated numbers in the “About” block on the homepage (GPA, projects shipped, …).
+          <span className="font-medium text-ink-600 dark:text-ink-300"> Value</span> is the number
+          that counts up; <span className="font-medium text-ink-600 dark:text-ink-300">Suffix</span> is
+          appended after it (e.g. <code className="rounded bg-black/5 px-1 dark:bg-white/10">+</code>,
+          <code className="rounded bg-black/5 px-1 dark:bg-white/10">k</code>, or
+          <code className="rounded bg-black/5 px-1 dark:bg-white/10"> / 4.0</code>).
+        </p>
+        <div className="mt-4 space-y-3">
+          {stats.map((s, i) => (
+            <div key={i} className="grid grid-cols-[5rem_5rem_1fr_auto] items-end gap-2 sm:grid-cols-[6rem_6rem_1fr_auto]">
+              <div>
+                {i === 0 && <label className={labelCls}>Value</label>}
+                <input
+                  className={input}
+                  type="number"
+                  step="any"
+                  value={s.value}
+                  onChange={(e) => updateStat(i, { value: e.target.value === "" ? 0 : Number(e.target.value) })}
+                />
+              </div>
+              <div>
+                {i === 0 && <label className={labelCls}>Suffix</label>}
+                <input
+                  className={input}
+                  value={s.suffix}
+                  onChange={(e) => updateStat(i, { suffix: e.target.value })}
+                />
+              </div>
+              <div>
+                {i === 0 && <label className={labelCls}>Label</label>}
+                <input
+                  className={input}
+                  value={s.label}
+                  onChange={(e) => updateStat(i, { label: e.target.value })}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => removeStat(i)}
+                aria-label="Remove stat"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 text-ink-400 transition-colors hover:border-rose-500/40 hover:text-rose-500 dark:border-white/10"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={addStat}
+          className="mt-3 inline-flex items-center gap-1.5 rounded-xl border border-black/10 px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:border-accent/50 hover:text-accent dark:border-white/10 dark:text-ink-300"
+        >
+          <Plus size={15} />
+          Add stat
+        </button>
       </div>
 
       {error && (

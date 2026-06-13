@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
           <SectionHeading
             index="01"
             eyebrow="Projects"
-            title="Things I've built — shipped, scrapped, and in progress."
+            title="Things I've built - shipped, scrapped, and in progress."
             description="Filter by category. Each card links to a live demo or the source on GitHub."
           />
         </div>

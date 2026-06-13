@@ -47,7 +47,7 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   // the form keeps working (honeypot + rate-limit still apply). Add the key to
   // turn this protection on.
   if (!secret) {
-    console.warn("[contact] TURNSTILE_SECRET_KEY not set — skipping CAPTCHA check.");
+    console.warn("[contact] TURNSTILE_SECRET_KEY not set - skipping CAPTCHA check.");
     return true;
   }
   if (!token) return false;
@@ -124,7 +124,7 @@ export async function POST(req: Request) {
       from,
       to: [to],
       replyTo: email,
-      subject: `New message from ${name}${subject ? ` — ${subject}` : ""}`,
+      subject: `New message from ${name}${subject ? ` - ${subject}` : ""}`,
       text:
         `Name: ${name}\n` +
         `Email: ${email}\n` +

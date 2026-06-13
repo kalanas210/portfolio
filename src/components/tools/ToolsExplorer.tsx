@@ -97,7 +97,7 @@ export function ToolsExplorer({ tools }: { tools: Tool[] }) {
 
       {filtered.length === 0 && (
         <div className="mt-12 rounded-3xl border border-dashed border-black/15 p-12 text-center text-sm text-ink-400 dark:border-white/15">
-          No tools match — try another search or category.
+          No tools match - try another search or category.
         </div>
       )}
     </div>

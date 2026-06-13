@@ -193,7 +193,7 @@ export function ToolForm({ initial }: { initial?: Tool }) {
       {/* Description */}
       <div className={card}>
         <h2 className="font-display text-lg font-semibold">Description</h2>
-        <p className="mt-1 text-xs text-ink-400">Markdown — shown on the tool page.</p>
+        <p className="mt-1 text-xs text-ink-400">Markdown - shown on the tool page.</p>
         <textarea
           className={cn(input, "mt-4 h-auto py-3 font-mono text-[13px] leading-relaxed")}
           rows={10}

@@ -41,6 +41,13 @@ export interface Testimonial {
   sortOrder: number;
 }
 
+/** A single headline metric shown in the home "About" stats grid. */
+export interface Stat {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
 export interface SiteSettings {
   name: string;
   shortName: string;
@@ -63,6 +70,8 @@ export interface SiteSettings {
   cvUrl: string | null;
   homeShowTools: boolean;
   homeShowBlog: boolean;
+  /** Editable headline stats (GPA, projects shipped, …) for the About section. */
+  stats: Stat[];
 }
 
 export interface Post {

@@ -87,7 +87,7 @@ export function CommandPalette() {
       },
       {
         id: "email",
-        label: `Email — ${settings.email}`,
+        label: `Email - ${settings.email}`,
         group: "Actions",
         icon: Mail,
         perform: () => {

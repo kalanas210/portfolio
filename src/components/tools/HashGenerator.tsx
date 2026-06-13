@@ -69,7 +69,7 @@ export function HashGenerator() {
               <CopyButton value={hashes[a] ?? ""} />
             </div>
             <div className="break-all rounded-xl border border-black/10 bg-white px-3 py-2.5 font-mono text-[12px] text-ink-600 dark:border-white/10 dark:bg-ink-800 dark:text-ink-300">
-              {hashes[a] || <span className="text-ink-400">—</span>}
+              {hashes[a] || <span className="text-ink-400">-</span>}
             </div>
           </div>
         ))}

@@ -138,7 +138,7 @@ export function PostForm({ initial }: { initial?: Post }) {
       <div className={card}>
         <h2 className="font-display text-lg font-semibold">Content</h2>
         <p className="mt-1 text-xs text-ink-400">
-          Markdown — headings (#), **bold**, lists, [links](url), and ```code``` blocks.
+          Markdown - headings (#), **bold**, lists, [links](url), and ```code``` blocks.
         </p>
         <textarea
           className={cn(input, "mt-4 h-auto py-3 font-mono text-[13px] leading-relaxed")}

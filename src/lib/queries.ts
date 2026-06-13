@@ -1,7 +1,7 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "@/lib/supabase/config";
 import { SITE } from "@/lib/utils";
-import { seedProjects, seedTestimonials } from "@/lib/data";
+import { seedProjects, seedTestimonials, defaultStats } from "@/lib/data";
 import type {
   Project,
   Testimonial,
@@ -38,6 +38,7 @@ export const defaultSettings: SiteSettings = {
   cvUrl: null,
   homeShowTools: true,
   homeShowBlog: true,
+  stats: defaultStats,
 };
 
 // ── Row → app-type mappers (shared with the admin) ──────────────────────────
@@ -98,6 +99,9 @@ export function mapSettingsRow(r: any): SiteSettings {
     cvUrl: r.cv_url ?? null,
     homeShowTools: r.home_show_tools ?? true,
     homeShowBlog: r.home_show_blog ?? true,
+    // `stats` column may not exist yet (pre-migration 0004) → fall back. Also
+    // guard against an empty array so the section never renders blank.
+    stats: Array.isArray(r.stats) && r.stats.length > 0 ? (r.stats as SiteSettings["stats"]) : defaultStats,
   };
 }
 

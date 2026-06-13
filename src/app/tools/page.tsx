@@ -6,14 +6,14 @@ import { getTools } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Free Online Tools — Background Remover, QR, JSON & More",
+  title: "Free Online Tools - Background Remover, QR, JSON & More",
   description:
-    "A growing collection of free, privacy-first online tools that run entirely in your browser — background remover, image compressor, QR code generator, JSON & developer utilities, and more. No sign-up, no uploads, no watermarks.",
+    "A growing collection of free, privacy-first online tools that run entirely in your browser - background remover, image compressor, QR code generator, JSON & developer utilities, and more. No sign-up, no uploads, no watermarks.",
   alternates: { canonical: "/tools" },
   openGraph: {
     title: "Free Online Tools by Kalana Sandakelum",
     description:
-      "Fast, free, privacy-first browser tools — background remover, image compressor, QR generator, JSON & dev utilities, and more.",
+      "Fast, free, privacy-first browser tools - background remover, image compressor, QR generator, JSON & dev utilities, and more.",
     url: `${SITE.url}/tools`,
   },
 };
@@ -63,7 +63,7 @@ export default async function ToolsPage() {
           <Reveal delay={0.1}>
             <p className="mt-5 text-lg leading-relaxed text-ink-500 dark:text-ink-300">
               {tools.length > 0 ? `${tools.length} ` : ""}fast, free utilities that run entirely in
-              your browser — remove image backgrounds, compress images, generate QR codes, format
+              your browser - remove image backgrounds, compress images, generate QR codes, format
               JSON, and more. No sign-up, no watermarks, and your files never leave your device.
             </p>
           </Reveal>
@@ -73,7 +73,7 @@ export default async function ToolsPage() {
       <section className="container pb-32">
         {tools.length === 0 ? (
           <p className="rounded-3xl border border-dashed border-black/15 p-16 text-center text-ink-400 dark:border-white/15">
-            No tools yet — check back soon.
+            No tools yet - check back soon.
           </p>
         ) : (
           <ToolsExplorer tools={tools} />

@@ -249,7 +249,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
 
           <div>
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className={labelCls}>Gallery — photos &amp; videos</span>
+              <span className={labelCls}>Gallery - photos &amp; videos</span>
               <div className="flex items-center gap-2">
                 <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border border-black/10 px-3 text-xs font-medium hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/5">
                   <input type="file" accept="image/*,video/*" hidden onChange={onGalleryFile} disabled={galleryBusy} />

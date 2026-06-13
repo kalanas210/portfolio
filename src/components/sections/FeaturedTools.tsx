@@ -16,7 +16,7 @@ export function FeaturedTools({ tools }: { tools: Tool[] }) {
           index="05"
           eyebrow="Free tools"
           title="Free tools, right in your browser"
-          description="Background remover, QR codes, image compressor, JSON & more — no sign-up, nothing uploaded."
+          description="Background remover, QR codes, image compressor, JSON & more - no sign-up, nothing uploaded."
         />
         <Link
           href="/tools"

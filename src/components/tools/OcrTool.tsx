@@ -60,7 +60,7 @@ export function OcrTool() {
         <ImageDropzone onFile={run} hint="A clear photo or screenshot of text works best." />
         <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-ink-400">
           <ShieldCheck size={13} />
-          Runs in your browser — the image is never uploaded. First run downloads a model once.
+          Runs in your browser - the image is never uploaded. First run downloads a model once.
         </p>
       </div>
     );

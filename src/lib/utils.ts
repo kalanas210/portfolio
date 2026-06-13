@@ -28,7 +28,7 @@ export const SITE = {
   email: "kalanasandakelum210@gmail.com",
   url: "https://www.kalanalk.com",
   description:
-    "Kalana Sandakelum — full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka, building fast, modern web applications.",
+    "Kalana Sandakelum - full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka, building fast, modern web applications.",
   social: {
     github: "https://github.com/kalanas210",
     linkedin: "https://www.linkedin.com/in/kalanasandakelum",

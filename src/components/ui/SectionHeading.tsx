@@ -37,7 +37,7 @@ export function SectionHeading({
             )}
           >
             <span className="tabular-nums text-ink-900 dark:text-white">
-              {index ?? "—"}
+              {index ?? "-"}
             </span>
             <span className="h-px w-7 bg-ink-300 dark:bg-ink-700" />
             {eyebrow}

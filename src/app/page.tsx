@@ -31,7 +31,7 @@ export default async function Home() {
       <HeroSection />
       <TechMarquee />
       <FeaturedWork projects={featured} />
-      <AboutTeaser />
+      <AboutTeaser stats={settings.stats} />
       <ActivitySection />
       <Testimonials testimonials={testimonials} />
       {settings.homeShowTools && <FeaturedTools tools={tools} />}

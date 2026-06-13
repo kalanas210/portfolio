@@ -25,7 +25,7 @@ export default async function EditToolPage({
         Tools
       </Link>
       <h1 className="mb-6 mt-3 font-display text-2xl font-semibold tracking-tight">
-        Edit — {tool.name}
+        Edit - {tool.name}
       </h1>
       <ToolForm initial={tool} />
     </div>

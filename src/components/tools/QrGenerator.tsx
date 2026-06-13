@@ -85,7 +85,7 @@ export function QrGenerator() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className={labelCls}>Size — {size}px</label>
+              <label className={labelCls}>Size - {size}px</label>
               <input
                 type="range"
                 min={128}
@@ -97,7 +97,7 @@ export function QrGenerator() {
               />
             </div>
             <div>
-              <label className={labelCls}>Margin — {margin}</label>
+              <label className={labelCls}>Margin - {margin}</label>
               <input
                 type="range"
                 min={0}
@@ -124,10 +124,10 @@ export function QrGenerator() {
             <div className="sm:col-span-2">
               <label className={labelCls}>Error correction</label>
               <select className={input} value={ecl} onChange={(e) => setEcl(e.target.value as ECL)}>
-                <option value="L">Low (L) — smallest</option>
+                <option value="L">Low (L) - smallest</option>
                 <option value="M">Medium (M)</option>
                 <option value="Q">Quartile (Q)</option>
-                <option value="H">High (H) — most robust</option>
+                <option value="H">High (H) - most robust</option>
               </select>
             </div>
           </div>

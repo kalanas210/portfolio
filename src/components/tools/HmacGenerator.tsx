@@ -76,7 +76,7 @@ export function HmacGenerator() {
           <CopyButton value={output} />
         </div>
         <div className="min-h-[3rem] break-all rounded-xl border border-black/10 bg-white px-3 py-2.5 font-mono text-[12px] text-ink-600 dark:border-white/10 dark:bg-ink-800 dark:text-ink-300">
-          {output || <span className="text-ink-400">—</span>}
+          {output || <span className="text-ink-400">-</span>}
         </div>
       </div>
 

@@ -75,7 +75,7 @@ export function BcryptTool() {
       {mode === "hash" ? (
         <>
           <div className="mt-4">
-            <label className={toolLabel}>Cost (rounds) — {rounds}</label>
+            <label className={toolLabel}>Cost (rounds) - {rounds}</label>
             <input
               type="range"
               min={4}

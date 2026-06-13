@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
     default: "Kalana Sandakelum - Full-Stack & Java Developer | Sri Lanka",
-    template: `%s — ${SITE.name}`,
+    template: `%s - ${SITE.name}`,
   },
   description: SITE.description,
   keywords: [

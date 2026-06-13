@@ -1,4 +1,4 @@
-import type { GalleryItem, ProjectCategory, ToolKind } from "@/lib/types";
+import type { GalleryItem, ProjectCategory, ToolKind, Stat } from "@/lib/types";
 
 export interface ProjectInput {
   slug: string;
@@ -43,6 +43,7 @@ export interface SettingsInput {
   cvUrl: string | null;
   homeShowTools: boolean;
   homeShowBlog: boolean;
+  stats: Stat[];
 }
 
 export interface PostInput {

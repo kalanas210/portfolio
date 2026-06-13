@@ -91,7 +91,7 @@ export function ImageConverter() {
   if (!srcUrl) {
     return (
       <div className={card}>
-        <ImageDropzone onFile={onFile} hint="PNG, JPG, or WebP — converts locally in your browser." />
+        <ImageDropzone onFile={onFile} hint="PNG, JPG, or WebP - converts locally in your browser." />
       </div>
     );
   }
@@ -127,7 +127,7 @@ export function ImageConverter() {
           {format.lossy && (
             <div className="mt-5">
               <label className="mb-1.5 block text-xs font-medium uppercase tracking-[0.14em] text-ink-400">
-                Quality — {Math.round(quality * 100)}%
+                Quality - {Math.round(quality * 100)}%
               </label>
               <input
                 type="range"

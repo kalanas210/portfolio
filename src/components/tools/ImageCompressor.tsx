@@ -67,7 +67,7 @@ export function ImageCompressor() {
   if (!srcUrl) {
     return (
       <div className={card}>
-        <ImageDropzone onFile={onFile} hint="JPG, PNG, or WebP — compressed locally in your browser." />
+        <ImageDropzone onFile={onFile} hint="JPG, PNG, or WebP - compressed locally in your browser." />
         <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-ink-400">
           <ShieldCheck size={13} />
           Your image never leaves your device.
@@ -86,7 +86,7 @@ export function ImageCompressor() {
 
         <div className="flex flex-col">
           <label className="mb-1.5 block text-xs font-medium uppercase tracking-[0.14em] text-ink-400">
-            Quality — {Math.round(quality * 100)}%
+            Quality - {Math.round(quality * 100)}%
           </label>
           <input
             type="range"

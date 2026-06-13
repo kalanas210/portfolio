@@ -7,9 +7,9 @@ import { getPosts } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Blog — Web Development, Design & Engineering Notes",
+  title: "Blog - Web Development, Design & Engineering Notes",
   description:
-    "Tutorials and deep-dives on web development, design, and software engineering by Kalana Sandakelum — Next.js, React, Java, and more.",
+    "Tutorials and deep-dives on web development, design, and software engineering by Kalana Sandakelum - Next.js, React, Java, and more.",
   alternates: { canonical: "/blog" },
   openGraph: {
     title: "Blog by Kalana Sandakelum",
@@ -40,7 +40,7 @@ export default async function BlogPage() {
       <section className="container pb-32">
         {posts.length === 0 ? (
           <p className="rounded-3xl border border-dashed border-black/15 p-16 text-center text-ink-400 dark:border-white/15">
-            No posts yet — check back soon.
+            No posts yet - check back soon.
           </p>
         ) : (
           <RevealStagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

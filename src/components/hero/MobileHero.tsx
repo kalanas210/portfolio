@@ -106,7 +106,7 @@ export function MobileHero({ className }: { className?: string }) {
       >
         <Image
           src={settings.heroMobileUrl ?? "/images/p3.png"}
-          alt={`${settings.name} — ${settings.role}`}
+          alt={`${settings.name} - ${settings.role}`}
           fill
           priority
           sizes="100vw"

@@ -170,7 +170,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
 
       {filtered.length === 0 && (
         <div className="mt-16 rounded-3xl border border-dashed border-black/15 dark:border-white/15 p-12 text-center text-sm text-ink-400">
-          Nothing in this category yet — but watch this space.
+          Nothing in this category yet - but watch this space.
         </div>
       )}
     </div>

@@ -123,7 +123,7 @@ export function BackgroundRemover() {
             <ImageUp size={24} />
           </span>
           <p className="mt-5 font-display text-lg font-semibold">Drop an image here</p>
-          <p className="mt-1 text-sm text-ink-400">or click to browse — PNG, JPG, or WEBP</p>
+          <p className="mt-1 text-sm text-ink-400">or click to browse - PNG, JPG, or WEBP</p>
           <p className="mt-4 inline-flex items-center gap-1.5 text-xs text-ink-400">
             <ShieldCheck size={13} />
             Runs entirely in your browser. Your image never leaves your device.
@@ -221,7 +221,7 @@ export function BackgroundRemover() {
           {status === "done" && (
             <p className="mt-4 inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
               <Sparkles size={13} />
-              Done — your transparent PNG is ready to download.
+              Done - your transparent PNG is ready to download.
             </p>
           )}
         </div>

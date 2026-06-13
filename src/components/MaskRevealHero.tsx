@@ -184,12 +184,12 @@ const MaskRevealHero = () => {
                     // The grain noise only ever erodes the mask (both octaves
                     // are shifted negative), so pixels whose density can't
                     // clear the smoothstep floor are mask=0 no matter what the
-                    // noise says — skip the two snoise calls there. That's
+                    // noise says - skip the two snoise calls there. That's
                     // ~95% of the screen; identical output, far cheaper frame.
                     float mask = 0.0;
                     if (reveal > 0.35) {
                         // Drifting negative noise erodes wobbly bites out of
-                        // the blob's rim — the "liquid" edge of the reference.
+                        // the blob's rim - the "liquid" edge of the reference.
                         float offx = vUv.x + (uTime * TIME_SPEED * 0.1) + sin(vUv.y + uTime * TIME_SPEED * 0.1);
                         float offy = vUv.y - cos(uTime * TIME_SPEED * 0.001) * 0.01;
                         float n1 = snoise(vec3(offx * NOISE_FREQ, offy * NOISE_FREQ, uTime * TIME_SPEED)) - 1.0;
@@ -205,7 +205,7 @@ const MaskRevealHero = () => {
                     vec4 front = texture2D(uFrontTexture, uv);
                     // The textures are pre-cut PNGs with a real alpha channel
                     // (background removed via rembg), so transparency comes
-                    // straight from alpha — no brightness keying. mix() blends
+                    // straight from alpha - no brightness keying. mix() blends
                     // rgb AND alpha, so the white shirt / bright suit stay solid
                     // while the removed background reveals the marquee behind.
                     vec4 finalImage = mix(back, front, mask);

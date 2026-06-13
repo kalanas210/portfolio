@@ -150,7 +150,7 @@ export function Navbar() {
           <motion.span
             aria-hidden
             style={{ scaleX: scrollYProgress }}
-            className="pointer-events-none absolute inset-x-3 -bottom-px h-[1.5px] origin-left rounded-full bg-gradient-to-r from-brand-violet via-brand-fuchsia to-brand-rose opacity-70"
+            className="pointer-events-none absolute inset-x-5 -bottom-px h-[1.5px] origin-left rounded-full bg-gradient-to-r from-brand-violet via-brand-fuchsia to-brand-rose opacity-70"
           />
 
           {/* Mobile dropdown menu */}

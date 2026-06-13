@@ -25,7 +25,7 @@ export default async function EditProjectPage({
         Projects
       </Link>
       <h1 className="mb-6 mt-3 font-display text-2xl font-semibold tracking-tight">
-        Edit — {project.title}
+        Edit - {project.title}
       </h1>
       <ProjectForm initial={project} />
     </div>

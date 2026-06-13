@@ -75,7 +75,7 @@ export function ActivitySection() {
         <SectionHeading
           index="03"
           eyebrow="Pulse"
-          title="A year of commits — and what I'm shipping now."
+          title="A year of commits - and what I'm shipping now."
           description="A snapshot of the public side: contributions, current builds, and what's queued up next."
         />
         <Reveal>
@@ -196,7 +196,7 @@ export function ActivitySection() {
                 Smart Campus App
               </h3>
               <p className="relative mt-2 text-sm leading-relaxed text-ink-500 dark:text-ink-300">
-                A unified mobile companion for University of Moratuwa students — timetables,
+                A unified mobile companion for University of Moratuwa students - timetables,
                 dining, transit, and event feeds in one Expo + Firebase app.
               </p>
               <div className="relative mt-4 flex flex-wrap gap-1.5">

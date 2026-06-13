@@ -62,7 +62,7 @@ export function ContactCTA() {
 
           <Reveal delay={0.1}>
             <p className="mx-auto mt-5 max-w-xl text-base text-white/50 sm:text-lg">
-              I reply within a day — internships, freelance work, or just a
+              I reply within a day - internships, freelance work, or just a
               friendly hello.
             </p>
           </Reveal>

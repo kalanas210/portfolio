@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 
 interface CircularSkillProps {
   name: string;
@@ -12,15 +11,12 @@ interface CircularSkillProps {
 }
 
 export function CircularSkill({ name, level }: CircularSkillProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-
   const r = 38;
   const c = 2 * Math.PI * r;
   const offset = c - (level / 100) * c;
 
   return (
-    <div ref={ref} className="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="relative h-24 w-24">
         <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
           <circle
@@ -42,7 +38,8 @@ export function CircularSkill({ name, level }: CircularSkillProps) {
             fill="none"
             strokeLinecap="round"
             initial={{ strokeDashoffset: c }}
-            animate={inView ? { strokeDashoffset: offset } : {}}
+            whileInView={{ strokeDashoffset: offset }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
             style={{ strokeDasharray: c }}
           />

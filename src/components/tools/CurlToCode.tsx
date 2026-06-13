@@ -86,7 +86,7 @@ export function CurlToCode() {
       ? target === "fetch"
         ? toFetch(parsed)
         : toAxios(parsed)
-      : "// Couldn't find a URL — paste a full curl command.";
+      : "// Couldn't find a URL - paste a full curl command.";
   }
 
   return (

@@ -88,7 +88,7 @@ export function HeroOverlay() {
           <div className="min-w-0">
             <h1 className="flex items-baseline gap-2.5">
               <span className="text-[10px] uppercase tracking-[0.22em] text-ink-500">
-                Hello — I&apos;m
+                Hello - I&apos;m
               </span>
               <span className="font-display text-[1.35rem] font-black leading-none tracking-[-0.02em] text-ink-950 lg:text-[1.5rem]">
                 {firstName}
@@ -133,7 +133,7 @@ export function HeroOverlay() {
                   </>
                 )}
               </span>
-              <span className="sr-only"> — {settings.role}</span>
+              <span className="sr-only"> - {settings.role}</span>
             </h1>
             <div className="mt-1 flex items-baseline gap-2 truncate">
               <RoleTypewriter />
