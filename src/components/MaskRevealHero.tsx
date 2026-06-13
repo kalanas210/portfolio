@@ -68,8 +68,8 @@ const MaskRevealHero = () => {
         canvas.addEventListener('webglcontextrestored', wake);
 
         const textureLoader = new THREE.TextureLoader();
-        const backTexture = textureLoader.load(heroBackUrl ?? '/images/back_image.png', wake);
-        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/front_image.png', wake);
+        const backTexture = textureLoader.load(heroBackUrl ?? '/images/p3.png', wake);
+        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/p2.jpg', wake);
 
         const material = new THREE.ShaderMaterial({
             uniforms: {
@@ -203,13 +203,14 @@ const MaskRevealHero = () => {
                     uv = (uv - 0.5) / uImageScale + 0.5;
                     vec4 back = texture2D(uBackTexture, uv);
                     vec4 front = texture2D(uFrontTexture, uv);
+                    // The textures are pre-cut PNGs with a real alpha channel
+                    // (background removed via rembg), so transparency comes
+                    // straight from alpha — no brightness keying. mix() blends
+                    // rgb AND alpha, so the white shirt / bright suit stay solid
+                    // while the removed background reveals the marquee behind.
                     vec4 finalImage = mix(back, front, mask);
 
-                    // Improved Transparency logic: Treat near-white as transparent
-                    float brightness = (finalImage.r + finalImage.g + finalImage.b) / 3.0;
-                    float imageAlpha = smoothstep(0.99, 0.95, brightness);
-
-                    gl_FragColor = vec4(finalImage.rgb, imageAlpha);
+                    gl_FragColor = vec4(finalImage.rgb, finalImage.a);
                 }
             `,
             transparent: true,

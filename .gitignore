@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local image-processing tooling / backups (not for deploy)
+.rembg-venv/
+/public/images/_originals/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

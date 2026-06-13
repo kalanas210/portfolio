@@ -105,7 +105,7 @@ export function MobileHero({ className }: { className?: string }) {
         style={{ top: "6.5rem", bottom: "33%" }}
       >
         <Image
-          src={settings.heroMobileUrl ?? "/images/back_image.png"}
+          src={settings.heroMobileUrl ?? "/images/p3.png"}
           alt={`${settings.name} — ${settings.role}`}
           fill
           priority
@@ -121,7 +121,7 @@ export function MobileHero({ className }: { className?: string }) {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
         className="absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 cursor-pointer"
-        style={{ top: "54%" }}
+        style={{ top: "57%" }}
         onClick={() => scrollWindowTo(window.innerHeight)}
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink-900/40 dark:text-white/40">
@@ -184,7 +184,7 @@ export function MobileHero({ className }: { className?: string }) {
       <div className="noise pointer-events-none absolute inset-0 z-[14]" aria-hidden />
 
       {/* ── NAME CLUSTER (overlaps figure) + RAIL ──────────────────────── */}
-      <div className="relative z-20 mt-auto px-5 pb-5">
+      <div className="relative z-20 mt-auto px-5 pb-16">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
