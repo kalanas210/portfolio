@@ -121,7 +121,7 @@ export function MobileHero({ className }: { className?: string }) {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
         className="absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 cursor-pointer"
-        style={{ top: "57%" }}
+        style={{ top: "55%" }}
         onClick={() => scrollWindowTo(window.innerHeight)}
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-ink-900/40 dark:text-white/40">
