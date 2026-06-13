@@ -29,7 +29,7 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Kalana Sandakelum — Full-Stack & Java Developer | Sri Lanka",
+    default: "Kalana Sandakelum - Full-Stack & Java Developer | Sri Lanka",
     template: `%s — ${SITE.name}`,
   },
   description: SITE.description,
@@ -65,13 +65,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE.url,
-    title: "Kalana Sandakelum — Full-Stack & Java Developer",
+    title: "Kalana Sandakelum - Full-Stack & Java Developer",
     description: SITE.description,
     siteName: SITE.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kalana Sandakelum — Full-Stack & Java Developer",
+    title: "Kalana Sandakelum - Full-Stack & Java Developer",
     description: SITE.description,
   },
   icons: {
