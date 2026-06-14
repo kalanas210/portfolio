@@ -21,7 +21,7 @@ const FLOAT_TRANSITION = {
   duration: 7.5,
   repeat: Infinity,
   repeatType: "mirror" as const,
-  ease: [0.45, 0.05, 0.55, 0.95],
+  ease: [0.45, 0.05, 0.55, 0.95] as [number, number, number, number],
 };
 
 function StackBadge() {
