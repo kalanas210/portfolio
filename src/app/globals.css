@@ -215,6 +215,82 @@
 .hljs-strong { font-weight: 700; }
 .hljs-deletion { color: #ffa198; }
 
+/* ───────────────────────────────────────────────────────────────
+   Editorial article layout — project case studies & blog posts.
+   Project bodies render plain text via <ArticleBody> (.article-prose);
+   blog bodies pass `prose-article` to <Markdown> so the same lead +
+   drop-cap treatment applies to the first paragraph of GFM content.
+   ─────────────────────────────────────────────────────────────── */
+.article-prose {
+  color: rgb(var(--fg) / 0.82);
+  font-size: 1.075rem;
+  line-height: 1.85;
+  letter-spacing: -0.003em;
+}
+.article-prose p {
+  margin-top: 1.55em;
+}
+.article-prose p:first-child {
+  margin-top: 0;
+}
+.article-prose .lead {
+  font-size: 1.35rem;
+  line-height: 1.62;
+  font-weight: 400;
+  color: rgb(var(--fg) / 0.95);
+}
+
+/* Standfirst lead for Markdown posts: bump the opening paragraph */
+.prose-article > p:first-child {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: rgb(var(--fg) / 0.9);
+}
+
+/* Drop cap on the opening paragraph of project case studies only. Their plain
+   text always begins with a letter, so ::first-letter is safe. Blog Markdown
+   keeps the larger standfirst but NO drop cap — post bodies can start with
+   punctuation (e.g. a leading quote), which ::first-letter would enlarge into
+   a broken-looking first word. */
+.article-prose .lead::first-letter {
+  float: left;
+  font-family: var(--font-display), "Outfit", Inter, sans-serif;
+  font-weight: 600;
+  font-size: 3em;
+  line-height: 0.76;
+  margin: 0.05em 0.09em 0 0;
+  color: #6d28d9;
+}
+.dark .article-prose .lead::first-letter {
+  color: #a78bfa;
+}
+
+/* Quiet, refined blockquotes, rules, and anchored headings in long-form prose */
+.prose blockquote {
+  border-left: 3px solid rgb(var(--accent) / 0.55);
+  font-style: normal;
+  color: rgb(var(--fg) / 0.72);
+}
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: "";
+}
+.prose hr {
+  border-color: rgb(var(--fg) / 0.1);
+  margin: 2.6em 0;
+}
+.prose :where(h2, h3) {
+  scroll-margin-top: 6rem;
+}
+
+/* Gallery / figure caption */
+.fig-caption {
+  margin-top: 0.7rem;
+  padding: 0 0.25rem;
+  font-size: 0.8rem;
+  color: rgb(var(--fg) / 0.5);
+}
+
 /* ── Lenis smooth scrolling (mounted in SiteFrame/SmoothScroll) ──── */
 html.lenis,
 html.lenis body {

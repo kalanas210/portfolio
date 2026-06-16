@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GradientMesh } from "@/components/ui/GradientMesh";
-import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
+import { Reveal, RevealStagger, RevealItem } from "@/components/ui/Reveal";
 import { PostCard } from "@/components/blog/PostCard";
+import { FeaturedPostCard } from "@/components/blog/FeaturedPostCard";
 import { getPosts } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
 
@@ -22,6 +23,8 @@ export const revalidate = 60;
 
 export default async function BlogPage() {
   const posts = await getPosts();
+  const lead = posts.find((p) => p.featured) ?? posts[0];
+  const rest = lead ? posts.filter((p) => p.id !== lead.id) : posts;
 
   return (
     <>
@@ -43,13 +46,22 @@ export default async function BlogPage() {
             No posts yet - check back soon.
           </p>
         ) : (
-          <RevealStagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((p) => (
-              <RevealItem key={p.id} className="h-full">
-                <PostCard post={p} />
-              </RevealItem>
-            ))}
-          </RevealStagger>
+          <>
+            {lead && (
+              <Reveal className="mb-8">
+                <FeaturedPostCard post={lead} />
+              </Reveal>
+            )}
+            {rest.length > 0 && (
+              <RevealStagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {rest.map((p) => (
+                  <RevealItem key={p.id} className="h-full">
+                    <PostCard post={p} />
+                  </RevealItem>
+                ))}
+              </RevealStagger>
+            )}
+          </>
         )}
       </section>
     </>
