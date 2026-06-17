@@ -84,22 +84,16 @@ export default async function ContactPage() {
                   </div>
                   <Badge>UTC+5:30</Badge>
                 </div>
-                {/* Decorative dots map */}
-                <div
-                  aria-hidden
-                  className="relative mt-6 h-28 w-full overflow-hidden rounded-xl border border-black/10 dark:border-white/10"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle at 1px 1px, rgba(120,120,120,0.45) 1px, transparent 0)",
-                    backgroundSize: "10px 10px",
-                  }}
-                >
-                  <div className="absolute left-[34%] top-[58%]">
-                    <span className="relative flex h-3 w-3">
-                      <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-emerald-400" />
-                      <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-ink-900" />
-                    </span>
-                  </div>
+                {/* Real Google map pinned to the University of Moratuwa */}
+                <div className="relative mt-6 h-40 w-full overflow-hidden rounded-xl border border-black/10 dark:border-white/10">
+                  <iframe
+                    title="University of Moratuwa location"
+                    src="https://www.google.com/maps?q=University+of+Moratuwa,+Katubedda,+Moratuwa,+Sri+Lanka&z=15&output=embed"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                    className="h-full w-full border-0 grayscale-[0.2] dark:grayscale dark:invert-[0.92] dark:hue-rotate-180"
+                  />
                 </div>
               </div>
 
