@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Pencil, Star } from "lucide-react";
 import { getAllProjects } from "@/lib/admin/queries";
 import { ProjectRowActions } from "@/components/admin/ProjectRowActions";
+import { ReorderableList } from "@/components/admin/ReorderableList";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,9 @@ export default async function AdminProjects() {
           No projects yet. Create your first one.
         </div>
       ) : (
-        <ul className="mt-6 space-y-2">
+        <ReorderableList kind="projects" ids={projects.map((p) => p.id)}>
           {projects.map((p) => (
-            <li
-              key={p.id}
-              className="flex items-center gap-4 rounded-2xl border border-black/10 bg-white p-3 dark:border-white/10 dark:bg-ink-900"
-            >
+            <div key={p.id} className="flex min-w-0 flex-1 items-center gap-4">
               <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-200 to-ink-100 dark:from-ink-700 dark:to-ink-800">
                 {p.thumbnailUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -69,9 +67,9 @@ export default async function AdminProjects() {
                 Edit
               </Link>
               <ProjectRowActions id={p.id} published={p.published} />
-            </li>
+            </div>
           ))}
-        </ul>
+        </ReorderableList>
       )}
     </div>
   );

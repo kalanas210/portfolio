@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Pencil, Star, ExternalLink, Wrench } from "lucide-react";
 import { getAllTools } from "@/lib/admin/queries";
 import { ToolRowActions } from "@/components/admin/ToolRowActions";
+import { ReorderableList } from "@/components/admin/ReorderableList";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,9 @@ export default async function AdminTools() {
           No tools yet. Add your first one.
         </div>
       ) : (
-        <ul className="mt-6 space-y-2">
+        <ReorderableList kind="tools" ids={tools.map((t) => t.id)}>
           {tools.map((t) => (
-            <li
-              key={t.id}
-              className="flex items-center gap-4 rounded-2xl border border-black/10 bg-white p-3 dark:border-white/10 dark:bg-ink-900"
-            >
+            <div key={t.id} className="flex min-w-0 flex-1 items-center gap-4">
               <div
                 className={`flex h-12 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br text-white ${t.gradient}`}
               >
@@ -75,9 +73,9 @@ export default async function AdminTools() {
                 Edit
               </Link>
               <ToolRowActions id={t.id} published={t.published} />
-            </li>
+            </div>
           ))}
-        </ul>
+        </ReorderableList>
       )}
     </div>
   );

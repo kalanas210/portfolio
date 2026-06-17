@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Pencil, Star } from "lucide-react";
 import { getAllPosts } from "@/lib/admin/queries";
 import { PostRowActions } from "@/components/admin/PostRowActions";
+import { ReorderableList } from "@/components/admin/ReorderableList";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,9 @@ export default async function AdminBlog() {
           No posts yet. Write your first one.
         </div>
       ) : (
-        <ul className="mt-6 space-y-2">
+        <ReorderableList kind="posts" ids={posts.map((p) => p.id)}>
           {posts.map((p) => (
-            <li
-              key={p.id}
-              className="flex items-center gap-4 rounded-2xl border border-black/10 bg-white p-3 dark:border-white/10 dark:bg-ink-900"
-            >
+            <div key={p.id} className="flex min-w-0 flex-1 items-center gap-4">
               <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-200 to-ink-100 dark:from-ink-700 dark:to-ink-800">
                 {p.coverUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -71,9 +69,9 @@ export default async function AdminBlog() {
                 Edit
               </Link>
               <PostRowActions id={p.id} published={p.published} />
-            </li>
+            </div>
           ))}
-        </ul>
+        </ReorderableList>
       )}
     </div>
   );

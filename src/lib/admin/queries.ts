@@ -48,6 +48,7 @@ export async function getAllPosts(): Promise<Post[]> {
   const { data } = await supabase
     .from("posts")
     .select("*")
+    .order("sort_order", { ascending: true })
     .order("published_at", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
   return (data ?? []).map(mapPostRow);

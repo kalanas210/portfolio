@@ -261,6 +261,45 @@ export async function setToolPublished(id: string, published: boolean): Promise<
   revalidateTools();
 }
 
+// ── Reordering (sets sort_order to match a dragged/swapped display order) ──────
+export type ReorderKind = "projects" | "posts" | "tools";
+
+const REORDER_TABLE: Record<ReorderKind, string> = {
+  projects: "projects",
+  posts: "posts",
+  tools: "tools",
+};
+
+/**
+ * Persist a new manual order. `orderedIds` is the full list of row ids in the
+ * order they should appear; each row's sort_order is set to its index so the
+ * public site and admin both render in this order.
+ */
+export async function reorderEntities(
+  kind: ReorderKind,
+  orderedIds: string[],
+): Promise<ActionResult> {
+  const table = REORDER_TABLE[kind];
+  if (!table) return { ok: false, error: "Unknown list" };
+  if (!Array.isArray(orderedIds) || orderedIds.length === 0) {
+    return { ok: false, error: "Nothing to reorder" };
+  }
+
+  const supabase = await createClient();
+  const results = await Promise.all(
+    orderedIds.map((id, index) =>
+      supabase.from(table).update({ sort_order: index }).eq("id", id),
+    ),
+  );
+  const failed = results.find((r) => r.error);
+  if (failed?.error) return { ok: false, error: failed.error.message };
+
+  if (kind === "projects") revalidatePublic();
+  else if (kind === "posts") revalidatePosts();
+  else revalidateTools();
+  return { ok: true };
+}
+
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
