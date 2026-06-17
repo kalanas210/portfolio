@@ -1,19 +1,19 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { PostForm } from "@/components/admin/PostForm";
+import { ProjectForm } from "@/components/admin/ProjectForm";
 
-export default function NewPostPage() {
+export default function NewProjectPage() {
   return (
     <div>
       <Link
-        href="/admin/blog"
+        href="/eta887/projects"
         className="inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-ink-950 dark:hover:text-white"
       >
         <ArrowLeft size={15} />
-        Blog
+        Projects
       </Link>
-      <h1 className="mb-6 mt-3 font-display text-2xl font-semibold tracking-tight">New post</h1>
-      <PostForm />
+      <h1 className="mb-6 mt-3 font-display text-2xl font-semibold tracking-tight">New project</h1>
+      <ProjectForm />
     </div>
   );
 }

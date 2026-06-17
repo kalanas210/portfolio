@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "@/lib/supabase/config";
 import { SITE } from "@/lib/utils";
@@ -117,6 +118,7 @@ export function mapPostRow(r: any): Post {
     featured: Boolean(r.featured),
     published: Boolean(r.published),
     publishedAt: r.published_at ?? null,
+    updatedAt: r.updated_at ?? null,
     sortOrder: r.sort_order ?? 0,
   };
 }
@@ -149,7 +151,9 @@ function anon() {
 }
 
 // ── Public reads (RLS returns published rows only for anon) ──────────────────
-export async function getSettings(): Promise<SiteSettings> {
+// Wrapped in React `cache()` so repeated calls within a single render pass
+// (e.g. layout + page + generateMetadata) share one Supabase round-trip.
+export const getSettings = cache(async (): Promise<SiteSettings> => {
   if (!isSupabaseConfigured) return defaultSettings;
   try {
     const { data, error } = await anon()
@@ -162,9 +166,9 @@ export async function getSettings(): Promise<SiteSettings> {
   } catch {
     return defaultSettings;
   }
-}
+});
 
-export async function getProjects(): Promise<Project[]> {
+export const getProjects = cache(async (): Promise<Project[]> => {
   const fallback = seedProjects.filter((p) => p.published);
   if (!isSupabaseConfigured) return fallback;
   try {
@@ -179,14 +183,14 @@ export async function getProjects(): Promise<Project[]> {
   } catch {
     return fallback;
   }
-}
+});
 
 export async function getFeaturedProjects(limit = 3): Promise<Project[]> {
   const all = await getProjects();
   return all.filter((p) => p.featured).slice(0, limit);
 }
 
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
+export const getProjectBySlug = cache(async (slug: string): Promise<Project | null> => {
   const fallback = seedProjects.find((p) => p.slug === slug && p.published) ?? null;
   if (!isSupabaseConfigured) return fallback;
   try {
@@ -201,9 +205,9 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   } catch {
     return fallback;
   }
-}
+});
 
-export async function getTestimonials(): Promise<Testimonial[]> {
+export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
   const fallback = seedTestimonials.filter((t) => t.published);
   if (!isSupabaseConfigured) return fallback;
   try {
@@ -217,10 +221,10 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   } catch {
     return fallback;
   }
-}
+});
 
 // ── Blog posts ───────────────────────────────────────────────────────────────
-export async function getPosts(): Promise<Post[]> {
+export const getPosts = cache(async (): Promise<Post[]> => {
   if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await anon()
@@ -235,9 +239,9 @@ export async function getPosts(): Promise<Post[]> {
   } catch {
     return [];
   }
-}
+});
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
   if (!isSupabaseConfigured) return null;
   try {
     const { data, error } = await anon()
@@ -251,10 +255,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   } catch {
     return null;
   }
-}
+});
 
 // ── Tools ────────────────────────────────────────────────────────────────────
-export async function getTools(): Promise<Tool[]> {
+export const getTools = cache(async (): Promise<Tool[]> => {
   if (!isSupabaseConfigured) return [];
   try {
     const { data, error } = await anon()
@@ -268,9 +272,9 @@ export async function getTools(): Promise<Tool[]> {
   } catch {
     return [];
   }
-}
+});
 
-export async function getToolBySlug(slug: string): Promise<Tool | null> {
+export const getToolBySlug = cache(async (slug: string): Promise<Tool | null> => {
   if (!isSupabaseConfigured) return null;
   try {
     const { data, error } = await anon()
@@ -284,7 +288,7 @@ export async function getToolBySlug(slug: string): Promise<Tool | null> {
   } catch {
     return null;
   }
-}
+});
 
 // ── Featured (home page) ─────────────────────────────────────────────────────
 export async function getFeaturedTools(limit = 6): Promise<Tool[]> {

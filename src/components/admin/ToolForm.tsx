@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { Tool, ToolKind } from "@/lib/types";
 import type { ToolInput } from "@/lib/admin/types";
-import { createTool, updateTool } from "@/app/admin/actions";
+import { createTool, updateTool } from "@/app/eta887/actions";
 import { TOOL_COMPONENTS } from "@/lib/tools/registry";
 import { MediaUpload } from "./MediaUpload";
 import { cn } from "@/lib/utils";
@@ -98,7 +98,7 @@ export function ToolForm({ initial }: { initial?: Tool }) {
       setSaving(false);
       return;
     }
-    router.push("/admin/tools");
+    router.push("/eta887/tools");
     router.refresh();
   }
 
@@ -272,7 +272,7 @@ export function ToolForm({ initial }: { initial?: Tool }) {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/tools")}
+          onClick={() => router.push("/eta887/tools")}
           className="inline-flex h-11 items-center rounded-xl border border-black/10 px-5 text-sm font-medium text-ink-600 hover:text-ink-950 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
         >
           Cancel

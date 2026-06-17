@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Check, Plus, Trash2 } from "lucide-react";
 import type { SiteSettings, Stat } from "@/lib/types";
 import type { SettingsInput } from "@/lib/admin/types";
-import { updateSettings } from "@/app/admin/actions";
+import { updateSettings } from "@/app/eta887/actions";
 import { MediaUpload } from "./MediaUpload";
 import { cn } from "@/lib/utils";
 

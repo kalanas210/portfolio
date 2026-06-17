@@ -17,7 +17,7 @@ export default async function AdminTools() {
           <p className="mt-1 text-sm text-ink-400">{tools.length} total</p>
         </div>
         <Link
-          href="/admin/tools/new"
+          href="/eta887/tools/new"
           className="inline-flex items-center gap-2 rounded-full bg-ink-950 px-4 py-2 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 dark:bg-white dark:text-ink-950"
         >
           <Plus size={16} />
@@ -66,7 +66,7 @@ export default async function AdminTools() {
               </div>
 
               <Link
-                href={`/admin/tools/${t.id}`}
+                href={`/eta887/tools/${t.id}`}
                 className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-black/10 px-3 text-xs font-medium text-ink-600 transition-colors hover:text-ink-950 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
               >
                 <Pencil size={13} />

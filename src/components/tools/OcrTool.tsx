@@ -5,7 +5,6 @@ import { Loader2, ImageUp, Download, ShieldCheck } from "lucide-react";
 import { ImageDropzone } from "./ui/ImageDropzone";
 import { downloadBlob } from "./ui/image";
 import { CopyButton } from "./ui/CopyButton";
-import { cn } from "@/lib/utils";
 
 const card =
   "rounded-3xl border border-black/10 bg-white/60 p-5 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.03] sm:p-7";

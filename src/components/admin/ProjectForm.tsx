@@ -14,7 +14,7 @@ import {
 import { PROJECT_CATEGORIES } from "@/lib/types";
 import type { Project, GalleryItem, ProjectCategory } from "@/lib/types";
 import type { ProjectInput } from "@/lib/admin/types";
-import { createProject, updateProject } from "@/app/admin/actions";
+import { createProject, updateProject } from "@/app/eta887/actions";
 import { uploadFile } from "@/lib/admin/upload";
 import { MediaUpload } from "./MediaUpload";
 import { cn } from "@/lib/utils";
@@ -157,7 +157,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
       setSaving(false);
       return;
     }
-    router.push("/admin/projects");
+    router.push("/eta887/projects");
     router.refresh();
   }
 
@@ -386,7 +386,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/projects")}
+          onClick={() => router.push("/eta887/projects")}
           className="inline-flex h-11 items-center rounded-xl border border-black/10 px-5 text-sm font-medium text-ink-600 hover:text-ink-950 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
         >
           Cancel

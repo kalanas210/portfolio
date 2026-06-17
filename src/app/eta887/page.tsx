@@ -35,28 +35,28 @@ export default async function AdminDashboard() {
       label: "Projects",
       value: projects.length,
       sub: `${publishedProjects} published`,
-      href: "/admin/projects",
+      href: "/eta887/projects",
       Icon: FolderGit2,
     },
     {
       label: "Blog posts",
       value: posts.length,
       sub: `${publishedPosts} published`,
-      href: "/admin/blog",
+      href: "/eta887/blog",
       Icon: Newspaper,
     },
     {
       label: "Tools",
       value: tools.length,
       sub: `${publishedTools} published`,
-      href: "/admin/tools",
+      href: "/eta887/tools",
       Icon: Wrench,
     },
     {
       label: "Testimonials",
       value: testimonials.length,
       sub: `${publishedTestimonials} published`,
-      href: "/admin/testimonials",
+      href: "/eta887/testimonials",
       Icon: MessageSquareQuote,
     },
   ];
@@ -69,7 +69,7 @@ export default async function AdminDashboard() {
           <p className="mt-1 text-sm text-ink-400">Manage your portfolio content.</p>
         </div>
         <Link
-          href="/admin/projects/new"
+          href="/eta887/projects/new"
           className="inline-flex items-center gap-2 rounded-full bg-ink-950 px-4 py-2 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 dark:bg-white dark:text-ink-950"
         >
           <Plus size={16} />
@@ -102,7 +102,7 @@ export default async function AdminDashboard() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <Link
-          href="/admin/settings"
+          href="/eta887/settings"
           className="group flex items-center justify-between rounded-2xl border border-black/10 bg-white p-5 transition-colors hover:border-black/20 dark:border-white/10 dark:bg-ink-900 dark:hover:border-white/20"
         >
           <span className="flex items-center gap-3">
@@ -115,7 +115,7 @@ export default async function AdminDashboard() {
           />
         </Link>
         <Link
-          href="/admin/testimonials"
+          href="/eta887/testimonials"
           className="group flex items-center justify-between rounded-2xl border border-black/10 bg-white p-5 transition-colors hover:border-black/20 dark:border-white/10 dark:bg-ink-900 dark:hover:border-white/20"
         >
           <span className="flex items-center gap-3">

@@ -593,3 +593,19 @@ html.lenis body {
   mix-blend-mode: screen;
   opacity: 0.05;
 }
+
+/* Per-route enter animation (see PageTransition). CSS-only on purpose: the
+   element's resting state is fully visible (opacity 1), so a navigated page can
+   never get stuck invisible the way AnimatePresence mode="wait" could. */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-enter {
+  animation: page-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+}

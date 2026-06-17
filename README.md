@@ -45,8 +45,9 @@ It is designed around one principle: every interactive flourish has to earn its 
 - Long-form Markdown posts rendered server-side (GitHub-flavored Markdown + syntax highlighting).
 - Per-post generated cover art, reading time, tags, and JSON-LD `BlogPosting` data.
 
-### Admin CMS (`/admin`)
+### Admin CMS (private route)
 - Supabase-Auth-protected dashboard to create, edit, publish, and reorder Projects, Blog posts, and Tools.
+- Served from an obscure, unlisted path (kept out of `sitemap.xml`/`robots.txt`) and gated by auth in middleware.
 - Drag-and-drop (and up/down) ordering, media uploads to Supabase Storage, and editable home/about content.
 
 ### SEO & sharing
@@ -76,7 +77,7 @@ It is designed around one principle: every interactive flourish has to earn its 
 src/
   app/                 # App Router routes
     about/  blog/  projects/  tools/  skills/  contact/   # public pages
-    admin/                                                # auth-protected CMS
+    <private>/                                            # auth-protected CMS (route in middleware.ts)
     api/contact/                                          # contact form endpoint
     opengraph-image.tsx  sitemap.ts  robots.ts            # SEO
   components/          # hero (WebGL), sections, ui, admin, tools, blog
@@ -109,18 +110,20 @@ Create a `.env.local` in the project root:
 # Supabase (required)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key      # server-only; never expose
-NEXT_PUBLIC_SUPABASE_MEDIA_BUCKET=media              # storage bucket name
+NEXT_PUBLIC_SUPABASE_MEDIA_BUCKET=media              # storage bucket name (optional)
 
 # Contact form (optional - the form degrades gracefully without these)
 RESEND_API_KEY=your-resend-key
 CONTACT_TO_EMAIL=you@example.com
 CONTACT_FROM_EMAIL=Portfolio <noreply@yourdomain.com>
 
-# Cloudflare Turnstile (optional - CAPTCHA is skipped if unset)
+# Cloudflare Turnstile (optional). If the site key is set in production, the
+# secret must also be set or submissions are rejected (fail closed).
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-site-key
 TURNSTILE_SECRET_KEY=your-secret-key
 ```
+
+> A ready-to-copy template lives at `.env.local.example` (`cp .env.local.example .env.local`). The app authenticates admin writes with the signed-in user's session under Row Level Security and uses **only** the anon key - no service-role key is required.
 
 ### 3. Set up the database
 
@@ -134,15 +137,14 @@ Run the SQL files in `supabase/migrations/` (in order) against your Supabase pro
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The admin lives at `/admin` (create an admin user in Supabase Auth to log in).
+Open [http://localhost:3000](http://localhost:3000). The admin lives at a private, unlisted route defined in `src/lib/supabase/middleware.ts` (create an admin user in Supabase Auth to log in).
 
 ## Environment variables
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Public anon key for client reads |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes (server) | Privileged writes (admin actions, scripts) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Public anon key; client reads + authenticated admin writes (under RLS) |
 | `NEXT_PUBLIC_SUPABASE_MEDIA_BUCKET` | No | Storage bucket for uploads (default `media`) |
 | `RESEND_API_KEY` | For contact | Sends contact emails |
 | `CONTACT_TO_EMAIL` | For contact | Inbox that receives messages |

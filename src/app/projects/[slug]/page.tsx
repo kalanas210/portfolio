@@ -9,6 +9,7 @@ import { ShareRow } from "@/components/article/ShareRow";
 import { ProjectMiniCard } from "@/components/projects/ProjectMiniCard";
 import { getProjectBySlug, getProjects } from "@/lib/queries";
 import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
+import { SITE, ogImageUrl, jsonLdHtml } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -25,13 +26,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) return { title: "Project not found" };
+  const og = ogImageUrl(project.thumbnailUrl);
   return {
     title: project.title,
     description: project.description,
+    alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
+      type: "website",
       title: project.title,
       description: project.description,
-      images: project.thumbnailUrl ? [project.thumbnailUrl] : undefined,
+      url: `${SITE.url}/projects/${project.slug}`,
+      images: og ? [{ url: og }] : undefined,
     },
   };
 }
@@ -67,7 +72,7 @@ export default async function ProjectPage({
       <GradientMesh className="opacity-60" />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(crumbLd) }}
       />
 
       <div className="container relative">

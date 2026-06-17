@@ -12,7 +12,7 @@ import { isToolComponentKey } from "@/lib/tools/registry";
 import { getToolSeo } from "@/lib/tools/seo";
 import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
 import { getToolBySlug, getTools } from "@/lib/queries";
-import { SITE, ogImageUrl } from "@/lib/utils";
+import { SITE, ogImageUrl, jsonLdHtml } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -119,7 +119,7 @@ export default async function ToolPage({
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(ld) }}
         />
       ))}
 

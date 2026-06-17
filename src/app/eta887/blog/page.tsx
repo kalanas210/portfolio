@@ -1,42 +1,42 @@
 import Link from "next/link";
 import { Plus, Pencil, Star } from "lucide-react";
-import { getAllProjects } from "@/lib/admin/queries";
-import { ProjectRowActions } from "@/components/admin/ProjectRowActions";
+import { getAllPosts } from "@/lib/admin/queries";
+import { PostRowActions } from "@/components/admin/PostRowActions";
 import { ReorderableList } from "@/components/admin/ReorderableList";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminProjects() {
-  const projects = await getAllProjects();
+export default async function AdminBlog() {
+  const posts = await getAllPosts();
 
   return (
     <div>
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight">Projects</h1>
-          <p className="mt-1 text-sm text-ink-400">{projects.length} total</p>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Blog</h1>
+          <p className="mt-1 text-sm text-ink-400">{posts.length} total</p>
         </div>
         <Link
-          href="/admin/projects/new"
+          href="/eta887/blog/new"
           className="inline-flex items-center gap-2 rounded-full bg-ink-950 px-4 py-2 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 dark:bg-white dark:text-ink-950"
         >
           <Plus size={16} />
-          New project
+          New post
         </Link>
       </header>
 
-      {projects.length === 0 ? (
+      {posts.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-black/15 p-12 text-center text-sm text-ink-400 dark:border-white/15">
-          No projects yet. Create your first one.
+          No posts yet. Write your first one.
         </div>
       ) : (
-        <ReorderableList kind="projects" ids={projects.map((p) => p.id)}>
-          {projects.map((p) => (
+        <ReorderableList kind="posts" ids={posts.map((p) => p.id)}>
+          {posts.map((p) => (
             <div key={p.id} className="flex min-w-0 flex-1 items-center gap-4">
               <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-200 to-ink-100 dark:from-ink-700 dark:to-ink-800">
-                {p.thumbnailUrl && (
+                {p.coverUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.thumbnailUrl} alt="" className="h-full w-full object-cover" />
+                  <img src={p.coverUrl} alt="" className="h-full w-full object-cover" />
                 )}
               </div>
 
@@ -55,18 +55,20 @@ export default async function AdminProjects() {
                   </span>
                 </div>
                 <div className="mt-0.5 truncate text-xs text-ink-400">
-                  /{p.slug} · {p.year} · {p.categories.join(", ") || "No category"}
+                  /{p.slug}
+                  {p.publishedAt ? ` · ${new Date(p.publishedAt).toLocaleDateString()}` : ""}
+                  {p.tags.length ? ` · ${p.tags.join(", ")}` : ""}
                 </div>
               </div>
 
               <Link
-                href={`/admin/projects/${p.id}`}
+                href={`/eta887/blog/${p.id}`}
                 className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-black/10 px-3 text-xs font-medium text-ink-600 transition-colors hover:text-ink-950 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
               >
                 <Pencil size={13} />
                 Edit
               </Link>
-              <ProjectRowActions id={p.id} published={p.published} />
+              <PostRowActions id={p.id} published={p.published} />
             </div>
           ))}
         </ReorderableList>

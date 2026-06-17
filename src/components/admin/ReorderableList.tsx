@@ -16,7 +16,7 @@ import {
   Check,
   AlertCircle,
 } from "lucide-react";
-import { reorderEntities, type ReorderKind } from "@/app/admin/actions";
+import { reorderEntities, type ReorderKind } from "@/app/eta887/actions";
 import { cn } from "@/lib/utils";
 
 /**

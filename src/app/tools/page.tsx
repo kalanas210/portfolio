@@ -3,7 +3,7 @@ import { GradientMesh } from "@/components/ui/GradientMesh";
 import { Reveal } from "@/components/ui/Reveal";
 import { ToolsExplorer } from "@/components/tools/ToolsExplorer";
 import { getTools } from "@/lib/queries";
-import { SITE } from "@/lib/utils";
+import { SITE, jsonLdHtml } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Free Online Tools - Background Remover, QR, JSON & More",
@@ -42,7 +42,7 @@ export default async function ToolsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(itemListLd) }}
       />
 
       <section className="relative isolate overflow-hidden pt-36 pb-10 sm:pt-44 sm:pb-12">

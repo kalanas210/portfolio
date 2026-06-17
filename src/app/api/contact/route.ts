@@ -21,6 +21,13 @@ const hits = new Map<string, number[]>();
 
 function rateLimited(ip: string): boolean {
   const now = Date.now();
+  // Opportunistic cleanup: drop IPs whose 10-minute window has fully elapsed so
+  // the map doesn't grow unbounded on a long-lived (warm) instance.
+  for (const [key, times] of hits) {
+    if (times.length === 0 || now - times[times.length - 1] >= WINDOW_MS) {
+      hits.delete(key);
+    }
+  }
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
@@ -43,10 +50,18 @@ function bad(error: string, status = 422) {
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  // Graceful degradation: if no secret is configured yet, skip the CAPTCHA so
-  // the form keeps working (honeypot + rate-limit still apply). Add the key to
-  // turn this protection on.
   if (!secret) {
+    // Fail CLOSED in production when the widget is actually shown (site key set)
+    // but the secret is missing — otherwise CAPTCHA would be silently disabled.
+    // Outside that inconsistent state (dev, or no widget configured at all) we
+    // degrade gracefully so the form keeps working on honeypot + rate-limit.
+    const widgetEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+    if (process.env.NODE_ENV === "production" && widgetEnabled) {
+      console.error(
+        "[contact] TURNSTILE_SECRET_KEY missing while site key is set - rejecting submission.",
+      );
+      return false;
+    }
     console.warn("[contact] TURNSTILE_SECRET_KEY not set - skipping CAPTCHA check.");
     return true;
   }
@@ -79,10 +94,11 @@ export async function POST(req: Request) {
   const email = String(payload.email ?? "").trim();
   const subject = String(payload.subject ?? "").trim();
   const message = String(payload.message ?? "").trim();
-  const company = String(payload.company ?? "").trim(); // honeypot
+  const company = String(payload.company ?? ""); // honeypot (raw, untrimmed)
   const token = String(payload.turnstileToken ?? "");
 
-  // 1) Honeypot — pretend success so bots don't retry.
+  // 1) Honeypot — pretend success so bots don't retry. Check the RAW value so a
+  // whitespace-only fill is still treated as a bot.
   if (company) return NextResponse.json({ ok: true });
 
   // 2) Rate limit
@@ -117,7 +133,15 @@ export async function POST(req: Request) {
 
   const from = process.env.CONTACT_FROM_EMAIL || "Portfolio <onboarding@resend.dev>";
   const resend = new Resend(apiKey);
-  const esc = (s: string) => s.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  // Full HTML-context escape (& first), so values placed inside attributes
+  // (e.g. the mailto href) can't break out. Covers & < > " '.
+  const esc = (s: string) =>
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
 
   try {
     const { error } = await resend.emails.send({

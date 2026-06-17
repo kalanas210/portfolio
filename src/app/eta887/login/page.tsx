@@ -26,8 +26,9 @@ export default function LoginPage() {
       return;
     }
 
-    const redirect =
-      new URLSearchParams(window.location.search).get("redirect") || "/admin";
+    const raw = new URLSearchParams(window.location.search).get("redirect") || "/eta887";
+    // Only follow internal, non-protocol-relative paths (avoid open redirects).
+    const redirect = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/eta887";
     router.push(redirect);
     router.refresh();
   }

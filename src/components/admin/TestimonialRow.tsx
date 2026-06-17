@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Save, Trash2, Eye, EyeOff } from "lucide-react";
 import type { Testimonial } from "@/lib/types";
-import { updateTestimonial, deleteTestimonial } from "@/app/admin/actions";
+import { updateTestimonial, deleteTestimonial } from "@/app/eta887/actions";
 import { cn } from "@/lib/utils";
 
 const input =
@@ -29,20 +29,28 @@ export function TestimonialRow({ item }: { item: Testimonial }) {
 
   function save() {
     startTransition(async () => {
-      await updateTestimonial(item.id, {
+      const res = await updateTestimonial(item.id, {
         quote,
         name,
         role,
         published,
         sortOrder: Number(sortOrder) || 0,
       });
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not save this testimonial.");
+        return;
+      }
       router.refresh();
     });
   }
 
   function remove() {
     startTransition(async () => {
-      await deleteTestimonial(item.id);
+      const res = await deleteTestimonial(item.id);
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not delete this testimonial.");
+        return;
+      }
       router.refresh();
     });
   }

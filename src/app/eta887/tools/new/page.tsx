@@ -6,7 +6,7 @@ export default function NewToolPage() {
   return (
     <div>
       <Link
-        href="/admin/tools"
+        href="/eta887/tools"
         className="inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-ink-950 dark:hover:text-white"
       >
         <ArrowLeft size={15} />

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
-import { setProjectPublished, deleteProject } from "@/app/admin/actions";
+import { setProjectPublished, deleteProject } from "@/app/eta887/actions";
 import { cn } from "@/lib/utils";
 
 export function ProjectRowActions({ id, published }: { id: string; published: boolean }) {
@@ -13,14 +13,22 @@ export function ProjectRowActions({ id, published }: { id: string; published: bo
 
   function togglePublish() {
     startTransition(async () => {
-      await setProjectPublished(id, !published);
+      const res = await setProjectPublished(id, !published);
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not update visibility.");
+        return;
+      }
       router.refresh();
     });
   }
 
   function confirmDelete() {
     startTransition(async () => {
-      await deleteProject(id);
+      const res = await deleteProject(id);
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not delete this project.");
+        return;
+      }
       router.refresh();
     });
   }

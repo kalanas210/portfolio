@@ -85,6 +85,7 @@ export interface Post {
   featured: boolean;
   published: boolean;
   publishedAt: string | null;
+  updatedAt: string | null;
   sortOrder: number;
 }
 

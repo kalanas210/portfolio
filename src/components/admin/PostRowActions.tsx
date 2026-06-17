@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
-import { setPostPublished, deletePost } from "@/app/admin/actions";
+import { setPostPublished, deletePost } from "@/app/eta887/actions";
 import { cn } from "@/lib/utils";
 
 export function PostRowActions({ id, published }: { id: string; published: boolean }) {
@@ -13,14 +13,22 @@ export function PostRowActions({ id, published }: { id: string; published: boole
 
   function togglePublish() {
     startTransition(async () => {
-      await setPostPublished(id, !published);
+      const res = await setPostPublished(id, !published);
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not update visibility.");
+        return;
+      }
       router.refresh();
     });
   }
 
   function confirmDelete() {
     startTransition(async () => {
-      await deletePost(id);
+      const res = await deletePost(id);
+      if (res && !res.ok) {
+        window.alert(res.error ?? "Could not delete this post.");
+        return;
+      }
       router.refresh();
     });
   }

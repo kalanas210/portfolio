@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Download, ImageUp, Loader2, ShieldCheck } from "lucide-react";
 import { ImageDropzone } from "./ui/ImageDropzone";
 import { formatBytes } from "./ui/image";
-import { cn } from "@/lib/utils";
 
 const card =
   "rounded-3xl border border-black/10 bg-white/60 p-5 backdrop-blur-md dark:border-white/10 dark:bg-white/[0.03] sm:p-7";

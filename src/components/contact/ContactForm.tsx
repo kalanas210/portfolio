@@ -145,6 +145,8 @@ export function ContactForm() {
             type="text"
             autoComplete="name"
             placeholder="Jane Doe"
+            aria-invalid={!!name.error}
+            aria-describedby={name.error ? "name-error" : undefined}
             {...bind(name, setName, "name")}
             className={inputClasses(name.error)}
           />
@@ -156,6 +158,8 @@ export function ContactForm() {
             type="email"
             autoComplete="email"
             placeholder="you@domain.com"
+            aria-invalid={!!email.error}
+            aria-describedby={email.error ? "email-error" : undefined}
             {...bind(email, setEmail, "email")}
             className={inputClasses(email.error)}
           />
@@ -166,6 +170,8 @@ export function ContactForm() {
             id="subject"
             type="text"
             placeholder="Quick hello, role inquiry, project idea…"
+            aria-invalid={!!subject.error}
+            aria-describedby={subject.error ? "subject-error" : undefined}
             {...bind(subject, setSubject, "subject")}
             className={inputClasses(subject.error)}
           />
@@ -176,6 +182,8 @@ export function ContactForm() {
             id="message"
             rows={5}
             placeholder="Tell me what you're working on…"
+            aria-invalid={!!message.error}
+            aria-describedby={message.error ? "message-error" : undefined}
             {...bind(message, setMessage, "message")}
             className={cn(inputClasses(message.error), "min-h-[140px] resize-y")}
           />
@@ -230,6 +238,8 @@ export function ContactForm() {
       <AnimatePresence>
         {(status === "success" || status === "error") && (
           <motion.div
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -286,6 +296,8 @@ function Field({
       <AnimatePresence>
         {error && (
           <motion.p
+            id={`${htmlFor}-error`}
+            role="alert"
             initial={{ opacity: 0, y: -4, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -4, height: 0 }}

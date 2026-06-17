@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { Post } from "@/lib/types";
 import type { PostInput } from "@/lib/admin/types";
-import { createPost, updatePost } from "@/app/admin/actions";
+import { createPost, updatePost } from "@/app/eta887/actions";
 import { MediaUpload } from "./MediaUpload";
 import { cn } from "@/lib/utils";
 
@@ -87,7 +87,7 @@ export function PostForm({ initial }: { initial?: Post }) {
       setSaving(false);
       return;
     }
-    router.push("/admin/blog");
+    router.push("/eta887/blog");
     router.refresh();
   }
 
@@ -200,7 +200,7 @@ export function PostForm({ initial }: { initial?: Post }) {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/blog")}
+          onClick={() => router.push("/eta887/blog")}
           className="inline-flex h-11 items-center rounded-xl border border-black/10 px-5 text-sm font-medium text-ink-600 hover:text-ink-950 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
         >
           Cancel

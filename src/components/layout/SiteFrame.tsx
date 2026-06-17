@@ -26,7 +26,7 @@ export function SiteFrame({
 }) {
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/admin")) {
+  if (pathname?.startsWith("/eta887")) {
     return <>{children}</>;
   }
 

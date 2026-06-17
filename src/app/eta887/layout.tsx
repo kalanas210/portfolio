@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   } = await supabase.auth.getUser();
 
   // Not signed in → render the bare page (login). Middleware already redirects
-  // every other /admin route to /admin/login.
+  // every other admin route to the login page.
   if (!user) {
     return <div className="min-h-screen bg-[rgb(var(--bg))]">{children}</div>;
   }
@@ -32,7 +32,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 lg:flex-row lg:px-8">
         <aside className="lg:w-60 lg:shrink-0">
           <div className="lg:sticky lg:top-8">
-            <Link href="/admin" className="flex items-center gap-2.5">
+            <Link href="/eta887" className="flex items-center gap-2.5">
               <span className="relative flex h-8 w-8 items-center justify-center">
                 <span className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-violet via-brand-fuchsia to-brand-rose" />
                 <span className="relative text-sm font-bold text-white">K</span>
@@ -88,7 +88,7 @@ function SetupNotice() {
           <li>4. Create your admin user in Supabase → Authentication</li>
         </ol>
         <p className="mt-5 text-sm text-ink-500 dark:text-ink-300">
-          Full walkthrough in <code className="rounded bg-black/5 px-1.5 py-0.5 dark:bg-white/10">SETUP.md</code>.
+          Full walkthrough in <code className="rounded bg-black/5 px-1.5 py-0.5 dark:bg-white/10">README.md</code>.
         </p>
       </div>
     </div>

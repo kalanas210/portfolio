@@ -10,8 +10,8 @@ export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const { pathname } = request.nextUrl;
-  const isAdmin = pathname.startsWith("/admin");
-  const isLogin = pathname.startsWith("/admin/login");
+  const isAdmin = pathname.startsWith("/eta887");
+  const isLogin = pathname.startsWith("/eta887/login");
 
   if (!isSupabaseConfigured) {
     // Not configured: let /admin render its "set up Supabase" notice; never
@@ -41,14 +41,14 @@ export async function updateSession(request: NextRequest) {
 
   if (isAdmin && !isLogin && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
+    url.pathname = "/eta887/login";
     url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }
 
   if (isLogin && user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin";
+    url.pathname = "/eta887";
     url.search = "";
     return NextResponse.redirect(url);
   }

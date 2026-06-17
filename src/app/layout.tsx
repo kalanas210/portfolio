@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteFrame } from "@/components/layout/SiteFrame";
 import { SettingsProvider } from "@/components/providers/SettingsProvider";
 import { getSettings } from "@/lib/queries";
-import { SITE } from "@/lib/utils";
+import { SITE, jsonLdHtml } from "@/lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -149,11 +149,11 @@ export default async function RootLayout({
       >
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(personLd) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(websiteLd) }}
         />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <SettingsProvider value={settings}>

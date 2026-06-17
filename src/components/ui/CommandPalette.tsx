@@ -40,6 +40,8 @@ export function CommandPalette() {
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const lastFocused = useRef<HTMLElement | null>(null);
   const router = useRouter();
   const { setTheme, resolvedTheme } = useTheme();
   const settings = useSettings();
@@ -161,6 +163,29 @@ export function CommandPalette() {
         return;
       }
       if (!open) return;
+      if (e.key === "Tab") {
+        // Trap focus within the dialog (aria-modal contract / WCAG 2.4.3).
+        const panel = panelRef.current;
+        if (!panel) return;
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const activeEl = document.activeElement as HTMLElement | null;
+        if (!activeEl || !panel.contains(activeEl)) {
+          e.preventDefault();
+          first.focus();
+        } else if (e.shiftKey && activeEl === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && activeEl === last) {
+          e.preventDefault();
+          first.focus();
+        }
+        return;
+      }
       if (e.key === "Escape") {
         e.preventDefault();
         close();
@@ -179,9 +204,14 @@ export function CommandPalette() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, filtered, active]);
 
-  // Focus input on open; reset active when query changes
+  // Focus input on open (capturing the opener); restore focus to it on close.
   useEffect(() => {
-    if (open) requestAnimationFrame(() => inputRef.current?.focus());
+    if (open) {
+      lastFocused.current = (document.activeElement as HTMLElement) ?? null;
+      requestAnimationFrame(() => inputRef.current?.focus());
+    } else {
+      lastFocused.current?.focus?.();
+    }
   }, [open]);
   useEffect(() => {
     setActive(0);
@@ -215,6 +245,7 @@ export function CommandPalette() {
           onClick={close}
         >
           <motion.div
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"

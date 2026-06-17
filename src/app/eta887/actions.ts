@@ -16,7 +16,9 @@ type ActionResult = { ok: boolean; error?: string };
 function revalidatePublic() {
   revalidatePath("/");
   revalidatePath("/projects");
-  revalidatePath("/admin/projects");
+  // Bust every cached project detail page (covers delete/unpublish/slug change).
+  revalidatePath("/projects/[slug]", "page");
+  revalidatePath("/eta887/projects");
 }
 
 // ── Projects ────────────────────────────────────────────────────────────────
@@ -58,22 +60,32 @@ export async function updateProject(id: string, input: ProjectInput): Promise<Ac
   return { ok: true };
 }
 
-export async function deleteProject(id: string): Promise<void> {
+export async function deleteProject(id: string): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("projects").delete().eq("id", id);
+  const { error } = await supabase.from("projects").delete().eq("id", id);
+  if (error) {
+    console.error("[deleteProject]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidatePublic();
+  return { ok: true };
 }
 
-export async function setProjectPublished(id: string, published: boolean): Promise<void> {
+export async function setProjectPublished(id: string, published: boolean): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("projects").update({ published }).eq("id", id);
+  const { error } = await supabase.from("projects").update({ published }).eq("id", id);
+  if (error) {
+    console.error("[setProjectPublished]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidatePublic();
+  return { ok: true };
 }
 
 // ── Testimonials ──────────────────────────────────────────────────────────────
 function revalidateTestimonials() {
   revalidatePath("/");
-  revalidatePath("/admin/testimonials");
+  revalidatePath("/eta887/testimonials");
 }
 
 export async function createTestimonial(input: TestimonialInput): Promise<ActionResult> {
@@ -110,16 +122,26 @@ export async function updateTestimonial(
   return { ok: true };
 }
 
-export async function deleteTestimonial(id: string): Promise<void> {
+export async function deleteTestimonial(id: string): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("testimonials").delete().eq("id", id);
+  const { error } = await supabase.from("testimonials").delete().eq("id", id);
+  if (error) {
+    console.error("[deleteTestimonial]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidateTestimonials();
+  return { ok: true };
 }
 
-export async function setTestimonialPublished(id: string, published: boolean): Promise<void> {
+export async function setTestimonialPublished(id: string, published: boolean): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("testimonials").update({ published }).eq("id", id);
+  const { error } = await supabase.from("testimonials").update({ published }).eq("id", id);
+  if (error) {
+    console.error("[setTestimonialPublished]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidateTestimonials();
+  return { ok: true };
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────────
@@ -159,7 +181,8 @@ export async function updateSettings(input: SettingsInput): Promise<ActionResult
 function revalidatePosts() {
   revalidatePath("/");
   revalidatePath("/blog");
-  revalidatePath("/admin/blog");
+  revalidatePath("/blog/[slug]", "page");
+  revalidatePath("/eta887/blog");
 }
 
 function postToRow(input: PostInput) {
@@ -194,23 +217,34 @@ export async function updatePost(id: string, input: PostInput): Promise<ActionRe
   return { ok: true };
 }
 
-export async function deletePost(id: string): Promise<void> {
+export async function deletePost(id: string): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("posts").delete().eq("id", id);
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+  if (error) {
+    console.error("[deletePost]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidatePosts();
+  return { ok: true };
 }
 
-export async function setPostPublished(id: string, published: boolean): Promise<void> {
+export async function setPostPublished(id: string, published: boolean): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("posts").update({ published }).eq("id", id);
+  const { error } = await supabase.from("posts").update({ published }).eq("id", id);
+  if (error) {
+    console.error("[setPostPublished]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidatePosts();
+  return { ok: true };
 }
 
 // ── Tools ───────────────────────────────────────────────────────────────────────
 function revalidateTools() {
   revalidatePath("/");
   revalidatePath("/tools");
-  revalidatePath("/admin/tools");
+  revalidatePath("/tools/[slug]", "page");
+  revalidatePath("/eta887/tools");
 }
 
 function toolToRow(input: ToolInput) {
@@ -249,16 +283,26 @@ export async function updateTool(id: string, input: ToolInput): Promise<ActionRe
   return { ok: true };
 }
 
-export async function deleteTool(id: string): Promise<void> {
+export async function deleteTool(id: string): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("tools").delete().eq("id", id);
+  const { error } = await supabase.from("tools").delete().eq("id", id);
+  if (error) {
+    console.error("[deleteTool]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidateTools();
+  return { ok: true };
 }
 
-export async function setToolPublished(id: string, published: boolean): Promise<void> {
+export async function setToolPublished(id: string, published: boolean): Promise<ActionResult> {
   const supabase = await createClient();
-  await supabase.from("tools").update({ published }).eq("id", id);
+  const { error } = await supabase.from("tools").update({ published }).eq("id", id);
+  if (error) {
+    console.error("[setToolPublished]", error.message);
+    return { ok: false, error: error.message };
+  }
   revalidateTools();
+  return { ok: true };
 }
 
 // ── Reordering (sets sort_order to match a dragged/swapped display order) ──────
@@ -304,5 +348,5 @@ export async function reorderEntities(
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  redirect("/admin/login");
+  redirect("/eta887/login");
 }

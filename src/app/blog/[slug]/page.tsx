@@ -8,7 +8,7 @@ import { ShareRow } from "@/components/article/ShareRow";
 import { PostCard } from "@/components/blog/PostCard";
 import { getPostBySlug, getPosts } from "@/lib/queries";
 import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
-import { SITE, formatDate, readingMinutes, ogImageUrl } from "@/lib/utils";
+import { SITE, formatDate, readingMinutes, ogImageUrl, jsonLdHtml } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -71,7 +71,7 @@ export default async function PostPage({
     description: post.excerpt,
     image: ogImageUrl(post.coverUrl) ? [ogImageUrl(post.coverUrl)] : undefined,
     datePublished: post.publishedAt ?? undefined,
-    dateModified: post.publishedAt ?? undefined,
+    dateModified: post.updatedAt ?? post.publishedAt ?? undefined,
     author: { "@type": "Person", name: SITE.name, url: SITE.url },
     publisher: { "@type": "Person", name: SITE.name, url: SITE.url },
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE.url}/blog/${post.slug}` },
@@ -91,7 +91,7 @@ export default async function PostPage({
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(ld) }}
         />
       ))}
 

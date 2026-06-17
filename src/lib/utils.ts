@@ -33,6 +33,16 @@ export function ogImageUrl(coverUrl: string | null | undefined): string | undefi
   return url.startsWith("/") ? `${SITE.url}${url}` : url;
 }
 
+/**
+ * Serialize structured data for an inline <script type="application/ld+json">.
+ * Escapes `<` to its unicode form so any content containing "</script>" (e.g.
+ * an admin-authored title/description) can't break out of the script element.
+ * Always use this instead of bare JSON.stringify with dangerouslySetInnerHTML.
+ */
+export function jsonLdHtml(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export const SITE = {
   name: "Kalana Sandakelum",
   shortName: "Kalana",
@@ -40,7 +50,9 @@ export const SITE = {
   university: "University of Moratuwa",
   location: "Moratuwa, Sri Lanka",
   email: "kalanasandakelum210@gmail.com",
-  url: "https://www.kalanalk.com",
+  // Canonical/OG/sitemap base. Override per-deploy (e.g. previews) with
+  // NEXT_PUBLIC_SITE_URL; falls back to the production domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.kalanalk.com",
   description:
     "Kalana Sandakelum - full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka, building fast, modern web applications.",
   social: {
