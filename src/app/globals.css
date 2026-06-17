@@ -476,13 +476,22 @@ html.lenis body {
 .marquee-layer.front {
   z-index: 5;
   color: #1a1816;
-  clip-path: inset(57% 0 0 0);
-  /* Punch a soft hole through the subject silhouette so the dark
-     marquee stops bleeding through the white shirt. */
+  /* Punch a soft hole through the subject silhouette so the bold
+     marquee stays off the white shirt / face. */
   -webkit-mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
     transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
   mask-image: radial-gradient(ellipse 32% 90% at 50% 70%,
     transparent 0%, transparent 35%, rgba(0,0,0,0.55) 60%, black 85%);
+}
+/* Only the lower row gets the bold front treatment; the top row stays faint
+   (back layer only). Targeting the row keeps the bold band on the same words at
+   every viewport - the old clip-path was a fixed % of the container, so on
+   tall/narrow screens (where the vw-based text is small) it sliced the bold row
+   away and left only the unreadable faint back text on the dark background.
+   visibility:hidden (not display:none) preserves layout so the front row stays
+   pixel-aligned over its faint back twin. */
+.marquee-layer.front .marquee-row.line-1 {
+  visibility: hidden;
 }
 .marquee-row {
   display: flex;
@@ -523,7 +532,6 @@ html.lenis body {
 @media (max-width: 768px) {
   .top-fade { height: 130px; }
   .marquee-layer.front {
-    clip-path: inset(62% 0 0 0);
     -webkit-mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,
       transparent 0%, transparent 30%, rgba(0,0,0,0.55) 60%, black 85%);
     mask-image: radial-gradient(ellipse 45% 90% at 50% 70%,

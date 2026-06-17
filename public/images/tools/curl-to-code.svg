@@ -1,0 +1,48 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cURL to Code Converter - Converters tool">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#06140f"/>
+    <stop offset="1" stop-color="#060510"/>
+  </linearGradient>
+  <radialGradient id="b1" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#34d399" stop-opacity="0.55"/>
+    <stop offset="1" stop-color="#34d399" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="b2" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#22d3ee" stop-opacity="0.42"/>
+    <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#34d399" stop-opacity="0.50"/>
+    <stop offset="1" stop-color="#34d399" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0.02"/>
+  </linearGradient>
+  <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.3" fill="#ffffff" opacity="0.05"/>
+  </pattern>
+</defs>
+
+<rect width="1280" height="720" fill="url(#bg)"/>
+<circle cx="1050" cy="230" r="440" fill="url(#b1)"/>
+<circle cx="170" cy="610" r="380" fill="url(#b2)"/>
+<rect width="1280" height="720" fill="url(#dots)"/>
+
+<!-- decorative oversized watermark of the same icon -->
+<g transform="translate(250 470) scale(15.0000)" fill="none" stroke="#22d3ee" stroke-width="0.333" stroke-linecap="round" stroke-linejoin="round" opacity="0.06"><path d="M12 19h8"></path><path d="m4 17 6-6-6-6"></path></g>
+
+<!-- glass icon tile -->
+<circle cx="1012" cy="360" r="250" fill="url(#glow)"/>
+<rect x="862" y="210" width="300" height="300" rx="60" fill="url(#tile)" stroke="#34d399" stroke-opacity="0.45" stroke-width="1.5"/>
+<g transform="translate(937 285) scale(6.2500)" fill="none" stroke="#34d399" stroke-width="0.544" stroke-linecap="round" stroke-linejoin="round" opacity="1"><path d="M12 19h8"></path><path d="m4 17 6-6-6-6"></path></g>
+
+<!-- left text -->
+<circle cx="102" cy="278" r="5" fill="#34d399"/>
+<text x="120" y="284" font-family="'Outfit','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="22" font-weight="600" letter-spacing="5" fill="#34d399">CONVERTERS</text>
+<text x="96" y="375.4" font-family="'Outfit','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="70" font-weight="700" fill="#ffffff" letter-spacing="-1">cURL to Code</text><text x="96" y="453.4" font-family="'Outfit','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="70" font-weight="700" fill="#ffffff" letter-spacing="-1">Converter</text>
+<rect x="98" y="481.4" width="116" height="6" rx="3" fill="#34d399"/>
+
+<text x="96" y="672" font-family="'Outfit','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="20" font-weight="500" letter-spacing="2" fill="#ffffff" opacity="0.32">kalanalk.com</text>
+</svg>

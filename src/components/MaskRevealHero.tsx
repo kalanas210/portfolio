@@ -68,8 +68,19 @@ const MaskRevealHero = () => {
         canvas.addEventListener('webglcontextrestored', wake);
 
         const textureLoader = new THREE.TextureLoader();
-        const backTexture = textureLoader.load(heroBackUrl ?? '/images/p3.png', wake);
-        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/p2.jpg', wake);
+        // Feed the shader the real image aspect ratio once each texture decodes
+        // (the uImageResolution default below is just a first guess). Without
+        // this the cover-fit math uses a wrong aspect and mis-frames the
+        // subject for any portrait that isn't exactly 16:9.
+        const onImageLoad = (texture: THREE.Texture) => {
+            const img = texture.image as { width?: number; height?: number } | undefined;
+            if (img?.width && img?.height && maskSceneRef.current) {
+                maskSceneRef.current.material.uniforms.uImageResolution.value.set(img.width, img.height);
+            }
+            wake();
+        };
+        const backTexture = textureLoader.load(heroBackUrl ?? '/images/p3.png', onImageLoad);
+        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/p2.jpg', onImageLoad);
 
         const material = new THREE.ShaderMaterial({
             uniforms: {
@@ -169,7 +180,14 @@ const MaskRevealHero = () => {
                     vec2 newUv = uv;
                     if (screenAspect > imgAspect) {
                         float s = screenAspect / imgAspect;
-                        newUv.y = (uv.y - 0.5) / s + 0.5;
+                        // Cover-crop vertically. The subject's head sits near the
+                        // top of the frame, so a centered crop slices the hair on
+                        // wide/short viewports (e.g. laptops with display scaling).
+                        // Bias the crop window toward the top as the viewport gets
+                        // wider, taking the cut from the empty bottom instead.
+                        // op = 0.5 leaves tall screens with the original centered crop.
+                        float op = mix(0.5, 0.92, clamp((s - 1.0) / 0.45, 0.0, 1.0));
+                        newUv.y = uv.y / s + op * (1.0 - 1.0 / s);
                     } else {
                         float s = imgAspect / screenAspect;
                         newUv.x = (uv.x - 0.5) / s + 0.5;
