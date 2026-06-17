@@ -193,14 +193,15 @@ export function ActivitySection() {
                 Currently building
               </div>
               <h3 className="relative mt-3 font-display text-2xl font-semibold tracking-tight">
-                Smart Campus App
+                Durdans LIMS
               </h3>
               <p className="relative mt-2 text-sm leading-relaxed text-ink-500 dark:text-ink-300">
-                A unified mobile companion for University of Moratuwa students - timetables,
-                dining, transit, and event feeds in one Expo + Firebase app.
+                An enterprise Laboratory Information Management System for Durdans Hospital,
+                built with a University of Moratuwa team in partnership with IFS - digitising the
+                clinical-lab pipeline from registration to signed report across a multi-branch network.
               </p>
               <div className="relative mt-4 flex flex-wrap gap-1.5">
-                {["React Native", "Expo", "Firebase", "Zustand"].map((t) => (
+                {["Spring Boot", "Next.js", "PostgreSQL", "Microservices"].map((t) => (
                   <span
                     key={t}
                     className="inline-flex items-center rounded-full border border-black/10 dark:border-white/10 px-2.5 py-0.5 text-[11px] font-medium text-ink-500 dark:text-ink-300"
@@ -210,7 +211,7 @@ export function ActivitySection() {
                 ))}
               </div>
               <Link
-                href="/projects#smart-campus"
+                href="/projects/durdans-lims"
                 className="relative mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-ink-950 dark:text-white"
               >
                 Read more
