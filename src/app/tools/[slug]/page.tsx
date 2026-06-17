@@ -12,7 +12,7 @@ import { isToolComponentKey } from "@/lib/tools/registry";
 import { getToolSeo } from "@/lib/tools/seo";
 import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
 import { getToolBySlug, getTools } from "@/lib/queries";
-import { SITE } from "@/lib/utils";
+import { SITE, ogImageUrl } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -32,6 +32,7 @@ export async function generateMetadata({
   const seo = getToolSeo(tool.slug, tool.name, tool.tagline);
   const title = seo.seoTitle ?? `${tool.name} - Free Online Tool`;
   const description = seo.seoDescription ?? tool.tagline;
+  const og = ogImageUrl(tool.coverUrl);
   return {
     title,
     description,
@@ -41,13 +42,13 @@ export async function generateMetadata({
       title,
       description,
       url: `${SITE.url}/tools/${tool.slug}`,
-      images: tool.coverUrl ? [tool.coverUrl] : undefined,
+      images: og ? [{ url: og, width: 1280, height: 720 }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: tool.coverUrl ? [tool.coverUrl] : undefined,
+      images: og ? [og] : undefined,
     },
   };
 }
@@ -82,7 +83,7 @@ export default async function ToolPage({
     operatingSystem: "All",
     browserRequirements: "Requires a modern web browser with JavaScript",
     url: `${SITE.url}/tools/${tool.slug}`,
-    image: tool.coverUrl || undefined,
+    image: ogImageUrl(tool.coverUrl) || undefined,
     featureList: seo.features,
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

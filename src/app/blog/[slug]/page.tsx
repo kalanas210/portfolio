@@ -8,7 +8,7 @@ import { ShareRow } from "@/components/article/ShareRow";
 import { PostCard } from "@/components/blog/PostCard";
 import { getPostBySlug, getPosts } from "@/lib/queries";
 import { breadcrumbLd } from "@/lib/seo/breadcrumbs";
-import { SITE, formatDate, readingMinutes } from "@/lib/utils";
+import { SITE, formatDate, readingMinutes, ogImageUrl } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -25,6 +25,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post not found" };
+  const og = ogImageUrl(post.coverUrl);
   return {
     title: post.title,
     description: post.excerpt,
@@ -34,14 +35,14 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       url: `${SITE.url}/blog/${post.slug}`,
-      images: post.coverUrl ? [post.coverUrl] : undefined,
+      images: og ? [{ url: og, width: 1280, height: 720 }] : undefined,
       publishedTime: post.publishedAt ?? undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: post.coverUrl ? [post.coverUrl] : undefined,
+      images: og ? [og] : undefined,
     },
   };
 }
@@ -68,7 +69,7 @@ export default async function PostPage({
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    image: post.coverUrl ? [post.coverUrl] : undefined,
+    image: ogImageUrl(post.coverUrl) ? [ogImageUrl(post.coverUrl)] : undefined,
     datePublished: post.publishedAt ?? undefined,
     dateModified: post.publishedAt ?? undefined,
     author: { "@type": "Person", name: SITE.name, url: SITE.url },

@@ -19,6 +19,20 @@ export function formatDate(iso: string | null): string {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
+/**
+ * Social crawlers (WhatsApp, X, LinkedIn, Facebook) do not render SVG og:images.
+ * Our generated blog/tool covers are SVG, so for link previews we point at the
+ * JPG twin sitting next to them (/images/.../slug.svg -> /images/.../slug.jpg).
+ * Returns an absolute URL (JSON-LD and some crawlers require it). Covers that are
+ * not local SVGs (external storage URLs, etc.) are returned unchanged.
+ */
+export function ogImageUrl(coverUrl: string | null | undefined): string | undefined {
+  if (!coverUrl) return undefined;
+  let url = coverUrl;
+  if (url.startsWith("/images/") && url.endsWith(".svg")) url = url.replace(/\.svg$/, ".jpg");
+  return url.startsWith("/") ? `${SITE.url}${url}` : url;
+}
+
 export const SITE = {
   name: "Kalana Sandakelum",
   shortName: "Kalana",

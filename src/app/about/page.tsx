@@ -10,7 +10,7 @@ import { TiltCard } from "@/components/ui/TiltCard";
 import { GradientText } from "@/components/ui/GradientText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Parallax } from "@/components/ui/Parallax";
-import { hobbies, topSkills } from "@/lib/data";
+import { topSkills } from "@/lib/data";
 import { SITE as SITE_INFO } from "@/lib/utils";
 import { getSettings } from "@/lib/queries";
 
@@ -203,22 +203,6 @@ export default async function AboutPage() {
                 </SpotlightCard>
               </TiltCard>
             </RevealItem>
-          </RevealStagger>
-
-          {/* Interests grid */}
-          <RevealStagger className="sm:col-span-2 lg:col-span-6 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6" amount={0.2}>
-            {hobbies.map((h) => {
-              return (
-                <RevealItem key={h.name}>
-                  <SpotlightCard className="group relative flex h-full min-h-[120px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-black/10 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 dark:border-white/10 dark:bg-ink-900 dark:hover:shadow-white/5">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/[0.02] dark:to-white/[0.02]" />
-                    <span className="relative font-serif text-xl font-medium italic tracking-tight text-ink-600 transition-colors duration-300 group-hover:text-brand-violet dark:text-ink-300">
-                      {h.name}
-                    </span>
-                  </SpotlightCard>
-                </RevealItem>
-              );
-            })}
           </RevealStagger>
         </div>
       </section>
