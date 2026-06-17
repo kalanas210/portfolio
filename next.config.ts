@@ -24,6 +24,13 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          // Force HTTPS for two years (incl. subdomains). The custom domain is
+          // served over HTTPS via Cloudflare, so this is safe; it prevents
+          // SSL-strip / protocol-downgrade attacks after the first visit.
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains",
+          },
         ],
       },
     ];

@@ -13,6 +13,23 @@ import type {
 
 type ActionResult = { ok: boolean; error?: string };
 
+const NOT_AUTHORIZED = "Not authorized. Please sign in again.";
+
+/**
+ * Defense-in-depth for the admin mutation endpoints. Server Actions compile to
+ * public POST routes, so we never rely on RLS alone: every write first confirms
+ * a signed-in user via the auth server (getUser validates the JWT, unlike the
+ * spoofable getSession). The same cookie-aware client is then reused for the
+ * query so RLS still applies as a second layer.
+ */
+async function requireAdmin() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return { supabase, user };
+}
+
 function revalidatePublic() {
   revalidatePath("/");
   revalidatePath("/projects");
@@ -44,7 +61,8 @@ function projectToRow(input: ProjectInput) {
 }
 
 export async function createProject(input: ProjectInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("projects").insert(projectToRow(input));
   if (error) return { ok: false, error: error.message };
   revalidatePublic();
@@ -52,7 +70,8 @@ export async function createProject(input: ProjectInput): Promise<ActionResult> 
 }
 
 export async function updateProject(id: string, input: ProjectInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("projects").update(projectToRow(input)).eq("id", id);
   if (error) return { ok: false, error: error.message };
   revalidatePublic();
@@ -61,7 +80,8 @@ export async function updateProject(id: string, input: ProjectInput): Promise<Ac
 }
 
 export async function deleteProject(id: string): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("projects").delete().eq("id", id);
   if (error) {
     console.error("[deleteProject]", error.message);
@@ -72,7 +92,8 @@ export async function deleteProject(id: string): Promise<ActionResult> {
 }
 
 export async function setProjectPublished(id: string, published: boolean): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("projects").update({ published }).eq("id", id);
   if (error) {
     console.error("[setProjectPublished]", error.message);
@@ -89,7 +110,8 @@ function revalidateTestimonials() {
 }
 
 export async function createTestimonial(input: TestimonialInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("testimonials").insert({
     quote: input.quote,
     name: input.name,
@@ -106,7 +128,8 @@ export async function updateTestimonial(
   id: string,
   input: TestimonialInput,
 ): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase
     .from("testimonials")
     .update({
@@ -123,7 +146,8 @@ export async function updateTestimonial(
 }
 
 export async function deleteTestimonial(id: string): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("testimonials").delete().eq("id", id);
   if (error) {
     console.error("[deleteTestimonial]", error.message);
@@ -134,7 +158,8 @@ export async function deleteTestimonial(id: string): Promise<ActionResult> {
 }
 
 export async function setTestimonialPublished(id: string, published: boolean): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("testimonials").update({ published }).eq("id", id);
   if (error) {
     console.error("[setTestimonialPublished]", error.message);
@@ -146,7 +171,8 @@ export async function setTestimonialPublished(id: string, published: boolean): P
 
 // ── Settings ──────────────────────────────────────────────────────────────────
 export async function updateSettings(input: SettingsInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase
     .from("site_settings")
     .upsert({
@@ -201,7 +227,8 @@ function postToRow(input: PostInput) {
 }
 
 export async function createPost(input: PostInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("posts").insert(postToRow(input));
   if (error) return { ok: false, error: error.message };
   revalidatePosts();
@@ -209,7 +236,8 @@ export async function createPost(input: PostInput): Promise<ActionResult> {
 }
 
 export async function updatePost(id: string, input: PostInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("posts").update(postToRow(input)).eq("id", id);
   if (error) return { ok: false, error: error.message };
   revalidatePosts();
@@ -218,7 +246,8 @@ export async function updatePost(id: string, input: PostInput): Promise<ActionRe
 }
 
 export async function deletePost(id: string): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("posts").delete().eq("id", id);
   if (error) {
     console.error("[deletePost]", error.message);
@@ -229,7 +258,8 @@ export async function deletePost(id: string): Promise<ActionResult> {
 }
 
 export async function setPostPublished(id: string, published: boolean): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("posts").update({ published }).eq("id", id);
   if (error) {
     console.error("[setPostPublished]", error.message);
@@ -267,7 +297,8 @@ function toolToRow(input: ToolInput) {
 }
 
 export async function createTool(input: ToolInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("tools").insert(toolToRow(input));
   if (error) return { ok: false, error: error.message };
   revalidateTools();
@@ -275,7 +306,8 @@ export async function createTool(input: ToolInput): Promise<ActionResult> {
 }
 
 export async function updateTool(id: string, input: ToolInput): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("tools").update(toolToRow(input)).eq("id", id);
   if (error) return { ok: false, error: error.message };
   revalidateTools();
@@ -284,7 +316,8 @@ export async function updateTool(id: string, input: ToolInput): Promise<ActionRe
 }
 
 export async function deleteTool(id: string): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("tools").delete().eq("id", id);
   if (error) {
     console.error("[deleteTool]", error.message);
@@ -295,7 +328,8 @@ export async function deleteTool(id: string): Promise<ActionResult> {
 }
 
 export async function setToolPublished(id: string, published: boolean): Promise<ActionResult> {
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const { error } = await supabase.from("tools").update({ published }).eq("id", id);
   if (error) {
     console.error("[setToolPublished]", error.message);
@@ -329,7 +363,8 @@ export async function reorderEntities(
     return { ok: false, error: "Nothing to reorder" };
   }
 
-  const supabase = await createClient();
+  const { supabase, user } = await requireAdmin();
+  if (!user) return { ok: false, error: NOT_AUTHORIZED };
   const results = await Promise.all(
     orderedIds.map((id, index) =>
       supabase.from(table).update({ sort_order: index }).eq("id", id),

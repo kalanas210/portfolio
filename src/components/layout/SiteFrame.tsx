@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
@@ -31,7 +32,9 @@ export function SiteFrame({
   }
 
   return (
-    <>
+    // reducedMotion="user" makes framer-motion honor the OS setting globally —
+    // a no-op for everyone else, reduced/instant transitions for those who ask.
+    <MotionConfig reducedMotion="user">
       <SmoothScroll />
       <RouteProgress />
       <CustomCursor />
@@ -42,6 +45,6 @@ export function SiteFrame({
       </PageTransition>
       <Footer settings={settings} />
       <ScrollToTop />
-    </>
+    </MotionConfig>
   );
 }

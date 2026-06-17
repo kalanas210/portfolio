@@ -75,7 +75,9 @@ export const metadata: Metadata = {
     description: SITE.description,
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   // Optional: set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to verify in Search Console.
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION

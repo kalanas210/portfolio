@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { FluidSimulation } from '@/lib/FluidSimulation';
+import type * as THREE from 'three';
+import type { FluidSimulation } from '@/lib/FluidSimulation';
 import { useSettings } from '@/components/providers/SettingsProvider';
 
 const MaskRevealHero = () => {
@@ -37,6 +37,23 @@ const MaskRevealHero = () => {
     useEffect(() => {
         if (!isDesktop) return;
         if (!canvasRef.current || !containerRef.current) return;
+
+        let disposed = false;
+        let cleanup: (() => void) | null = null;
+
+        // three.js + the fluid sim are heavy and desktop-only, so load them
+        // lazily here. This keeps the WebGL payload off the initial homepage
+        // bundle; the SSR'd markup (canvas + marquees) is unchanged, so there's
+        // no new layout — the canvas simply paints once the chunk arrives, the
+        // same point at which the effect already ran.
+        (async () => {
+        const THREE = await import('three');
+        const { FluidSimulation } = await import('@/lib/FluidSimulation');
+        if (disposed || !canvasRef.current || !containerRef.current) return;
+
+        // Honor prefers-reduced-motion: render the static resting frame but skip
+        // the hover-driven fluid reveal and continuous animation (see below).
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const container = containerRef.current;
         const canvas = canvasRef.current;
@@ -294,8 +311,12 @@ const MaskRevealHero = () => {
             progressTarget = 0;
         };
 
-        window.addEventListener('pointermove', onPointerMove);
-        document.documentElement.addEventListener('pointerleave', onPointerLeave);
+        // Reduced-motion users get the static resting frame (the back image),
+        // but no pointer coupling — so the liquid reveal never animates.
+        if (!reduceMotion) {
+            window.addEventListener('pointermove', onPointerMove);
+            document.documentElement.addEventListener('pointerleave', onPointerLeave);
+        }
 
         // Pause the (expensive) fluid simulation whenever the hero is scrolled
         // out of view — this is the main fix for laggy scrolling. Read the
@@ -365,7 +386,7 @@ const MaskRevealHero = () => {
 
         window.addEventListener('resize', onResize);
 
-        return () => {
+        cleanup = () => {
             window.removeEventListener('pointermove', onPointerMove);
             document.documentElement.removeEventListener('pointerleave', onPointerLeave);
             window.removeEventListener('resize', onResize);
@@ -378,6 +399,12 @@ const MaskRevealHero = () => {
             backTexture.dispose();
             frontTexture.dispose();
             renderer.dispose();
+        };
+        })();
+
+        return () => {
+            disposed = true;
+            cleanup?.();
         };
     }, [isDesktop, heroBackUrl, heroFrontUrl]);
 

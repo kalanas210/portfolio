@@ -32,7 +32,7 @@ It is designed around one principle: every interactive flourish has to earn its 
 ## Features
 
 ### Front end
-- **WebGL fluid-sim hero** - a Three.js velocity/density field that erodes a liquid mask to reveal a second image on hover, disabled under `prefers-reduced-motion`.
+- **WebGL fluid-sim hero** - a Three.js velocity/density field that erodes a liquid mask to reveal a second image on hover (desktop only; lazy-loaded off the initial bundle). Under `prefers-reduced-motion` it renders the static resting frame with no animation or hover reveal.
 - **Motion system** - Framer Motion for scroll reveals, staggered lists, and tilt/spotlight cards; Lenis for inertial smooth scrolling.
 - **Responsive and theme-aware** - dark/light via `next-themes`, fluid type, and mobile-first layouts.
 
