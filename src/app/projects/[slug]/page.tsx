@@ -67,13 +67,30 @@ export default async function ProjectPage({
     { name: project.title, path: `/projects/${project.slug}` },
   ]);
 
+  const workLd = {
+    "@context": "https://schema.org",
+    "@type": project.githubUrl ? "SoftwareSourceCode" : "CreativeWork",
+    name: project.title,
+    description: project.description,
+    image: ogImageUrl(project.thumbnailUrl) || undefined,
+    url: `${SITE.url}/projects/${project.slug}`,
+    author: { "@id": `${SITE.url}/#person` },
+    keywords: project.tech.join(", ") || undefined,
+    datePublished: String(project.year),
+    ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
+    ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
+  };
+
   return (
     <article className="relative isolate overflow-hidden pb-20 pt-28 sm:pt-32">
       <GradientMesh className="opacity-60" />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdHtml(crumbLd) }}
-      />
+      {[workLd, crumbLd].map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(ld) }}
+        />
+      ))}
 
       <div className="container relative">
         {/* Top bar */}
@@ -146,8 +163,10 @@ export default async function ProjectPage({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={project.thumbnailUrl}
-                alt={project.title}
+                alt={`${project.title} - ${project.categories.join(", ")} project by ${SITE.name}`}
                 className="h-full w-full object-cover"
+                fetchPriority="high"
+                decoding="async"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
             </div>

@@ -96,8 +96,8 @@ const MaskRevealHero = () => {
             }
             wake();
         };
-        const backTexture = textureLoader.load(heroBackUrl ?? '/images/p3.png', onImageLoad);
-        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/p2.jpg', onImageLoad);
+        const backTexture = textureLoader.load(heroBackUrl ?? '/images/p3.webp', onImageLoad);
+        const frontTexture = textureLoader.load(heroFrontUrl ?? '/images/p2.webp', onImageLoad);
 
         const material = new THREE.ShaderMaterial({
             uniforms: {

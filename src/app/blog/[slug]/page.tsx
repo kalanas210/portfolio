@@ -166,7 +166,13 @@ export default async function PostPage({
           <figure className="mx-auto mt-12 max-w-4xl">
             <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-black/10 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.55)] ring-1 ring-black/5 dark:border-white/10 dark:ring-white/10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={post.coverUrl} alt={post.title} className="h-full w-full object-cover" />
+              <img
+                src={post.coverUrl}
+                alt={`Cover image for "${post.title}"`}
+                className="h-full w-full object-cover"
+                fetchPriority="high"
+                decoding="async"
+              />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
             </div>
           </figure>

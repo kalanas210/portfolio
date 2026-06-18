@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/hero/HeroSection";
 import { TechMarquee } from "@/components/sections/TechMarquee";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
@@ -14,6 +15,11 @@ import {
   getFeaturedTools,
   getFeaturedPosts,
 } from "@/lib/queries";
+import { SITE, jsonLdHtml } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export const revalidate = 60;
 
@@ -26,8 +32,20 @@ export default async function Home() {
     getFeaturedPosts(3),
   ]);
 
+  const profilePageLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${SITE.url}/#profilepage`,
+    url: SITE.url,
+    mainEntity: { "@id": `${SITE.url}/#person` },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(profilePageLd) }}
+      />
       <HeroSection />
       <TechMarquee />
       <FeaturedWork projects={featured} />

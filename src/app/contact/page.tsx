@@ -12,10 +12,19 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Badge } from "@/components/ui/Badge";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { getSettings } from "@/lib/queries";
+import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get in touch with Kalana Sandakelum.",
+  title: "Contact - Hire a Full-Stack Developer",
+  description:
+    "Get in touch with Kalana Sandakelum for internships, freelance, or full-stack & Java development work. Based in Moratuwa, Sri Lanka - replies within a day.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Kalana Sandakelum",
+    description:
+      "Internships, freelance, or full-stack & Java development work - based in Sri Lanka, replies within a day.",
+    url: `${SITE.url}/contact`,
+  },
 };
 
 export const revalidate = 60;
@@ -36,6 +45,7 @@ export default async function ContactPage() {
         <GradientMesh variant="cool" className="opacity-40" />
         <div className="container relative">
           <SectionHeading
+            as="h1"
             index="01"
             eyebrow="Contact"
             title="Let's make something good together."

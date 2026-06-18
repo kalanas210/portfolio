@@ -6,7 +6,7 @@ import { getTools } from "@/lib/queries";
 import { SITE, jsonLdHtml } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Free Online Tools - Background Remover, QR, JSON & More",
+  title: { absolute: "Free Online Tools - Background Remover, QR & More" },
   description:
     "A growing collection of free, privacy-first online tools that run entirely in your browser - background remover, image compressor, QR code generator, JSON & developer utilities, and more. No sign-up, no uploads, no watermarks.",
   alternates: { canonical: "/tools" },

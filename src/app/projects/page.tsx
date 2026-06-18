@@ -3,11 +3,19 @@ import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GradientMesh } from "@/components/ui/GradientMesh";
 import { getProjects } from "@/lib/queries";
+import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Web, Java & Full-Stack Projects",
   description:
-    "A curated selection of web, mobile, AI, and open-source projects by Kalana Sandakelum.",
+    "Explore web, mobile, AI, and open-source projects by Kalana Sandakelum - a full-stack & Java (Spring Boot) developer in Sri Lanka. Live demos and source on GitHub.",
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: "Projects by Kalana Sandakelum",
+    description:
+      "Web, mobile, AI, and open-source projects - with live demos and source on GitHub.",
+    url: `${SITE.url}/projects`,
+  },
 };
 
 export const revalidate = 60;
@@ -20,6 +28,7 @@ export default async function ProjectsPage() {
         <GradientMesh variant="cool" className="opacity-40" />
         <div className="container relative">
           <SectionHeading
+            as="h1"
             index="01"
             eyebrow="Projects"
             title="Things I've built - shipped, scrapped, and in progress."

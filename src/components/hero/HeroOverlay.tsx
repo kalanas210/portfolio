@@ -133,7 +133,10 @@ export function HeroOverlay() {
                   </>
                 )}
               </span>
-              <span className="sr-only"> - {settings.role}</span>
+              <span className="sr-only">
+                {" "}
+                - {settings.role} | Java, Spring Boot &amp; Next.js developer in Sri Lanka
+              </span>
             </h1>
             <div className="mt-1 flex items-baseline gap-2 truncate">
               <RoleTypewriter />

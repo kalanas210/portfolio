@@ -8,7 +8,7 @@ import { getPosts } from "@/lib/queries";
 import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Blog - Web Development, Design & Engineering Notes",
+  title: { absolute: "Web Development Blog - Java, Next.js & Design Notes" },
   description:
     "Tutorials and deep-dives on web development, design, and software engineering by Kalana Sandakelum - Next.js, React, Java, and more.",
   alternates: { canonical: "/blog" },
@@ -32,6 +32,7 @@ export default async function BlogPage() {
         <GradientMesh variant="cool" className="opacity-40" />
         <div className="container relative">
           <SectionHeading
+            as="h1"
             index="01"
             eyebrow="Blog"
             title="Notes on building for the web."

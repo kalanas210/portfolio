@@ -102,11 +102,16 @@ export default async function RootLayout({
   const personLd = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${SITE.url}/#person`,
     name: settings.name,
     url: SITE.url,
     image: `${SITE.url}/opengraph-image`,
     jobTitle: "Full-Stack & Java (Spring Boot) Developer",
     description: SITE.description,
+    email: `mailto:${settings.email}`,
+    nationality: { "@type": "Country", name: "Sri Lanka" },
+    knowsLanguage: ["en", "si"],
+    worksFor: { "@type": "Organization", name: "Ryzera (Pvt) Ltd" },
     alumniOf: {
       "@type": "CollegeOrUniversity",
       name: settings.university,
@@ -114,6 +119,7 @@ export default async function RootLayout({
     address: {
       "@type": "PostalAddress",
       addressLocality: "Moratuwa",
+      addressRegion: "Western Province",
       addressCountry: "LK",
     },
     knowsAbout: [
@@ -139,8 +145,11 @@ export default async function RootLayout({
   const websiteLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${SITE.url}/#website`,
     name: settings.name,
     url: SITE.url,
+    publisher: { "@id": `${SITE.url}/#person` },
+    inLanguage: "en",
   };
 
   return (

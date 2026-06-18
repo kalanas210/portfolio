@@ -105,7 +105,7 @@ export function MobileHero({ className }: { className?: string }) {
         style={{ top: "6.5rem", bottom: "33%" }}
       >
         <Image
-          src={settings.heroMobileUrl ?? "/images/p3.png"}
+          src={settings.heroMobileUrl ?? "/images/p3.webp"}
           alt={`${settings.name} - ${settings.role}`}
           fill
           priority
@@ -240,6 +240,10 @@ export function MobileHero({ className }: { className?: string }) {
               />
             </motion.svg>
           </span>
+          <span className="sr-only">
+            {" "}
+            - {settings.role}, Java &amp; Spring Boot developer in Sri Lanka
+          </span>
         </motion.h1>
 
         {/* role + tagline */}
@@ -250,7 +254,7 @@ export function MobileHero({ className }: { className?: string }) {
           className="mt-3"
         >
           <p className="max-w-[20rem] text-sm leading-relaxed text-ink-500 dark:text-ink-300">
-            I build exceptional digital experiences with modern technologies.
+            Full-stack &amp; Java (Spring Boot) developer building fast, modern web apps in Sri Lanka.
           </p>
         </motion.div>
 

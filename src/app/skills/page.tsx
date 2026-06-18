@@ -6,6 +6,7 @@ import { CircularSkill } from "@/components/skills/CircularSkill";
 import { PracticeList } from "@/components/skills/PracticeList";
 import { RevealStagger, RevealItem } from "@/components/ui/Reveal";
 import { professionalSkills } from "@/lib/data";
+import { SITE } from "@/lib/utils";
 
 const CORE = [
   { name: "Java", level: 95, from: "#fbbf24", to: "#fb7185" },
@@ -19,8 +20,16 @@ const CORE = [
 ];
 
 export const metadata: Metadata = {
-  title: "Skills",
-  description: "Skills, tooling, and tech stack across the full software lifecycle.",
+  title: "Java, Spring Boot & Full-Stack Skills",
+  description:
+    "The full tech stack of Kalana Sandakelum - Java, Spring Boot, React, Next.js, TypeScript, PostgreSQL, Docker, and AWS - across the entire software lifecycle.",
+  alternates: { canonical: "/skills" },
+  openGraph: {
+    title: "Skills & Tech Stack - Kalana Sandakelum",
+    description:
+      "Java, Spring Boot, React, Next.js, TypeScript, PostgreSQL, Docker, and AWS - across the full software lifecycle.",
+    url: `${SITE.url}/skills`,
+  },
 };
 
 export default function SkillsPage() {
@@ -30,6 +39,7 @@ export default function SkillsPage() {
         <GradientMesh variant="warm" className="opacity-50" />
         <div className="container relative">
           <SectionHeading
+            as="h1"
             index="01"
             eyebrow="Skills"
             title="A toolkit shaped by every project I've built."

@@ -15,8 +15,16 @@ import { SITE as SITE_INFO } from "@/lib/utils";
 import { getSettings } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "About",
-  description: `About ${SITE_INFO.name} - undergraduate software engineer at the University of Moratuwa.`,
+  title: "About - Full-Stack & Java Developer",
+  description:
+    "Meet Kalana Sandakelum - a full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka. Background, skills, and the work I love.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Kalana Sandakelum",
+    description:
+      "Full-stack & Java (Spring Boot) developer and University of Moratuwa undergraduate in Sri Lanka.",
+    url: `${SITE_INFO.url}/about`,
+  },
 };
 
 export const revalidate = 60;

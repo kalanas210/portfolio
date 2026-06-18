@@ -10,6 +10,8 @@ interface SectionHeadingProps {
   description?: string;
   align?: "left" | "center";
   className?: string;
+  /** Heading level for the title. Page-lead headings should be "h1"; defaults to "h2". */
+  as?: "h1" | "h2";
 }
 
 export function SectionHeading({
@@ -19,6 +21,7 @@ export function SectionHeading({
   description,
   align = "left",
   className,
+  as = "h2",
 }: PropsWithChildren<SectionHeadingProps>) {
   return (
     <div
@@ -45,7 +48,7 @@ export function SectionHeading({
         </Reveal>
       )}
       <TextReveal
-        as="h2"
+        as={as}
         text={title}
         delay={0.05}
         className="font-display text-fluid-h2 font-semibold tracking-tight text-balance"
