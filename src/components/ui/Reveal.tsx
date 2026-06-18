@@ -56,8 +56,12 @@ export function RevealStagger({
   children,
   className,
   staggerChildren = 0.08,
-  amount = 0.2,
-}: PropsWithChildren<{ className?: string; staggerChildren?: number; amount?: number }>) {
+  amount = "some",
+}: PropsWithChildren<{
+  className?: string;
+  staggerChildren?: number;
+  amount?: number | "some" | "all";
+}>) {
   return (
     <motion.div
       initial="hidden"
