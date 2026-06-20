@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/icons/BrandIcons";
 import { useSettings } from "@/components/providers/SettingsProvider";
+import { notifyCv } from "@/lib/notify-client";
 import { cn } from "@/lib/utils";
 
 interface Command {
@@ -82,6 +83,7 @@ export function CommandPalette() {
         group: "Actions",
         icon: Download,
         perform: () => {
+          notifyCv();
           window.open(settings.cvUrl ?? "/cv.pdf", "_blank");
           close();
         },

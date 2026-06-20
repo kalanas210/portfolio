@@ -170,7 +170,7 @@ export function HeroOverlay() {
                 <ArrowUpRight size={15} />
               </MagneticButton>
             </Link>
-            <a href={settings.cvUrl ?? "/cv.pdf"} download className="flex-1 sm:flex-initial">
+            <a href={settings.cvUrl ?? "/cv.pdf"} download data-track="cv" className="flex-1 sm:flex-initial">
               <MagneticButton
                 variant="ghost"
                 size="sm"
