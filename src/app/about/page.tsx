@@ -91,7 +91,7 @@ export default async function AboutPage() {
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <a href={settings.cvUrl ?? "/cv.pdf"} download>
+                <a href={settings.cvUrl ?? "/cv.pdf"} download data-track="cv">
                   <MagneticButton variant="primary" size="md">
                     <Download size={16} />
                     Download CV

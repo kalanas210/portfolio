@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteFrame } from "@/components/layout/SiteFrame";
 import { SettingsProvider } from "@/components/providers/SettingsProvider";
+import { Telemetry } from "@/components/analytics/Telemetry";
 import { getSettings } from "@/lib/queries";
 import { SITE, jsonLdHtml } from "@/lib/utils";
 
@@ -171,6 +172,7 @@ export default async function RootLayout({
             <SiteFrame settings={settings}>{children}</SiteFrame>
           </SettingsProvider>
         </ThemeProvider>
+        <Telemetry />
       </body>
     </html>
   );
