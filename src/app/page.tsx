@@ -42,6 +42,27 @@ export default async function Home() {
 
   return (
     <>
+      {/* Preload the desktop hero textures so the browser fetches them during the
+          initial HTML parse - in parallel with the JS bundle - instead of only
+          after three.js dynamically loads inside <MaskRevealHero/>. crossOrigin
+          matches three's TextureLoader (anonymous) so the preload is reused rather
+          than re-fetched; media-gated to >=md so phones (which render <MobileHero/>)
+          skip these and rely on its own <Image priority>. */}
+      <link
+        rel="preload"
+        as="image"
+        href={settings.heroBackUrl ?? "/images/p3.webp"}
+        media="(min-width: 768px)"
+        crossOrigin="anonymous"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={settings.heroFrontUrl ?? "/images/p2.webp"}
+        media="(min-width: 768px)"
+        crossOrigin="anonymous"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdHtml(profilePageLd) }}

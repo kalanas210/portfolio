@@ -34,6 +34,14 @@ export default async function AboutPage() {
 
   return (
     <>
+      {/* Preload the portrait so its bytes are already cached when the entrance
+          animation runs, instead of streaming in a moment after hydration. */}
+      <link
+        rel="preload"
+        as="image"
+        href={settings.aboutImageUrl ?? settings.heroMobileUrl ?? "/images/back_image.png"}
+        fetchPriority="high"
+      />
       {/* Hero / intro */}
       <section className="relative isolate pt-36 pb-20 sm:pt-44 sm:pb-28">
         <div className="noise pointer-events-none absolute inset-0" aria-hidden />
