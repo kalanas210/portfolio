@@ -142,6 +142,7 @@ export function ContactForm() {
         <Field label="Your name" htmlFor="name" error={name.error}>
           <input
             id="name"
+            name="fullName"
             type="text"
             autoComplete="name"
             placeholder="Jane Doe"
@@ -155,6 +156,7 @@ export function ContactForm() {
         <Field label="Email" htmlFor="email" error={email.error}>
           <input
             id="email"
+            name="email"
             type="email"
             autoComplete="email"
             placeholder="you@domain.com"
@@ -168,6 +170,7 @@ export function ContactForm() {
         <Field label="Subject (optional)" htmlFor="subject" error={subject.error}>
           <input
             id="subject"
+            name="subject"
             type="text"
             placeholder="Quick hello, role inquiry, project idea…"
             aria-invalid={!!subject.error}
@@ -180,6 +183,7 @@ export function ContactForm() {
         <Field label="Message" htmlFor="message" error={message.error}>
           <textarea
             id="message"
+            name="message"
             rows={5}
             placeholder="Tell me what you're working on…"
             aria-invalid={!!message.error}
