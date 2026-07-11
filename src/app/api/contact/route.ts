@@ -35,9 +35,15 @@ function rateLimited(ip: string): boolean {
 }
 
 function clientIp(req: Request): string {
+  // x-real-ip is set by Vercel's infrastructure to the true client IP and
+  // cannot be spoofed by the client (Vercel strips any incoming value).
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  // Fallback: take the rightmost XFF entry (appended by the last trusted proxy),
+  // not the leftmost (which is client-supplied and trivially forgeable).
   const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
-  return req.headers.get("x-real-ip") ?? "unknown";
+  if (xff) return xff.split(",").at(-1)!.trim();
+  return "unknown";
 }
 
 function isEmail(v: string): boolean {

@@ -35,9 +35,15 @@ function rateLimited(ip: string): boolean {
 }
 
 function clientIp(req: Request): string {
+  // x-real-ip is set by Vercel's infrastructure to the true client IP and
+  // cannot be spoofed by the client (Vercel strips any incoming value).
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+  // Fallback: take the rightmost XFF entry (appended by the last trusted proxy),
+  // not the leftmost (which is client-supplied and trivially forgeable).
   const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
-  return req.headers.get("x-real-ip") ?? "unknown";
+  if (xff) return xff.split(",").at(-1)!.trim();
+  return "unknown";
 }
 
 const BOT_UA =
@@ -109,7 +115,15 @@ function clean(v: unknown, max: number): string {
   return String(v ?? "").trim().slice(0, max);
 }
 
+const ALLOWED_ORIGINS = new Set(["https://www.kalanalk.com", "https://kalanalk.com"]);
+
 export async function POST(req: Request) {
+  // 0) Origin gate — reject requests from other domains. Same-origin sendBeacon
+  //    calls may omit the Origin header entirely, so we only block when it is
+  //    present but does not match our domain.
+  const origin = req.headers.get("origin");
+  if (origin && !ALLOWED_ORIGINS.has(origin)) return NextResponse.json({ ok: true });
+
   let payload: Record<string, unknown> = {};
   try {
     payload = await req.json();
