@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteFrame } from "@/components/layout/SiteFrame";
@@ -176,6 +177,7 @@ export default async function RootLayout({
           </SettingsProvider>
         </ThemeProvider>
         <Telemetry />
+        <Analytics />
       </body>
     </html>
   );
